@@ -1,0 +1,5 @@
+I follow roughly the database loading procedure outlined at
+
+http://linnaeus.zoology.gla.ac.uk/~rpage/iphylo/projects/3/
+
+However, the schema needs additional "id" columns due to the use of HibernateUtils.
