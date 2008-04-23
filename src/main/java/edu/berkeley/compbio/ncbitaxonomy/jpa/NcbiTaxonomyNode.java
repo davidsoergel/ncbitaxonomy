@@ -34,7 +34,10 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
+import com.davidsoergel.dsutils.HierarchyNode;
 import com.davidsoergel.springjpautils.SpringJpaObject;
+import edu.berkeley.compbio.phyloutils.PhylogenyNode;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -50,6 +53,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 2:30:36 PM To change this template use File |
@@ -64,7 +68,7 @@ import java.util.Set;
 
 // or NONSTRICT_READ_WRITE?
 //@NamedQuery(name="NcbiTaxonomyNode.findByName",query="select n from NcbiTaxonomyNode n WHERE Name = :name"),
-public class NcbiTaxonomyNode extends SpringJpaObject
+public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<Integer>
 	{
 	// ------------------------------ FIELDS ------------------------------
 
@@ -172,9 +176,39 @@ public class NcbiTaxonomyNode extends SpringJpaObject
 		this.names = names;
 		}
 
+	public long getTaxId()
+		{
+		return getId();
+		}
+
+	public Integer getValue()
+		{
+		return getId();
+		}
+
 	public NcbiTaxonomyNode getParent()
 		{
 		return parent;
+		}
+
+	public boolean hasValue()
+		{
+		return true;
+		}
+
+	public HierarchyNode<? extends Integer> newChild()
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
+		}
+
+	public void setValue(Integer contents)
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
+		}
+
+	public void setParent(HierarchyNode<? extends Integer> parent)
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
 
 	public void setParent(NcbiTaxonomyNode parent)
@@ -282,7 +316,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	public Set<NcbiTaxonomyNode> getChildSets()
+	public Set<NcbiTaxonomyNode> getChildren()
 		{
 		return children;
 		}
@@ -292,19 +326,23 @@ public class NcbiTaxonomyNode extends SpringJpaObject
 		return mitachondrialGeneticCodeId;
 		}
 
-	//@Transient
-	public long getTaxId()
+	public void setChildSets(Set<NcbiTaxonomyNode> children)
 		{
-		return getId();
-		}
-
-	public void setChildSets(Set<NcbiTaxonomyNode> childSets)
-		{
-		this.children = childSets;
+		this.children = children;
 		}
 
 	public void setMitochondrialGeneticCodeId(int mitachondrialGeneticCodeId)
 		{
 		this.mitachondrialGeneticCodeId = mitachondrialGeneticCodeId;
+		}
+
+	/**
+	 * Returns an iterator over a set of elements of type T.
+	 *
+	 * @return an Iterator.
+	 */
+	public Iterator<PhylogenyNode<Integer>> iterator()
+		{
+		return null;
 		}
 	}

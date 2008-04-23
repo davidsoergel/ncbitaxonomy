@@ -34,7 +34,12 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.HierarchyNode;
 import com.davidsoergel.dsutils.PropertiesUtils;
+import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhylogenyNode;
+import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -43,6 +48,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -51,7 +58,7 @@ import java.util.Set;
  * Created by IntelliJ IDEA. User: soergel Date: May 7, 2007 Time: 2:03:39 PM To change this template use File |
  * Settings | File Templates.
  */
-public class NcbiTaxonomyService//extends Singleton<PhyloUtilsService>
+public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//extends Singleton<PhyloUtilsService>
 	{
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyService.class);
 	// ------------------------------ FIELDS ------------------------------
@@ -75,7 +82,7 @@ public class NcbiTaxonomyService//extends Singleton<PhyloUtilsService>
 		try
 			{
 			File propsFile = PropertiesUtils
-					.findPropertiesFile("NCBI_TAXONOMY_PROPERTIES", ".phyloutils", "ncbi_taxonomy.properties");
+					.findPropertiesFile("NCBI_TAXONOMY_PROPERTIES", ".ncbitaxonomy", "ncbi_taxonomy.properties");
 			logger.debug("Using properties file: " + propsFile);
 			Properties p = new Properties();
 			p.load(new FileInputStream(propsFile));
@@ -97,7 +104,7 @@ public class NcbiTaxonomyService//extends Singleton<PhyloUtilsService>
 			// add a shutdown hook for the above context...
 			ctx.registerShutdownHook();
 
-			ncbiTaxonomyServiceImpl = ((NcbiTaxonomyServiceImpl) ctx.getBean("phyloUtilsServiceImpl"));
+			ncbiTaxonomyServiceImpl = ((NcbiTaxonomyServiceImpl) ctx.getBean("ncbiTaxonomyServiceImpl"));
 
 			// we've got what we need, so we can ditch the context already
 			// no, that breaks transactioning
@@ -110,57 +117,6 @@ public class NcbiTaxonomyService//extends Singleton<PhyloUtilsService>
 			}
 		}
 
-	// -------------------------- OTHER METHODS --------------------------
-
-	public Integer commonAncestorID(Set<Integer> mergeIds) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.commonAncestorID(mergeIds);
-		}
-
-	public Integer commonAncestorID(Integer taxIdA, Integer taxIdB) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.commonAncestorID(taxIdA, taxIdB);
-		}
-
-	//private Map<String, Double> exactDistanceBetweenStringsCache = new HashMap<String, Double>();
-
-	public double exactDistanceBetween(String speciesNameA, String speciesNameB) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.exactDistanceBetween(speciesNameA, speciesNameB);
-		/*	Double result = exactDistanceBetweenStringsCache.get(speciesNameA+"|"+speciesNameB);
-				if(result == null)
-					{
-					result = phyloUtilsServiceImpl.exactDistanceBetween(speciesNameA, speciesNameB);
-					exactDistanceBetweenStringsCache.put(speciesNameA+speciesNameB, result);
-					}
-				return result;*/
-		}
-
-	//	private Map<String, Double> exactDistanceBetweenIntsCache = new HashMap<String, Double>();
-	public double exactDistanceBetween(int taxIdA, int taxIdB) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.exactDistanceBetween(taxIdA, taxIdB);
-		}
-
-	public double minDistanceBetween(String speciesNameA, String speciesNameB) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.minDistanceBetween(speciesNameA, speciesNameB);
-		}
-
-	public double minDistanceBetween(int taxIdA, int taxIdB) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.minDistanceBetween(taxIdA, taxIdB);
-		}
-
-	public int nearestKnownAncestor(int taxId) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.nearestKnownAncestor(taxId);
-		}
-
-	public int nearestKnownAncestor(String speciesName) throws NcbiTaxonomyException
-		{
-		return ncbiTaxonomyServiceImpl.nearestKnownAncestor(speciesName);
-		}
 
 	public void saveState()
 		{
@@ -172,8 +128,79 @@ public class NcbiTaxonomyService//extends Singleton<PhyloUtilsService>
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
 
+	public Integer commonAncestor(Set<Integer> knownMergeIds)
+		{
+		return ncbiTaxonomyServiceImpl.commonAncestorID(knownMergeIds);
+		}
+
+	public Integer commonAncestor(Integer taxIdA, Integer taxIdB)
+		{
+		return ncbiTaxonomyServiceImpl.commonAncestorID(taxIdA, taxIdB);
+		}
+
+	public double distanceBetween(Integer taxIdA, Integer taxIdB)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
+		}
+
+	public PhylogenyNode getNode(Integer name)
+		{
+		return ncbiTaxonomyServiceImpl.getNode(name);
+		}
+
+	public Collection<PhylogenyNode> getNodes()
+		{
+		return null;
+		}
+
 	public RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
 		{
 		return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
+		}
+
+	public Set<? extends PhylogenyNode<Integer>> getChildren()
+		{
+		return null;
+		}
+
+	public Integer getValue()
+		{
+		return ncbiTaxonomyServiceImpl.getRoot().getValue();
+		}
+
+	public PhylogenyNode getParent()
+		{
+		return null;
+		}
+
+	public HierarchyNode<? extends Integer> newChild()
+		{
+		return null;
+		}
+
+	public void setValue(Integer contents)
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
+		}
+
+	public void setParent(HierarchyNode<? extends Integer> parent)
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
+		}
+
+	public boolean hasValue()
+		{
+		return true;
+		}
+
+	/**
+	 * Returns an iterator over a set of elements of type T.
+	 *
+	 * @return an Iterator.
+	 */
+	public Iterator<PhylogenyNode<Integer>> iterator()
+		{
+		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
 	}

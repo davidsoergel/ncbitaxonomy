@@ -35,9 +35,10 @@
 package edu.berkeley.compbio.ncbitaxonomy.jpadao;
 
 import com.davidsoergel.springjpautils.GenericDaoImpl;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +92,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 
 	@Transactional(propagation = Propagation.SUPPORTS,
 	               noRollbackFor = {javax.persistence.NoResultException.class, javax.persistence.EntityNotFoundException.class})
-	public NcbiTaxonomyName findByName(String name) throws PhyloUtilsException
+	public NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException
 		{
 		NcbiTaxonomyName result = names.get(name);
 		if (result != null)
@@ -112,14 +113,14 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 
 		if (result == null)
 			{
-			throw new PhyloUtilsException("Could not find taxon: " + name);
+			throw new NcbiTaxonomyException("Could not find taxon: " + name);
 			}
 		names.put(name, result);
 		return result;
 		}
 
 	@Transactional(propagation = Propagation.MANDATORY)
-	public NcbiTaxonomyName findByNameRelaxed(String name) throws PhyloUtilsException
+	public NcbiTaxonomyName findByNameRelaxed(String name) throws NcbiTaxonomyException
 		{
 		NcbiTaxonomyName result = null;
 		String oldname = null;
@@ -146,7 +147,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			}
 		catch (IndexOutOfBoundsException e)
 			{
-			throw new PhyloUtilsException("Could not find taxon: " + name);
+			throw new NcbiTaxonomyException("Could not find taxon: " + name);
 			}
 		return result;
 		}

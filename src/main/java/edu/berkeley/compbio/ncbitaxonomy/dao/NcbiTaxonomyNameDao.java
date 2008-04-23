@@ -37,6 +37,7 @@ package edu.berkeley.compbio.ncbitaxonomy.dao;
 import com.davidsoergel.springjpautils.GenericDao;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
+import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyException;
 
 /**
  * Created by IntelliJ IDEA. User: soergel Date: Mar 7, 2007 Time: 1:44:56 PM To change this template use File |
@@ -46,7 +47,7 @@ public interface NcbiTaxonomyNameDao extends GenericDao<NcbiTaxonomyName, Intege
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
-	NcbiTaxonomyName findByName(String name) throws PhyloUtilsException;
+	NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException;
 
-	NcbiTaxonomyName findByNameRelaxed(String name) throws PhyloUtilsException;
+	NcbiTaxonomyName findByNameRelaxed(String name) throws NcbiTaxonomyException;
 	}

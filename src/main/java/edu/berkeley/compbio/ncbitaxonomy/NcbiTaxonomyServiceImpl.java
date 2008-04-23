@@ -37,6 +37,10 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
+import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
+import edu.berkeley.compbio.phyloutils.NewickParser;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,8 +74,6 @@ public class NcbiTaxonomyServiceImpl
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
 
-	private RootedPhylogeny<Integer> ciccarelliTree;
-	private String ciccarelliFilename = "tree_Feb15_unrooted.txt";
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------
@@ -92,30 +94,6 @@ public class NcbiTaxonomyServiceImpl
 		}
 */
 
-	public NcbiTaxonomyServiceImpl()// throws PhyloUtilsException
-		{
-		try
-			{
-			readStateIfAvailable();
-
-			URL res = ClassLoader.getSystemResource(ciccarelliFilename);
-			InputStream is = res.openStream();
-			/*if (is == null)
-				{
-				is = new FileInputStream(filename);
-				}*/
-			ciccarelliTree = new NewickParser<Integer>().read(is, new IntegerNodeNamer(100000000));
-			}
-		catch (IOException e)
-			{
-			e.printStackTrace();//To change body of catch statement use File | Settings | File Templates.
-			logger.error(e);
-			}
-		catch (PhyloUtilsException e)
-			{
-			e.printStackTrace();//To change body of catch statement use File | Settings | File Templates.
-			logger.error(e);
-			}
 
 		/*
 		ncbiDb = new HibernateDB("ncbiTaxonomy");
@@ -124,13 +102,17 @@ public class NcbiTaxonomyServiceImpl
 			throw new PhyloUtilsException("Couldn't connect to NCBI Taxonomy database");
 			}
 			*/
+
+	public NcbiTaxonomyServiceImpl()
+		{
+		readStateIfAvailable();
 		}
 
 	private void readStateIfAvailable()
 		{
 		try
 			{
-			FileInputStream fin = new FileInputStream("/tmp/edu.berkeley.compbio.phyloutils.cache");
+			FileInputStream fin = new FileInputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.cache");
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
 			taxIdByName = (Map<String, Integer>) ois.readObject();
@@ -142,7 +124,6 @@ public class NcbiTaxonomyServiceImpl
 			//e.printStackTrace();
 			}
 		}
-
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public void setNcbiTaxonomyNameDao(NcbiTaxonomyNameDao ncbiTaxonomyNameDao)
@@ -157,8 +138,8 @@ public class NcbiTaxonomyServiceImpl
 
 	// -------------------------- OTHER METHODS --------------------------
 
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public Integer commonAncestorID(Set<Integer> mergeIds) throws PhyloUtilsException
+/*	@Transactional(propagation = Propagation.SUPPORTS)
+	public Integer commonAncestorID(RootedPhylogeny tree, Set<Integer> mergeIds) throws PhyloUtilsException
 		{
 		mergeIds.remove(null);
 		Set<Integer> knownMergeIds = new HashSet<Integer>();
@@ -173,17 +154,17 @@ public class NcbiTaxonomyServiceImpl
 			return knownMergeIds.iterator().next();
 			}
 
-		return ciccarelliTree.commonAncestor(knownMergeIds);
+		return tree.commonAncestor(knownMergeIds);
 		}
-
+*/
 	/*
    public static HibernateDB getNcbiDb()
 	   {
 	   return ncbiDb;
 	   }*/
 
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public int commonAncestorID(Integer taxIdA, Integer taxIdB) throws PhyloUtilsException
+/*	@Transactional(propagation = Propagation.SUPPORTS)
+	public int commonAncestorID(RootedPhylogeny tree, Integer taxIdA, Integer taxIdB) throws NcbiTaxonomyException
 		{
 		if (taxIdA == null)
 			{
@@ -194,8 +175,8 @@ public class NcbiTaxonomyServiceImpl
 			return taxIdA;
 			}
 
-		taxIdA = nearestKnownAncestor(taxIdA);
-		taxIdB = nearestKnownAncestor(taxIdB);
+		taxIdA = nearestKnownAncestor(tree, taxIdA);
+		taxIdB = nearestKnownAncestor(tree, taxIdB);
 
 
 		if (taxIdA == taxIdB)
@@ -203,11 +184,12 @@ public class NcbiTaxonomyServiceImpl
 			return taxIdA;
 			}
 
-		return ciccarelliTree.commonAncestor(taxIdA, taxIdB);
+		return tree.commonAncestor(taxIdA, taxIdB);
 		}
+*/
 
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public double exactDistanceBetween(String speciesNameA, String speciesNameB) throws PhyloUtilsException
+/*	@Transactional(propagation = Propagation.SUPPORTS)
+	public double distanceBetween(String speciesNameA, String speciesNameB) throws NcbiTaxonomyException
 		{
 		Integer taxIdA = taxIdByName.get(speciesNameA);
 		if (taxIdA == null)
@@ -224,32 +206,12 @@ public class NcbiTaxonomyServiceImpl
 		//logger.error(speciesNameA + " -> " + taxIdA);
 		//logger.error(speciesNameB + " -> " + taxIdB);
 
-		return exactDistanceBetween(taxIdA, taxIdB);
+		return distanceBetween(taxIdA, taxIdB);
 		}
-
-	/**
-	 * For each species, walk up the NCBI tree until a node that is part of the Ciccarelli tree is found; then return the
-	 * Ciccarelli distance.
-	 *
-	 * @param speciesNameA
-	 * @param speciesNameB
-	 * @return
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public double minDistanceBetween(String speciesNameA, String speciesNameB) throws PhyloUtilsException
-		{
-		if (speciesNameA.equals(speciesNameB))
-			{
-			return 0;// account for TreeUtils.computeDistance bug
-			}
-		Integer taxIdA = findTaxidByName(speciesNameA);
-		Integer taxIdB = findTaxidByName(speciesNameB);
-
-		return minDistanceBetween(taxIdA, taxIdB);
-		}
+		*/
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer findTaxidByName(String speciesNameA) throws PhyloUtilsException
+	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
 		{
 		Integer taxIdA = taxIdByNameRelaxed.get(speciesNameA);
 		if (taxIdA == null)
@@ -260,77 +222,12 @@ public class NcbiTaxonomyServiceImpl
 		return taxIdA;
 		}
 
-	/**
-	 * For each species, walk up the NCBI tree until a node that is part of the Ciccarelli tree is found; then return the
-	 * Ciccarelli distance.
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public double minDistanceBetween(int taxIdA, int taxIdB) throws PhyloUtilsException
-		{
-		if (taxIdA == taxIdB)
-			{
-			return 0;// account for TreeUtils.computeDistance bug
-			}
-		taxIdA = nearestKnownAncestor(taxIdA);
-		taxIdB = nearestKnownAncestor(taxIdB);
-		return exactDistanceBetween(taxIdA, taxIdB);
-		}
-
-	/**
-	 * Search up the NCBI taxonomy until a node is encountered that is a leaf in the Ciccarelli taxonomy
-	 *
-	 * @param taxId
-	 * @return
-	 * @throws PhyloUtilsException
-	 */
-	@Transactional(propagation = Propagation.REQUIRED)
-	public int nearestKnownAncestor(int taxId) throws PhyloUtilsException
-		{
-		Integer result = nearestKnownAncestorCache.get(taxId);
-		if (result == null)
-			{
-			NcbiTaxonomyNode n;
-			try
-				{
-				n = ncbiTaxonomyNodeDao.findByTaxId(taxId);
-				}
-			catch (NoResultException e)
-				{
-				throw new PhyloUtilsException("Taxon " + taxId + " does not exist in the NCBI taxonomy.");
-				}
-			while (ciccarelliTree.getNode(n.getId()) == null)
-				{
-				n = n.getParent();
-				if (n.getId() == 1)
-					{
-					// arrived at root, too bad
-					throw new PhyloUtilsException("Taxon " + taxId + " not found in tree.");
-					}
-				//ncbiDb.getEntityManager().refresh(n);
-				}
-			result = n.getId();
-			nearestKnownAncestorCache.put(taxId, result);
-			}
-		//return n.getId();
-		return result;
-		}
-
-	public double exactDistanceBetween(int taxIdA, int taxIdB) throws PhyloUtilsException
-		{
-		return ciccarelliTree.distanceBetween(taxIdA, taxIdB);
-		}
-
-	@Transactional(propagation = Propagation.REQUIRED)
-	public int nearestKnownAncestor(String speciesName) throws PhyloUtilsException
-		{
-		return nearestKnownAncestor(findTaxidByName(speciesName));
-		}
 
 	public void saveState()
 		{
 		try
 			{
-			FileOutputStream fout = new FileOutputStream("/tmp/edu.berkeley.compbio.phyloutils.cache");
+			FileOutputStream fout = new FileOutputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.cache");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(taxIdByNameRelaxed);
 			oos.writeObject(taxIdByName);
@@ -343,8 +240,4 @@ public class NcbiTaxonomyServiceImpl
 			}
 		}
 
-	public RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
-		{
-		return ciccarelliTree.extractTreeWithLeaves(ids);
-		}
 	}
