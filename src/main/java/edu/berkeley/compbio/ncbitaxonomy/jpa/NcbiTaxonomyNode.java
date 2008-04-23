@@ -47,13 +47,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 2:30:36 PM To change this template use File |
@@ -62,10 +62,10 @@ import java.util.Iterator;
 @Entity
 @Table(name = "nodes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({@NamedQuery(
+/*@NamedQueries({@NamedQuery(
 		name = "NcbiTaxonomyNode.findByTaxId",
 		query = "select n from NcbiTaxonomyNode n WHERE id = :taxid")})
-
+*/
 // or NONSTRICT_READ_WRITE?
 //@NamedQuery(name="NcbiTaxonomyNode.findByName",query="select n from NcbiTaxonomyNode n WHERE Name = :name"),
 public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<Integer>
@@ -344,5 +344,20 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public Iterator<PhylogenyNode<Integer>> iterator()
 		{
 		return null;
+		}
+
+
+	public List<PhylogenyNode<Integer>> getAncestorPath()
+		{
+		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();
+		NcbiTaxonomyNode trav = this;
+
+		while (trav != null)
+			{
+			result.add(0, trav);
+			trav = trav.getParent();
+			}
+
+		return result;
 		}
 	}

@@ -50,6 +50,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -128,28 +130,28 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
 
-	public Integer commonAncestor(Set<Integer> knownMergeIds)
-		{
-		return ncbiTaxonomyServiceImpl.commonAncestorID(knownMergeIds);
-		}
+	/*	public Integer commonAncestor(Set<Integer> knownMergeIds)
+		 {
+		 return ncbiTaxonomyServiceImpl.commonAncestorID(knownMergeIds);
+		 }
 
-	public Integer commonAncestor(Integer taxIdA, Integer taxIdB)
-		{
-		return ncbiTaxonomyServiceImpl.commonAncestorID(taxIdA, taxIdB);
-		}
-
+	 public Integer commonAncestor(Integer taxIdA, Integer taxIdB)
+		 {
+		 return ncbiTaxonomyServiceImpl.commonAncestorID(taxIdA, taxIdB);
+		 }
+ */
 	public double distanceBetween(Integer taxIdA, Integer taxIdB)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
-//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
+		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
 		}
 
-	public PhylogenyNode getNode(Integer name)
+	public PhylogenyNode getNode(Integer taxid)
 		{
-		return ncbiTaxonomyServiceImpl.getNode(name);
+		return ncbiTaxonomyServiceImpl.getNode(taxid);
 		}
 
-	public Collection<PhylogenyNode> getNodes()
+	public Collection<PhylogenyNode<Integer>> getNodes()
 		{
 		return null;
 		}
@@ -166,7 +168,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 
 	public Integer getValue()
 		{
-		return ncbiTaxonomyServiceImpl.getRoot().getValue();
+		return 1;// the root taxid of the ncbi taxonomy.
 		}
 
 	public PhylogenyNode getParent()
@@ -179,7 +181,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return null;
 		}
 
-	public void setValue(Integer contents)
+	public void setValue(Integer taxid)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -193,6 +195,17 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		{
 		return true;
 		}
+
+	public List<PhylogenyNode<Integer>> getAncestorPath()
+		{
+		// this is the root node
+		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();
+
+		result.add(0, getNode(1));
+
+		return result;
+		}
+
 
 	/**
 	 * Returns an iterator over a set of elements of type T.

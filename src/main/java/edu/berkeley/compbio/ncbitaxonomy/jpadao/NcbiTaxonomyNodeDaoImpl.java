@@ -82,10 +82,12 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 
 	// --------------------- Interface NcbiTaxonomyNodeDao ---------------------
 
-	@Transactional(propagation = Propagation.SUPPORTS, noRollbackFor = javax.persistence.NoResultException.class)
-	public NcbiTaxonomyNode findByTaxId(int taxid)
-		{
-		return (NcbiTaxonomyNode) (entityManager.createNamedQuery("NcbiTaxonomyNode.findByTaxId")
-				.setParameter("taxid", taxid).getSingleResult());
-		}
+	// same as findById
+
+	/*	@Transactional(propagation = Propagation.SUPPORTS, noRollbackFor = javax.persistence.NoResultException.class)
+   public NcbiTaxonomyNode findByTaxId(Integer taxid)
+	   {
+	   return (NcbiTaxonomyNode) (entityManager.createNamedQuery("NcbiTaxonomyNode.findByTaxId")
+			   .setParameter("taxid", taxid).getSingleResult());
+	   }*/
 	}

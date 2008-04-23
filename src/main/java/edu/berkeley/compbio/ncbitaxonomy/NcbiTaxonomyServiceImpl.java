@@ -36,27 +36,17 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
-import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
-import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
-import edu.berkeley.compbio.phyloutils.NewickParser;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
-import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 2:21:41 PM To change this template use File |
@@ -73,7 +63,6 @@ public class NcbiTaxonomyServiceImpl
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
-
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------
@@ -95,13 +84,13 @@ public class NcbiTaxonomyServiceImpl
 */
 
 
-		/*
-		ncbiDb = new HibernateDB("ncbiTaxonomy");
-		if (ncbiDb == null)
-			{
-			throw new PhyloUtilsException("Couldn't connect to NCBI Taxonomy database");
-			}
-			*/
+	/*
+	  ncbiDb = new HibernateDB("ncbiTaxonomy");
+	  if (ncbiDb == null)
+		  {
+		  throw new PhyloUtilsException("Couldn't connect to NCBI Taxonomy database");
+		  }
+		  */
 
 	public NcbiTaxonomyServiceImpl()
 		{
@@ -124,6 +113,7 @@ public class NcbiTaxonomyServiceImpl
 			//e.printStackTrace();
 			}
 		}
+
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public void setNcbiTaxonomyNameDao(NcbiTaxonomyNameDao ncbiTaxonomyNameDao)
@@ -138,77 +128,77 @@ public class NcbiTaxonomyServiceImpl
 
 	// -------------------------- OTHER METHODS --------------------------
 
-/*	@Transactional(propagation = Propagation.SUPPORTS)
-	public Integer commonAncestorID(RootedPhylogeny tree, Set<Integer> mergeIds) throws PhyloUtilsException
-		{
-		mergeIds.remove(null);
-		Set<Integer> knownMergeIds = new HashSet<Integer>();
+	/*	@Transactional(propagation = Propagation.SUPPORTS)
+	 public Integer commonAncestorID(RootedPhylogeny tree, Set<Integer> mergeIds) throws PhyloUtilsException
+		 {
+		 mergeIds.remove(null);
+		 Set<Integer> knownMergeIds = new HashSet<Integer>();
 
-		for (Integer id : mergeIds)
-			{
-			knownMergeIds.add(nearestKnownAncestor(id));
-			}
+		 for (Integer id : mergeIds)
+			 {
+			 knownMergeIds.add(nearestKnownAncestor(id));
+			 }
 
-		if (knownMergeIds.size() == 1)
-			{
-			return knownMergeIds.iterator().next();
-			}
+		 if (knownMergeIds.size() == 1)
+			 {
+			 return knownMergeIds.iterator().next();
+			 }
 
-		return tree.commonAncestor(knownMergeIds);
-		}
-*/
+		 return tree.commonAncestor(knownMergeIds);
+		 }
+ */
 	/*
    public static HibernateDB getNcbiDb()
 	   {
 	   return ncbiDb;
 	   }*/
 
-/*	@Transactional(propagation = Propagation.SUPPORTS)
-	public int commonAncestorID(RootedPhylogeny tree, Integer taxIdA, Integer taxIdB) throws NcbiTaxonomyException
-		{
-		if (taxIdA == null)
-			{
-			return taxIdB;
-			}
-		if (taxIdB == null)
-			{
-			return taxIdA;
-			}
+	/*	@Transactional(propagation = Propagation.SUPPORTS)
+	 public int commonAncestorID(RootedPhylogeny tree, Integer taxIdA, Integer taxIdB) throws NcbiTaxonomyException
+		 {
+		 if (taxIdA == null)
+			 {
+			 return taxIdB;
+			 }
+		 if (taxIdB == null)
+			 {
+			 return taxIdA;
+			 }
 
-		taxIdA = nearestKnownAncestor(tree, taxIdA);
-		taxIdB = nearestKnownAncestor(tree, taxIdB);
+		 taxIdA = nearestKnownAncestor(tree, taxIdA);
+		 taxIdB = nearestKnownAncestor(tree, taxIdB);
 
 
-		if (taxIdA == taxIdB)
-			{
-			return taxIdA;
-			}
+		 if (taxIdA == taxIdB)
+			 {
+			 return taxIdA;
+			 }
 
-		return tree.commonAncestor(taxIdA, taxIdB);
-		}
-*/
+		 return tree.commonAncestor(taxIdA, taxIdB);
+		 }
+ */
 
-/*	@Transactional(propagation = Propagation.SUPPORTS)
-	public double distanceBetween(String speciesNameA, String speciesNameB) throws NcbiTaxonomyException
-		{
-		Integer taxIdA = taxIdByName.get(speciesNameA);
-		if (taxIdA == null)
-			{
-			taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
-			taxIdByName.put(speciesNameA, taxIdA);
-			}
-		Integer taxIdB = taxIdByName.get(speciesNameB);
-		if (taxIdB == null)
-			{
-			taxIdB = ncbiTaxonomyNameDao.findByName(speciesNameB).getTaxon().getId();
-			taxIdByName.put(speciesNameB, taxIdB);
-			}
-		//logger.error(speciesNameA + " -> " + taxIdA);
-		//logger.error(speciesNameB + " -> " + taxIdB);
+	/*	@Transactional(propagation = Propagation.SUPPORTS)
+   public double distanceBetween(String speciesNameA, String speciesNameB) throws NcbiTaxonomyException
+	   {
+	   Integer taxIdA = taxIdByName.get(speciesNameA);
+	   if (taxIdA == null)
+		   {
+		   taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
+		   taxIdByName.put(speciesNameA, taxIdA);
+		   }
+	   Integer taxIdB = taxIdByName.get(speciesNameB);
+	   if (taxIdB == null)
+		   {
+		   taxIdB = ncbiTaxonomyNameDao.findByName(speciesNameB).getTaxon().getId();
+		   taxIdByName.put(speciesNameB, taxIdB);
+		   }
+	   //logger.error(speciesNameA + " -> " + taxIdA);
+	   //logger.error(speciesNameB + " -> " + taxIdB);
 
-		return distanceBetween(taxIdA, taxIdB);
-		}
-		*/
+	   return distanceBetween(taxIdA, taxIdB);
+	   }
+	   */
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
@@ -240,4 +230,8 @@ public class NcbiTaxonomyServiceImpl
 			}
 		}
 
+	public PhylogenyNode getNode(Integer taxid)
+		{
+		return ncbiTaxonomyNodeDao.findById(taxid);
+		}
 	}
