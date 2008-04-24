@@ -39,6 +39,8 @@ import com.davidsoergel.dsutils.PropertiesUtils;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhylogenyIterator;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -46,6 +48,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
+import javax.persistence.NoResultException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Collection;
@@ -130,40 +133,50 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
 
-	/*	public Integer commonAncestor(Set<Integer> knownMergeIds)
-		 {
-		 return ncbiTaxonomyServiceImpl.commonAncestorID(knownMergeIds);
-		 }
+	public PhylogenyNode<Integer> getRoot()
+		{
+		return getNode(1);
+		}
 
-	 public Integer commonAncestor(Integer taxIdA, Integer taxIdB)
-		 {
-		 return ncbiTaxonomyServiceImpl.commonAncestorID(taxIdA, taxIdB);
-		 }
- */
+	/*	public Integer commonAncestor(Set<Integer> knownMergeIds)
+			 {
+			 return ncbiTaxonomyServiceImpl.commonAncestorID(knownMergeIds);
+			 }
+
+		 public Integer commonAncestor(Integer taxIdA, Integer taxIdB)
+			 {
+			 return ncbiTaxonomyServiceImpl.commonAncestorID(taxIdA, taxIdB);
+			 }
+	 */
 	public double distanceBetween(Integer taxIdA, Integer taxIdB)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
 		}
 
-	public PhylogenyNode getNode(Integer taxid)
+	public PhylogenyNode getNode(Integer taxid) //throws NcbiTaxonomyException
 		{
-		return ncbiTaxonomyServiceImpl.getNode(taxid);
+		try
+			{
+			return ncbiTaxonomyServiceImpl.getNode(taxid);
+			}
+		catch (NoResultException e)
+			{
+			return null;
+			//throw new NcbiTaxonomyException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
+			}
 		}
 
-	public Collection<PhylogenyNode<Integer>> getNodes()
-		{
-		return null;
-		}
 
-	public RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
-		{
-		return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
-		}
 
+	/*	public RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
+		 {
+		 return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
+		 }
+ */
 	public Set<? extends PhylogenyNode<Integer>> getChildren()
 		{
-		return null;
+		return getNode(1).getChildren();
 		}
 
 	public Integer getValue()
@@ -178,7 +191,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 
 	public HierarchyNode<? extends Integer> newChild()
 		{
-		return null;
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
 
 	public void setValue(Integer taxid)
@@ -206,6 +219,16 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return result;
 		}
 
+	public Double getLength()
+		{
+		return 0.;
+		}
+
+	public Double getLargestLengthSpan()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
 
 	/**
 	 * Returns an iterator over a set of elements of type T.
@@ -215,5 +238,50 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	public Iterator<PhylogenyNode<Integer>> iterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
+		}
+
+	public PhylogenyIterator<Integer> phylogenyIterator()
+		{
+		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
+		}
+
+	public Collection<PhylogenyNode<Integer>> getNodes()
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		}
+
+	public Collection<PhylogenyNode<Integer>> getLeaves()
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		}
+
+	public Collection<Integer> getLeafValues()
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		}
+
+	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId) throws PhyloUtilsException
+		{
+		return ncbiTaxonomyServiceImpl.nearestKnownAncestor(rootPhylogeny, leafId);
+		}
+
+	public boolean isLeaf()
+		{
+		return getRoot().isLeaf();
+		}
+
+	public double getWeight()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
+
+	public void setWeight(double v)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
+
+	public void propagateWeightFromBelow()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 	}

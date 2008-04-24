@@ -47,7 +47,7 @@ public class NcbiTaxonomyTest//extends AbstractJpaTests
 	// ------------------------------ FIELDS ------------------------------
 
 	//	private NcbiTaxonomyNameDao ncbiTaxonomyNameDao;
-	private NcbiTaxonomyService ncbiTaxonomyService;
+	//private NcbiTaxonomyService ncbiTaxonomyService;
 
 	/*
 	 public PhyloUtilsTest()
@@ -70,22 +70,12 @@ public class NcbiTaxonomyTest//extends AbstractJpaTests
  */
 	// -------------------------- OTHER METHODS --------------------------
 
-	@Test
-	public void ciccarelliExactDistancesAreComputedCorrectly() throws NcbiTaxonomyException
-		{
-		double d = ncbiTaxonomyService.exactDistanceBetween(217992, 562);
-		assert d == 0.000221;
-
-		d = ncbiTaxonomyService.exactDistanceBetween(217992, 59919);
-		//System.err.println(d);
-		assert MathUtils.equalWithinFPError(d, 1.47739);
-		}
 
 	@Test
 	public void findTaxonByNameWorks() throws NcbiTaxonomyException
 		{
 		//assert ncbiTaxonomyNameDao.findByName("Myxococcus xanthus").getTaxon().getTaxId() == 34;
-		assert ncbiTaxonomyService.findTaxidByName("Myxococcus xanthus") == 34;
+		assert new NcbiTaxonomyService().findTaxidByName("Myxococcus xanthus") == 34;
 		}
 
 	/*
@@ -112,15 +102,10 @@ public class NcbiTaxonomyTest//extends AbstractJpaTests
 		 }
  */
 
-	@BeforeClass
+/*	@BeforeClass
 	public void setup()
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();//new PhyloUtilsService();
 		}
-
-	@Test
-	public void nearestKnownAncestorWorks() throws NcbiTaxonomyException
-		{
-		assert ncbiTaxonomyService.nearestKnownAncestor(243277) == 666;
-		}
+*/
 	}

@@ -36,7 +36,7 @@
 
 <aspectj>
 	<weaver options="-verbose">
-		<include within="edu.berkeley.compbio.phyloutils..*"/>
+		<include within="edu.berkeley.compbio.ncbitaxonomy..*"/>
 	</weaver>
 
 	<aspects>

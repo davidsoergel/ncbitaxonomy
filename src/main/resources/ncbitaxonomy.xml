@@ -70,7 +70,7 @@
 	<bean id="ncbiTaxonomyNameDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl"/>
 	<bean id="ncbiTaxonomyNodeDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl"/>
 
-	<bean id="phyloUtilsServiceImpl" class="edu.berkeley.compbio.ncbitaxonomy.PhyloUtilsServiceImpl">
+	<bean id="ncbiTaxonomyServiceImpl" class="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceImpl">
 		<property name="ncbiTaxonomyNameDao" ref="ncbiTaxonomyNameDao"/>
 		<property name="ncbiTaxonomyNodeDao" ref="ncbiTaxonomyNodeDao"/>
 	</bean>

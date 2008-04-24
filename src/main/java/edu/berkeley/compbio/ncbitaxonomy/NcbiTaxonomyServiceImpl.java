@@ -37,6 +37,8 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
+import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +64,11 @@ public class NcbiTaxonomyServiceImpl
 
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
+
+	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.
+	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
+	// always the same one anyway
+	// ** sanity check that the rootPhylogeny is always the same
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
 
 
@@ -105,7 +112,7 @@ public class NcbiTaxonomyServiceImpl
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
 			taxIdByName = (Map<String, Integer>) ois.readObject();
-			nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
+			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
 			ois.close();
 			}
 		catch (Exception e)
@@ -221,7 +228,7 @@ public class NcbiTaxonomyServiceImpl
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(taxIdByNameRelaxed);
 			oos.writeObject(taxIdByName);
-			oos.writeObject(nearestKnownAncestorCache);
+		//	oos.writeObject(nearestKnownAncestorCache);
 			oos.close();
 			}
 		catch (Exception e)
@@ -233,5 +240,45 @@ public class NcbiTaxonomyServiceImpl
 	public PhylogenyNode getNode(Integer taxid)
 		{
 		return ncbiTaxonomyNodeDao.findById(taxid);
+		}
+
+	/**
+	 * Search up the NCBI taxonomy until a node is encountered that is a leaf in the Ciccarelli taxonomy
+	 *
+	 * @param leafId
+	 * @return
+	 * @throws edu.berkeley.compbio.phyloutils.PhyloUtilsException
+	 *
+	 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId) throws PhyloUtilsException
+		{
+		Integer result = nearestKnownAncestorCache.get(leafId);
+		if (result == null)
+			{
+			PhylogenyNode<Integer> n;
+
+			n = getNode(leafId);
+
+			if (n == null)
+				{
+				throw new PhyloUtilsException("Leaf phylogeny does not contain node " + leafId + ".");
+				}
+
+			while (rootPhylogeny.getNode(n.getValue()) == null)
+				{
+				n = n.getParent();
+				if (n.getParent() == null)
+					{
+					// arrived at root, too bad
+					throw new PhyloUtilsException("Taxon " + leafId + " not found in tree.");
+					}
+				//ncbiDb.getEntityManager().refresh(n);
+				}
+			result = n.getValue();
+			nearestKnownAncestorCache.put(leafId, result);
+			}
+		//return n.getId();
+		return result;
 		}
 	}

@@ -32,38 +32,28 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import org.testng.annotations.Test;
+import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
+import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
-import org.apache.log4j.Logger;
 
-/* $Id: PhyloUtilsException.java 112 2008-04-21 23:34:53Z soergel $ */
-
-
+/* $Id$ */
 
 /**
- * @author lorax
- * @version 1.0
+ * @Author David Soergel
+ * @Version 1.0
  */
-public class NcbiTaxonomyException extends PhyloUtilsException
+public class HybridRootedPhylogenyTest
 	{
-	// ------------------------------ FIELDS ------------------------------
+	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
+	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
 
-	private static Logger logger = Logger.getLogger(NcbiTaxonomyException.class);
+	private HybridRootedPhylogeny<Integer> hybridTree;
 
-
-	// --------------------------- CONSTRUCTORS ---------------------------
-
-	public NcbiTaxonomyException(String s)
+	@Test
+	public void nearestKnownAncestorWorks() throws PhyloUtilsException
 		{
-		super(s);
-		}
-
-	public NcbiTaxonomyException(Exception e)
-		{
-		super(e);
-		}
-
-	public NcbiTaxonomyException(Exception e, String s)
-		{
-		super(e, s);
+		hybridTree = new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
+		assert hybridTree.nearestKnownAncestor(243277) == 666;
 		}
 	}

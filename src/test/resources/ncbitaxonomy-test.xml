@@ -44,7 +44,7 @@
 	<!--       default-autowire="byName">-->
 
 
-	<bean id="phyloUtilsService" class="edu.berkeley.compbio.ncbitaxonomy.PhyloUtilsService"/>
+	<bean id="ncbiTaxonomyService" class="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyService"/>
 
 	<bean id="dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${driver}"/>

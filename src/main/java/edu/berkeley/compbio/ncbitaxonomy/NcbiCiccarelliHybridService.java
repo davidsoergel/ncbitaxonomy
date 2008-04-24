@@ -32,38 +32,43 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
+import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
-import org.apache.log4j.Logger;
 
-/* $Id: PhyloUtilsException.java 112 2008-04-21 23:34:53Z soergel $ */
+import java.util.Set;
 
-
+/* $Id$ */
 
 /**
- * @author lorax
- * @version 1.0
+ * @Author David Soergel
+ * @Version 1.0
  */
-public class NcbiTaxonomyException extends PhyloUtilsException
+public class NcbiCiccarelliHybridService
 	{
-	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(NcbiTaxonomyException.class);
+	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
+	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
+
+	private static HybridRootedPhylogeny<Integer> hybridTree = new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
 
 
-	// --------------------------- CONSTRUCTORS ---------------------------
 
-	public NcbiTaxonomyException(String s)
+	public static Integer nearestKnownAncestor(String name) throws PhyloUtilsException
 		{
-		super(s);
+		return hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name));
 		}
 
-	public NcbiTaxonomyException(Exception e)
+	public static RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
 		{
-		super(e);
+		return ciccarelli.extractTreeWithLeaves(ids);
 		}
 
-	public NcbiTaxonomyException(Exception e, String s)
+	public static Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
 		{
-		super(e, s);
+		int id1 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
+		int id2 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
+		return ciccarelli.exactDistanceBetween(id1, id2);
 		}
 	}

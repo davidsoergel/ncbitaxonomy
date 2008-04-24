@@ -360,4 +360,35 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 		return result;
 		}
+
+	public Double getLength()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public Double getLargestLengthSpan()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public boolean isLeaf()
+		{
+		return getChildren().isEmpty();
+		}
+
+	public double getWeight()
+		{
+
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
+		}
+
+	public void setWeight(double v)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
+		}
+
+	public void propagateWeightFromBelow()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
 	}
