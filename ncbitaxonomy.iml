@@ -30,6 +30,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -113,6 +115,22 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="phyloutils" exported="" />
+    <orderEntry type="module" module-name="ml" exported="" />
+    <orderEntry type="module" module-name="sequtils" exported="" />
+    <orderEntry type="module" module-name="runutils" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library name="com.martiansoftware:JSAP:2.0a-ds1">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../.m2/repository/com/martiansoftware/JSAP/2.0a-ds1/JSAP-2.0a-ds1.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../../.m2/repository/com/martiansoftware/JSAP/2.0a-ds1/JSAP-2.0a-ds1-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../.m2/repository/com/martiansoftware/JSAP/2.0a-ds1/JSAP-2.0a-ds1-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="springjpautils" exported="" />
     <orderEntry type="module-library" exported="">
       <library name="org.springframework:spring:2.0.8">
@@ -569,6 +587,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="stats" exported="" />
     <orderEntry type="module-library">
       <library name="org.springframework:spring-mock:2.0.2">
         <CLASSES>

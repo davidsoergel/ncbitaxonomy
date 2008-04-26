@@ -36,11 +36,12 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.HierarchyNode;
 import com.davidsoergel.dsutils.PropertiesUtils;
+import com.davidsoergel.stats.ContinuousDistribution1D;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.PhylogenyIterator;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.PhylogenyIterator;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -265,6 +266,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return ncbiTaxonomyServiceImpl.nearestKnownAncestor(rootPhylogeny, leafId);
 		}
 
+	public Integer nearestAncestorWithBranchLength(Integer leafId) throws PhyloUtilsException
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
 	public boolean isLeaf()
 		{
 		return getRoot().isLeaf();
@@ -281,6 +287,16 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		}
 
 	public void propagateWeightFromBelow()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
+
+	public double distanceToRoot()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public void randomizeLeafWeights(ContinuousDistribution1D dist)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}

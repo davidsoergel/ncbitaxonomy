@@ -34,8 +34,9 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 
 import java.util.Set;
 
@@ -51,8 +52,8 @@ public class NcbiCiccarelliHybridService
 	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
 
-	private static HybridRootedPhylogeny<Integer> hybridTree = new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
-
+	private static HybridRootedPhylogeny<Integer> hybridTree =
+			new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
 
 
 	public static Integer nearestKnownAncestor(String name) throws PhyloUtilsException
@@ -60,9 +61,14 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name));
 		}
 
-	public static RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
+	public static Integer nearestKnownAncestor(Integer id) throws PhyloUtilsException
 		{
-		return ciccarelli.extractTreeWithLeaves(ids);
+		return hybridTree.nearestKnownAncestor(id);
+		}
+
+	public static RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
+		{
+		return ciccarelli.extractTreeWithLeafIDs(ids);
 		}
 
 	public static Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
@@ -71,4 +77,16 @@ public class NcbiCiccarelliHybridService
 		int id2 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
 		return ciccarelli.exactDistanceBetween(id1, id2);
 		}
+
+	public static Integer findTaxidByName(String name) throws NcbiTaxonomyException
+		{
+		return ncbiTaxonomyService.findTaxidByName(name);
+		}
+
+
+	 public static TaxonMergingPhylogeny<Integer> getTree()
+		 {
+		 return hybridTree;
+		 }
+
 	}
