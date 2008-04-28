@@ -268,7 +268,7 @@ public class NcbiTaxonomyServiceImpl
 			while (rootPhylogeny.getNode(n.getValue()) == null)
 				{
 				n = n.getParent();
-				if (n.getParent() == null)
+				if (n.getValue() == 1)
 					{
 					// arrived at root, too bad
 					throw new PhyloUtilsException("Taxon " + leafId + " not found in tree.");

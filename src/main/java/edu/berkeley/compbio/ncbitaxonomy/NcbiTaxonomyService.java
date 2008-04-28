@@ -175,9 +175,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		 return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
 		 }
  */
-	public Set<? extends PhylogenyNode<Integer>> getChildren()
+	public Collection<? extends PhylogenyNode<Integer>> getChildren()
 		{
 		return getNode(1).getChildren();
+		}
+
+	public PhylogenyNode<Integer> getChild(Integer id)
+		{
+		return getNode(1).getChild(id);
 		}
 
 	public Integer getValue()
@@ -282,6 +287,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		}
 
 	public void setWeight(double v)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
+
+	public void incrementWeightBy(double v)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}

@@ -308,7 +308,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public int hashCode()
 		{
 		int result;
-		result = (parent != null ? parent.hashCode() : 0);
+		result = ((parent != null && parent.getId() != this.getId()) ? parent.hashCode() : 0);
 		result = 31 * result + (names != null ? names.hashCode() : 0);
 
 		return result;
@@ -319,6 +319,20 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public Set<NcbiTaxonomyNode> getChildren()
 		{
 		return children;
+		}
+
+	public PhylogenyNode<Integer> getChild(Integer id)
+		{
+		// We could map the children collection as a Map; but that's some hassle, and since there are generally just 2 children anyway, this is simpler
+
+		for (NcbiTaxonomyNode child : children)
+			{
+			if (child.getId() == id)
+				{
+				return child;
+				}
+			}
+		return null;
 		}
 
 	public int getMitochondrialGeneticCodeId()
@@ -383,6 +397,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 	public void setWeight(double v)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
+		}
+
+	public void incrementWeightBy(double v)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
 		}
