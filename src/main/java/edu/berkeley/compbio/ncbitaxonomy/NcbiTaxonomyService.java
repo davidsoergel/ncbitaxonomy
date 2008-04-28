@@ -310,4 +310,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
+
+	public RootedPhylogeny<Integer> clone()
+		{
+		throw new NotImplementedException();
+		}
 	}

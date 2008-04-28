@@ -37,6 +37,7 @@ package edu.berkeley.compbio.ncbitaxonomy.jpa;
 import com.davidsoergel.dsutils.HierarchyNode;
 import com.davidsoergel.springjpautils.SpringJpaObject;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
+import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
@@ -414,5 +415,10 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public double distanceToRoot()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public RootedPhylogeny<Integer> clone()
+		{
+		throw new NotImplementedException();
 		}
 	}
