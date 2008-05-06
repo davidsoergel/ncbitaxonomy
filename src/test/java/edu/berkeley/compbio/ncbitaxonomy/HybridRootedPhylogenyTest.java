@@ -37,7 +37,7 @@ import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 
-/* $Id$ */
+
 
 /**
  * @Author David Soergel

@@ -35,7 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import org.apache.log4j.Logger;
 
-/* $Id: PhyloUtilsException.java 112 2008-04-21 23:34:53Z soergel $ */
+
 
 
 

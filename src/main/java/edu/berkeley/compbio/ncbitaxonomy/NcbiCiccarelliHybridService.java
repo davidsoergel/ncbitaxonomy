@@ -40,7 +40,7 @@ import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 
 import java.util.Set;
 
-/* $Id$ */
+
 
 /**
  * @Author David Soergel

@@ -30,7 +30,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* $Id: NcbiTaxonomyNameDao.java 112 2008-04-21 23:34:53Z soergel $ */
+
 
 package edu.berkeley.compbio.ncbitaxonomy.dao;
 
