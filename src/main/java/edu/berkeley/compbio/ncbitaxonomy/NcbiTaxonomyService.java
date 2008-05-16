@@ -41,6 +41,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyIterator;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -227,9 +228,19 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return 0.;
 		}
 
+	public void setLength(Double d)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
 	public Double getLargestLengthSpan()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public void addChild(LengthWeightHierarchyNode<Integer> a)
+		{
+		throw new NotImplementedException();
 		}
 
 
@@ -279,12 +290,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return getRoot().isLeaf();
 		}
 
-	public double getWeight()
+	public Double getWeight()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 
-	public void setWeight(double v)
+
+
+	public void setWeight(Double v)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}

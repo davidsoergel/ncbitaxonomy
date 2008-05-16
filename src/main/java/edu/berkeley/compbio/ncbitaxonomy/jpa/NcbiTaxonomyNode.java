@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.springjpautils.SpringJpaObject;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
@@ -380,9 +381,19 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
+	public void setLength(Double d)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
 	public Double getLargestLengthSpan()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public void addChild(LengthWeightHierarchyNode<Integer> a)
+		{
+		throw new NotImplementedException();
 		}
 
 	public boolean isLeaf()
@@ -390,9 +401,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return getChildren().isEmpty();
 		}
 
-	public double getWeight()
+	public Double getWeight()
 		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
+		}
 
+	public void setWeight(Double d)
+		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
 		}
 
