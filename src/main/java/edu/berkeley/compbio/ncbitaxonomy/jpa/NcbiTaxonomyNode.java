@@ -31,10 +31,9 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
-import com.davidsoergel.dsutils.HierarchyNode;
+import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.springjpautils.SpringJpaObject;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;

@@ -31,11 +31,8 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.MathUtils;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -102,10 +99,10 @@ public class NcbiTaxonomyTest//extends AbstractJpaTests
 		 }
  */
 
-/*	@BeforeClass
-	public void setup()
-		{
-		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();//new PhyloUtilsService();
-		}
-*/
+	/*	@BeforeClass
+	 public void setup()
+		 {
+		 ncbiTaxonomyService = NcbiTaxonomyService.getInstance();//new PhyloUtilsService();
+		 }
+ */
 	}

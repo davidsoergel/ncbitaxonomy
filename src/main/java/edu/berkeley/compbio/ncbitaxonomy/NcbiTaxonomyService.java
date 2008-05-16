@@ -31,11 +31,10 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.HierarchyNode;
 import com.davidsoergel.dsutils.PropertiesUtils;
+import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
@@ -58,7 +57,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA. User: soergel Date: May 7, 2007 Time: 2:03:39 PM To change this template use File |
@@ -155,7 +153,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
 		}
 
-	public PhylogenyNode getNode(Integer taxid) //throws NcbiTaxonomyException
+	public PhylogenyNode getNode(Integer taxid)//throws NcbiTaxonomyException
 		{
 		try
 			{
@@ -169,12 +167,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		}
 
 
-
 	/*	public RootedPhylogeny<Integer> extractTreeWithLeaves(Set<Integer> ids)
-		 {
-		 return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
-		 }
- */
+			 {
+			 return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
+			 }
+	 */
 	public Collection<? extends PhylogenyNode<Integer>> getChildren()
 		{
 		return getNode(1).getChildren();
@@ -266,7 +263,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
 
-	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId) throws PhyloUtilsException
+	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
+			throws PhyloUtilsException
 		{
 		return ncbiTaxonomyServiceImpl.nearestKnownAncestor(rootPhylogeny, leafId);
 		}
