@@ -34,14 +34,14 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.PropertiesUtils;
+import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
-import edu.berkeley.compbio.phyloutils.PhylogenyIterator;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -193,7 +193,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return null;
 		}
 
-	public HierarchyNode<? extends Integer> newChild()
+	public HierarchyNode<? extends Integer, LengthWeightHierarchyNode<Integer>> newChild()
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -203,7 +203,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
 
-	public void setParent(HierarchyNode<? extends Integer> parent)
+
+	public void setParent(HierarchyNode<? extends Integer, LengthWeightHierarchyNode<Integer>> parent)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -249,12 +250,17 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	 *
 	 * @return an Iterator.
 	 */
-	public Iterator<PhylogenyNode<Integer>> iterator()
+	public Iterator<LengthWeightHierarchyNode<Integer>> iterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
 
-	public PhylogenyIterator<Integer> phylogenyIterator()
+	public DepthFirstTreeIterator<Integer, LengthWeightHierarchyNode<Integer>> depthFirstIterator()
+		{
+		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
+		}
+
+	public DepthFirstTreeIterator<Integer, LengthWeightHierarchyNode<Integer>> phylogenyIterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
@@ -294,7 +300,6 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
-
 
 
 	public void setWeight(Double v)

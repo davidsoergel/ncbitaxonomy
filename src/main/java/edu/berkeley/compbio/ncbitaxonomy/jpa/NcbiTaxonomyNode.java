@@ -33,11 +33,12 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
+import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.springjpautils.SpringJpaObject;
+import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
@@ -197,7 +198,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return true;
 		}
 
-	public HierarchyNode<? extends Integer> newChild()
+	public HierarchyNode<? extends Integer, LengthWeightHierarchyNode<Integer>> newChild()
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -207,7 +208,8 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
 
-	public void setParent(HierarchyNode<? extends Integer> parent)
+
+	public void setParent(HierarchyNode<? extends Integer, LengthWeightHierarchyNode<Integer>> parent)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -356,11 +358,16 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 *
 	 * @return an Iterator.
 	 */
-	public Iterator<PhylogenyNode<Integer>> iterator()
+	public Iterator<LengthWeightHierarchyNode<Integer>> iterator()
 		{
 		return null;
 		}
 
+
+	public DepthFirstTreeIterator<Integer, LengthWeightHierarchyNode<Integer>> depthFirstIterator()
+		{
+		return null;
+		}
 
 	public List<PhylogenyNode<Integer>> getAncestorPath()
 		{
