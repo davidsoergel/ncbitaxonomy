@@ -20,3 +20,13 @@ insert into names (tax_id, name_txt, name_class) select tax_id, 'Chlamydia trach
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Mycobacterium bovis AF2122 97', 'synonym' from names where name_txt = 'Mycobacterium bovis AF2122/97';
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Streptococcus agalactiae 2603V R', 'synonym' from names where name_txt = 'Streptococcus agalactiae 2603V/R';
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Chlamydia trachomatis L2b UCH-1 proctitis', 'synonym' from names where name_txt = 'Chlamydia trachomatis L2b/UCH-1/proctitis';
+
+# that leaves one directory name that wasn't renamed properly:
+# Salmonella enterica subsp. arizonae serovar 62:z4    should be  
+# Salmonella enterica subsp. arizonae serovar 62:z4,z23:--
+
+# and three species names from FASTA headers that are not in the taxonomy:
+
+insert into names (tax_id, name_txt, name_class) select tax_id, 'Escherichia coli W3110 DNA', 'synonym' from names where name_txt = 'Escherichia coli W3110';
+insert into names (tax_id, name_txt, name_class) select tax_id, 'Ralstonia eutropha JMP134 mega', 'synonym' from names where name_txt = 'Ralstonia eutropha JMP134';
+insert into names (tax_id, name_txt, name_class) select tax_id, 'Staphylococcus aureus subsp. aureus USA300 TCH1516', 'synonym' from names where name_txt = 'Staphylococcus aureus subsp. aureus USA300';

@@ -32,25 +32,28 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.collections.CollectionUtils;
 import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 
+import java.util.Map;
 import java.util.Set;
 
 
 /**
- * Provides a view of a tree that extends the Ciccarelli tree from its leaves with subtrees taken from the NCBI taxonomy.
- * The NCBI taxonomy may contain several strains of a species that is represented in the Ciccarelli tree as a single
- * node.  This tree places these strains below the appropriate node in the Ciccarelli tree.  At higher levels of the
- * tree, only the Ciccarelli topology is considered; the NCBI topology is ignored.  The Ciccarelli tree provides branch
- * lengths, but the NCBI taxonomy does not.  This hybrid tree provides branch lengths according to the Ciccarelli tree.
- * It navigates the NCBI topology where necessary, but assigns zero length to those branches.  Thus, it is possible to
- * compute a distance between two strains that do not appear explicitly in the Ciccarelli tree, but this distance is a
- * lower bound.  Of course, the distance from a species node to a strain node below it is usually effectively zero
- * anyway, so this lower bound can be expected to be reasonably tight.
+ * Provides a view of a tree that extends the Ciccarelli tree from its leaves with subtrees taken from the NCBI
+ * taxonomy. The NCBI taxonomy may contain several strains of a species that is represented in the Ciccarelli tree as a
+ * single node.  This tree places these strains below the appropriate node in the Ciccarelli tree.  At higher levels of
+ * the tree, only the Ciccarelli topology is considered; the NCBI topology is ignored.  The Ciccarelli tree provides
+ * branch lengths, but the NCBI taxonomy does not.  This hybrid tree provides branch lengths according to the Ciccarelli
+ * tree. It navigates the NCBI topology where necessary, but assigns zero length to those branches.  Thus, it is
+ * possible to compute a distance between two strains that do not appear explicitly in the Ciccarelli tree, but this
+ * distance is a lower bound.  Of course, the distance from a species node to a strain node below it is usually
+ * effectively zero anyway, so this lower bound can be expected to be reasonably tight.
  *
  * @Author David Soergel
  * @Version 1.0
@@ -64,6 +67,26 @@ public class NcbiCiccarelliHybridService
 	private static HybridRootedPhylogeny<Integer> hybridTree =
 			new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
 
+	private static Map<Integer, String> ciccarelliNames;
+
+	// we have to maintain the mapping from species names used in the Ciccarelli tree to NCBI ids
+
+	static
+		{
+		for (PhylogenyNode<String> n : ciccarelli.getTree().getNodes())
+			{
+			try
+				{
+				String name = n.getValue();
+				int id = ncbiTaxonomyService.findTaxidByName(name);
+				ciccarelliNames.put(id, name);
+				}
+			catch (NcbiTaxonomyException e)
+				{
+				// too bad, ignore that one; probably an internal node
+				}
+			}
+		}
 
 	public static Integer nearestKnownAncestor(String name) throws PhyloUtilsException
 		{
@@ -75,16 +98,17 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.nearestKnownAncestor(id);
 		}
 
-	public static RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
+	public static RootedPhylogeny<String> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
-		return ciccarelli.extractTreeWithLeafIDs(ids);
+		return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
 		}
 
 	public static Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
 		{
 		int id1 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
 		int id2 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
-		return ciccarelli.exactDistanceBetween(id1, id2);
+
+		return exactDistanceBetween(id1, id2);
 		}
 
 	public static Integer findTaxidByName(String name) throws NcbiTaxonomyException
@@ -96,5 +120,18 @@ public class NcbiCiccarelliHybridService
 	public static TaxonMergingPhylogeny<Integer> getTree()
 		{
 		return hybridTree;
+		}
+
+	public static double exactDistanceBetween(Integer taxidA, Integer taxidB)
+		{
+		// this is tricky because we don't know which name variant the Ciccarelli tree uses
+		// (if loaded from a file in terms of names rather than IDs).
+
+		// we can't let the Ciccarelli tree deal with the String<->id mapping, because it doesn't have access to NcbiTaxonomyService.
+
+		String ciccarelliName1 = ciccarelliNames.get(taxidA);
+		String ciccarelliName2 = ciccarelliNames.get(taxidB);
+
+		return ciccarelli.exactDistanceBetween(ciccarelliName1, ciccarelliName2);
 		}
 	}
