@@ -31,14 +31,13 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy.jpadao;
 
 import com.davidsoergel.springjpautils.GenericDaoImpl;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +57,8 @@ import java.util.Map;
 @Repository
 public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> implements NcbiTaxonomyNameDao
 	{
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyNameDaoImpl.class);
+
 	// ------------------------------ FIELDS ------------------------------
 
 	private EntityManager entityManager;
@@ -108,8 +110,16 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 
 		result = (NcbiTaxonomyName) q.getSingleResult();*/
 
-		result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByName")
-				.setParameter("name", name).getSingleResult());
+		try
+			{
+			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByName")
+					.setParameter("name", name).getSingleResult());
+			}
+		catch (NonUniqueResultException e)
+			{
+			//logger.error("Name not unique in database: " + name);
+			throw new NcbiTaxonomyException("Name not unique in database: " + name);
+			}
 
 		if (result == null)
 			{
@@ -123,6 +133,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	public NcbiTaxonomyName findByNameRelaxed(String name) throws NcbiTaxonomyException
 		{
 		NcbiTaxonomyName result = null;
+		String origName = name;
 		String oldname = null;
 		try
 			{
@@ -148,6 +159,10 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		catch (IndexOutOfBoundsException e)
 			{
 			throw new NcbiTaxonomyException("Could not find taxon: " + name);
+			}
+		if (!name.equals(origName))
+			{
+			logger.warn("Relaxed name " + origName + " to " + name);
 			}
 		return result;
 		}

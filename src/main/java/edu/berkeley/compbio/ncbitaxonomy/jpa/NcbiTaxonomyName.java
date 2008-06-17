@@ -31,7 +31,6 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
 
@@ -162,8 +161,12 @@ public class NcbiTaxonomyName extends SpringJpaObject
 	public int hashCode()
 		{
 		int result;
-		result = (taxon != null ? taxon.hashCode() : 0);
-		result = 31 * result + (name != null ? name.hashCode() : 0);
+
+		//** need to avoid circular dependency, since the node hashCode depends on its names
+
+		//result = (taxon != null ? taxon.hashCode() : 0);
+		//result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = (name != null ? name.hashCode() : 0);
 		result = 31 * result + (uniqueName != null ? uniqueName.hashCode() : 0);
 		result = 31 * result + (nameClass != null ? nameClass.hashCode() : 0);
 		return result;

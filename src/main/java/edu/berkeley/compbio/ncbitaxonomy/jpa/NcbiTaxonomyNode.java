@@ -81,7 +81,8 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	@JoinColumn(name = "parent_tax_id")
 	private NcbiTaxonomyNode parent;
 
-	@OneToMany(mappedBy = "taxon", fetch = FetchType.LAZY)
+	// may as well be eager since we need these for the hashcode
+	@OneToMany(mappedBy = "taxon", fetch = FetchType.EAGER)
 	private Set<NcbiTaxonomyName> names;
 
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
@@ -282,6 +283,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	// ------------------------ CANONICAL METHODS ------------------------
 
 	//** Using the names collection here probably doesn't work
+	// well, not with LAZY loading, but now that it's EAGER it should be OK
 
 	public boolean equals(Object o)
 		{
@@ -316,6 +318,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 		return result;
 		}
+
 
 	// -------------------------- OTHER METHODS --------------------------
 

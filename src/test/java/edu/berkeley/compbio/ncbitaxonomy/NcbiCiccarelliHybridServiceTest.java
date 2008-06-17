@@ -32,25 +32,20 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
-import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import org.testng.annotations.Test;
 
 
 /**
- * @Author David Soergel
- * @Version 1.0
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
+ * @version $Rev$
  */
-public class HybridRootedPhylogenyTest
+public class NcbiCiccarelliHybridServiceTest
 	{
-	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
-	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
-
-	private HybridRootedPhylogeny<Integer> hybridTree;
-
-	/*@Test
+	@Test
 	public void nearestKnownAncestorWorks() throws PhyloUtilsException
 		{
-		hybridTree = new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
-		assert hybridTree.nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961") == 666; //243277)
-		}*/
+		assert (new NcbiCiccarelliHybridService()).nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961")
+				== 666;//243277)
+		}
 	}

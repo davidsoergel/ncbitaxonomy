@@ -39,7 +39,9 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
+import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,31 +62,66 @@ import java.util.Set;
  */
 public class NcbiCiccarelliHybridService
 	{
+	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridService.class);
 
 	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
 
 	private static HybridRootedPhylogeny<Integer> hybridTree =
-			new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
+			new HybridRootedPhylogeny<Integer>(ciccarelli.getTree(), ncbiTaxonomyService);
 
-	private static Map<Integer, String> ciccarelliNames;
+	private Map<Integer, String> ciccarelliNames = new HashMap<Integer, String>();
+
+
+	private static NcbiCiccarelliHybridService _instance = new NcbiCiccarelliHybridService();
+
+
+	// -------------------------- STATIC METHODS --------------------------
+
+	public static NcbiCiccarelliHybridService getInstance()
+		{
+		return _instance;
+		}
+
+	// ------------------
 
 	// we have to maintain the mapping from species names used in the Ciccarelli tree to NCBI ids
 
-	static
+	public NcbiCiccarelliHybridService()
 		{
-		for (PhylogenyNode<String> n : ciccarelli.getTree().getNodes())
+		try
 			{
-			try
+			for (PhylogenyNode<String> n : ciccarelli.getTree().getLeaves())
 				{
-				String name = n.getValue();
-				int id = ncbiTaxonomyService.findTaxidByName(name);
-				ciccarelliNames.put(id, name);
+				try
+					{
+					String name = n.getValue();
+					int id = ncbiTaxonomyService.findTaxidByName(name);
+					}
+				catch (NcbiTaxonomyException e)
+					{
+					logger.warn("Leaf with unknown taxid: " + n.getValue());
+					}
 				}
-			catch (NcbiTaxonomyException e)
+
+			for (PhylogenyNode<String> n : ciccarelli.getTree().getNodes())
 				{
-				// too bad, ignore that one; probably an internal node
+				try
+					{
+					String name = n.getValue();
+					int id = ncbiTaxonomyService.findTaxidByName(name);
+					ciccarelliNames.put(id, name);
+					}
+				catch (NcbiTaxonomyException e)
+					{
+					// too bad, ignore that one; probably an internal node
+					}
 				}
+			}
+		catch (Throwable e)
+			{
+			e.printStackTrace();
+			logger.error(e);
 			}
 		}
 
@@ -98,12 +135,12 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.nearestKnownAncestor(id);
 		}
 
-	public static RootedPhylogeny<String> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
+	public RootedPhylogeny<String> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
 		return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
 		}
 
-	public static Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
+	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
 		{
 		int id1 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
 		int id2 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
@@ -122,7 +159,7 @@ public class NcbiCiccarelliHybridService
 		return hybridTree;
 		}
 
-	public static double exactDistanceBetween(Integer taxidA, Integer taxidB)
+	public double exactDistanceBetween(Integer taxidA, Integer taxidB)
 		{
 		// this is tricky because we don't know which name variant the Ciccarelli tree uses
 		// (if loaded from a file in terms of names rather than IDs).
