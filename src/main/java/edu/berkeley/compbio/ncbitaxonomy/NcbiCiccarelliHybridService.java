@@ -67,8 +67,8 @@ public class NcbiCiccarelliHybridService
 	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
 
-	private static HybridRootedPhylogeny<Integer> hybridTree =
-			new HybridRootedPhylogeny<Integer>(ciccarelli.getTree(), ncbiTaxonomyService);
+	private static HybridRootedPhylogeny<Integer> hybridTree = new HybridRootedPhylogeny<Integer>(
+			ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
 
 	private Map<Integer, String> ciccarelliNames = new HashMap<Integer, String>();
 
