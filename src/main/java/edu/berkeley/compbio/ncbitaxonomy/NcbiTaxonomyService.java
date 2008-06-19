@@ -335,6 +335,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	public RootedPhylogeny<Integer> convertToIntegerIDTree(RootedPhylogeny<String> stringTree)
 		{
 		//** make new Integer nodes, mapping each one; see also extractTreeWithIDs
-		throw new NotImplementedException();
+		return null;
+		//throw new NotImplementedException();
 		}
 	}
