@@ -38,6 +38,9 @@ import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
+import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
@@ -332,10 +335,67 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException();
 		}
 
+
 	public RootedPhylogeny<Integer> convertToIntegerIDTree(RootedPhylogeny<String> stringTree)
+		//	throws NcbiTaxonomyException
 		{
-		//** make new Integer nodes, mapping each one; see also extractTreeWithIDs
-		return null;
-		//throw new NotImplementedException();
+		if (stringTree.getBasePhylogeny() != null)
+			{
+			logger.warn("Converting an extracted subtree from String IDs to Integer IDs; base phylogeny gets lost");
+			}
+
+		if (stringTree.getParent() != null)
+			{
+			logger.warn(
+					"Rooted phylogeny shouldn't have a parent; dropping it in conversion from String IDs to Integer IDs");
+			}
+
+		// this duplicates convertToIntegerIDNode just so we operate on a BasicRootedPhylogeny instead of a PhylogenyNode
+
+		BasicRootedPhylogeny<Integer> result = new BasicRootedPhylogeny<Integer>();
+		copyValuesToNode(stringTree, result);
+		IntegerNodeNamer namer = new IntegerNodeNamer(10000000);
+		try
+			{
+			result.updateNodes(namer);
+			}
+		catch (PhyloUtilsException e)
+			{
+			// impossible
+			logger.debug(e);
+			e.printStackTrace();
+			throw new Error(e);
+			}
+		return result;
+		}
+
+	private PhylogenyNode<Integer> convertToIntegerIDNode(
+			PhylogenyNode<String> stringNode)//throws NcbiTaxonomyException
+		{
+		PhylogenyNode<Integer> result = new BasicPhylogenyNode<Integer>();
+		copyValuesToNode(stringNode, result);
+		return result;
+		}
+
+	private void copyValuesToNode(PhylogenyNode<String> stringNode, PhylogenyNode<Integer> result)
+		{
+		result.setLength(stringNode.getLength());
+		result.setWeight(stringNode.getWeight());
+
+		Integer id = null;
+		try
+			{
+			id = findTaxidByName(stringNode.getValue());
+			}
+		catch (NcbiTaxonomyException e)
+			{
+			//id = namer.generate(); //nameInternal(unknownCount)
+			}
+		result.setValue(id);
+
+		for (PhylogenyNode<String> node : stringNode.getChildren())
+			{
+			result.addChild(convertToIntegerIDNode(node));
+			}
 		}
 	}

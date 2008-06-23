@@ -2,8 +2,9 @@
 # David Soergel <soergel@compbio.berkeley.edu>
 # created November 17, 2006
 # updated June 5, 2008
+# See also (in phyloutils) ciccarelliToNcbiMap.sql
 
-# Now we just rename the directories according to the FASTA headers.  These synonyms remain because the directories can't be renamed, either because of slashes or name collisions. 
+# Now we just rename the directories according to the FASTA headers.  These synonyms remain because the directories can't be renamed, either because of slashes or name collisions.
 
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Bacillus licheniformis DSM 13', 'synonym' from names where name_txt = 'Bacillus licheniformis ATCC 14580';
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Chlamydia trachomatis A HAR-13', 'synonym' from names where name_txt = 'Chlamydia trachomatis A/HAR-13';
@@ -22,7 +23,7 @@ insert into names (tax_id, name_txt, name_class) select tax_id, 'Streptococcus a
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Chlamydia trachomatis L2b UCH-1 proctitis', 'synonym' from names where name_txt = 'Chlamydia trachomatis L2b/UCH-1/proctitis';
 
 # that leaves one directory name that wasn't renamed properly:
-# Salmonella enterica subsp. arizonae serovar 62:z4    should be  
+# Salmonella enterica subsp. arizonae serovar 62:z4    should be
 # Salmonella enterica subsp. arizonae serovar 62:z4,z23:--
 
 # and three species names from FASTA headers that are not in the taxonomy:

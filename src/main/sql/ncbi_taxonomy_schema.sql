@@ -4,7 +4,7 @@
 DROP TABLE IF EXISTS `names`;
 
 CREATE TABLE `names` (
-  `id` bigint(20) NOT NULL auto_increment,
+  `id` mediumint(11) NOT NULL auto_increment,
   `modifieddate` datetime default NULL,
   `tax_id` mediumint(11) unsigned NOT NULL default '0',
   `name_txt` varchar(255) NOT NULL default '',

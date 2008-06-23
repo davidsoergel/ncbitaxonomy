@@ -45,7 +45,7 @@ public class NcbiCiccarelliHybridServiceTest
 	@Test
 	public void nearestKnownAncestorWorks() throws PhyloUtilsException
 		{
-		assert (new NcbiCiccarelliHybridService()).nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961")
+		assert NcbiCiccarelliHybridService.nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961")
 				== 666;//243277)
 		}
 	}

@@ -67,8 +67,13 @@ public class NcbiCiccarelliHybridService
 	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
 
-	private static HybridRootedPhylogeny<Integer> hybridTree = new HybridRootedPhylogeny<Integer>(
-			ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
+	private static HybridRootedPhylogeny<Integer> hybridTree;
+
+	static
+		{
+		hybridTree = new HybridRootedPhylogeny<Integer>(
+				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
+		}
 
 	private Map<Integer, String> ciccarelliNames = new HashMap<Integer, String>();
 
@@ -109,8 +114,12 @@ public class NcbiCiccarelliHybridService
 				try
 					{
 					String name = n.getValue();
-					int id = ncbiTaxonomyService.findTaxidByName(name);
-					ciccarelliNames.put(id, name);
+					if (!name.contains(
+							"subclade"))// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
+						{
+						int id = ncbiTaxonomyService.findTaxidByName(name);
+						ciccarelliNames.put(id, name);
+						}
 					}
 				catch (NcbiTaxonomyException e)
 					{
