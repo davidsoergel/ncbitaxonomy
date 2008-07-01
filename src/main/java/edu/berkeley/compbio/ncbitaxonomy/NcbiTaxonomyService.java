@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.PropertiesUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.stats.ContinuousDistribution1D;
+import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
@@ -333,6 +334,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	public RootedPhylogeny<Integer> clone()
 		{
 		throw new NotImplementedException();
+		}
+
+	public void setLeafWeights(Multiset<Integer> ids)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 
 
