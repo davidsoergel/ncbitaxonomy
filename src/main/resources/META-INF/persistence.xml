@@ -44,20 +44,4 @@
 	</persistence-unit>
 
 </persistence>
-		<!--<persistence>
-	  <persistence-unit name="ncbiTaxonomy">
-		  <provider>org.hibernate.ejb.HibernatePersistence</provider>
-		  <class>edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNameName</class>
-		  <class>edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNodeNode</class>
-		  <properties>
-			  <property name="hibernate.connection.url" value="jdbc:mysql://orchid.berkeley.edu/ncbi_taxonomy"/>
-			  <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-			  <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-			  <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
-			  <property name="hibernate.connection.password" value="tNT$$8tt3"/>
-			  <property name="hibernate.connection.username" value="ncbi_taxonomy"/>
-			  <property name="hibernate.hbm2ddl.auto" value="update"/>
-			  <property name="hibernate.show_sql" value="false"/>
-		  </properties>
-	  </persistence-unit>
-  </persistence>-->
+

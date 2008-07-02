@@ -35,7 +35,7 @@
 		"-//AspectJ//DTD//EN"    "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
 
 <aspectj>
-	<weaver options="-verbose">
+	<weaver>
 		<include within="edu.berkeley.compbio.ncbitaxonomy..*"/>
 	</weaver>
 
