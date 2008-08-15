@@ -72,7 +72,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyService.class);
 	// ------------------------------ FIELDS ------------------------------
 
-	private static final NcbiTaxonomyService instance = new NcbiTaxonomyService();
+	private static NcbiTaxonomyService instance;// = new NcbiTaxonomyService();
 
 	private NcbiTaxonomyServiceImpl ncbiTaxonomyServiceImpl;
 
@@ -81,6 +81,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 
 	public static NcbiTaxonomyService getInstance()
 		{
+		if (instance == null)
+			{
+			instance = new NcbiTaxonomyService();
+			}
 		return instance;
 		}
 

@@ -64,27 +64,36 @@ public class NcbiCiccarelliHybridService
 	{
 	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridService.class);
 
-	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
-	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
+	private static NcbiTaxonomyService ncbiTaxonomyService;// = NcbiTaxonomyService.getInstance();
+	private static CiccarelliUtils ciccarelli;// = CiccarelliUtils.getInstance();
 
 	private static HybridRootedPhylogeny<Integer> hybridTree;
 
-	static
-		{
-		hybridTree = new HybridRootedPhylogeny<Integer>(
-				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
-		}
+	/*	static
+	   {
+	   hybridTree = new HybridRootedPhylogeny<Integer>(
+			   ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
+	   }*/
 
 	private Map<Integer, String> ciccarelliNames = new HashMap<Integer, String>();
 
 
-	private static NcbiCiccarelliHybridService _instance = new NcbiCiccarelliHybridService();
+	private static NcbiCiccarelliHybridService _instance;//= new NcbiCiccarelliHybridService();
 
 
 	// -------------------------- STATIC METHODS --------------------------
 
 	public static NcbiCiccarelliHybridService getInstance()
 		{
+		if (_instance == null)
+			{
+			ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
+			ciccarelli = CiccarelliUtils.getInstance();
+			hybridTree = new HybridRootedPhylogeny<Integer>(
+					ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
+			_instance = new NcbiCiccarelliHybridService();
+			}
+
 		return _instance;
 		}
 
