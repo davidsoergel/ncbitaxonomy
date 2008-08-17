@@ -143,12 +143,12 @@ public class NcbiCiccarelliHybridService
 			}
 		}
 
-	public static Integer nearestKnownAncestor(String name) throws PhyloUtilsException
+	public Integer nearestKnownAncestor(String name) throws PhyloUtilsException
 		{
 		return hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name));
 		}
 
-	public static Integer nearestKnownAncestor(Integer id) throws PhyloUtilsException
+	public Integer nearestKnownAncestor(Integer id) throws PhyloUtilsException
 		{
 		return hybridTree.nearestKnownAncestor(id);
 		}
@@ -166,13 +166,13 @@ public class NcbiCiccarelliHybridService
 		return exactDistanceBetween(id1, id2);
 		}
 
-	public static Integer findTaxidByName(String name) throws NcbiTaxonomyException
+	public Integer findTaxidByName(String name) throws NcbiTaxonomyException
 		{
 		return ncbiTaxonomyService.findTaxidByName(name);
 		}
 
 
-	public static TaxonMergingPhylogeny<Integer> getTree()
+	public TaxonMergingPhylogeny<Integer> getTree()
 		{
 		return hybridTree;
 		}
