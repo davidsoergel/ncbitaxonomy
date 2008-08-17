@@ -40,6 +40,7 @@ import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -87,14 +88,20 @@ public class NcbiCiccarelliHybridService
 		{
 		if (_instance == null)
 			{
-			ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
-			ciccarelli = CiccarelliUtils.getInstance();
-			hybridTree = new HybridRootedPhylogeny<Integer>(
-					ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
-			_instance = new NcbiCiccarelliHybridService();
+			makeInstance();
 			}
 
 		return _instance;
+		}
+
+	@Transactional
+	public static void makeInstance()
+		{
+		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
+		ciccarelli = CiccarelliUtils.getInstance();
+		hybridTree = new HybridRootedPhylogeny<Integer>(
+				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
+		_instance = new NcbiCiccarelliHybridService();
 		}
 
 	// ------------------

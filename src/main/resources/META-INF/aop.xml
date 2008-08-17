@@ -44,3 +44,4 @@
 		<include within="org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect"/>
 	</aspects>
 </aspectj>
+		
