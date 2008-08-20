@@ -32,7 +32,6 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.collections.CollectionUtils;
 import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
@@ -99,8 +98,9 @@ public class NcbiCiccarelliHybridService
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 		ciccarelli = CiccarelliUtils.getInstance();
-		hybridTree = new HybridRootedPhylogeny<Integer>(
-				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree()), ncbiTaxonomyService);
+		RootedPhylogeny<Integer> ciccarelliIntegerTree =
+				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree());
+		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyService);
 		_instance = new NcbiCiccarelliHybridService();
 		}
 
@@ -152,7 +152,7 @@ public class NcbiCiccarelliHybridService
 
 	public Integer nearestKnownAncestor(String name) throws PhyloUtilsException
 		{
-		return hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name));
+		return hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByNameRelaxed(name));
 		}
 
 	public Integer nearestKnownAncestor(Integer id) throws PhyloUtilsException
@@ -160,9 +160,10 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.nearestKnownAncestor(id);
 		}
 
-	public RootedPhylogeny<String> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
-		return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
+		//return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
+		return hybridTree.extractTreeWithLeafIDs(ids);
 		}
 
 	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException

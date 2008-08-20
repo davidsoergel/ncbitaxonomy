@@ -67,7 +67,7 @@ public class NcbiTaxonomyName extends SpringJpaObject
 	private static Logger logger = Logger.getLogger(NcbiTaxonomyName.class);
 
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tax_id")
 	private NcbiTaxonomyNode taxon;
 

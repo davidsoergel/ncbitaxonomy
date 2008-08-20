@@ -31,14 +31,13 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -208,13 +207,25 @@ public class NcbiTaxonomyServiceImpl
 	   */
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
+	public Integer findTaxidByNameRelaxed(String speciesNameA) throws NcbiTaxonomyException
 		{
 		Integer taxIdA = taxIdByNameRelaxed.get(speciesNameA);
 		if (taxIdA == null)
 			{
 			taxIdA = ncbiTaxonomyNameDao.findByNameRelaxed(speciesNameA).getTaxon().getId();
 			taxIdByNameRelaxed.put(speciesNameA, taxIdA);
+			}
+		return taxIdA;
+		}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
+		{
+		Integer taxIdA = taxIdByName.get(speciesNameA);
+		if (taxIdA == null)
+			{
+			taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
+			taxIdByName.put(speciesNameA, taxIdA);
 			}
 		return taxIdA;
 		}
@@ -228,7 +239,7 @@ public class NcbiTaxonomyServiceImpl
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(taxIdByNameRelaxed);
 			oos.writeObject(taxIdByName);
-		//	oos.writeObject(nearestKnownAncestorCache);
+			//	oos.writeObject(nearestKnownAncestorCache);
 			oos.close();
 			}
 		catch (Exception e)
@@ -251,7 +262,8 @@ public class NcbiTaxonomyServiceImpl
 	 *
 	 */
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId) throws PhyloUtilsException
+	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
+			throws PhyloUtilsException
 		{
 		Integer result = nearestKnownAncestorCache.get(leafId);
 		if (result == null)

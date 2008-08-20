@@ -117,8 +117,13 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			}
 		catch (NonUniqueResultException e)
 			{
-			//logger.error("Name not unique in database: " + name);
+			logger.error("Name not unique in database: " + name);
 			throw new NcbiTaxonomyException("Name not unique in database: " + name);
+			}
+		catch (NoResultException e)
+			{
+			//logger.error("Name not unique in database: " + name);
+			throw new NcbiTaxonomyException("Name not found: " + name);
 			}
 
 		if (result == null)

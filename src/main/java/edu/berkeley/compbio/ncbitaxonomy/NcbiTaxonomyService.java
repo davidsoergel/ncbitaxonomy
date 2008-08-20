@@ -141,6 +141,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
 
+	public int findTaxidByNameRelaxed(String name) throws NcbiTaxonomyException
+		{
+		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
+		}
+
 	public PhylogenyNode<Integer> getRoot()
 		{
 		return getNode(1);
@@ -288,6 +293,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
 
+	public Collection<Integer> getNodeValues()
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		}
+
 	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws PhyloUtilsException
 		{
@@ -399,6 +409,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			}
 		catch (NcbiTaxonomyException e)
 			{
+			logger.warn("Integer ID not found for name: " + stringNode.getValue());
 			//id = namer.generate(); //nameInternal(unknownCount)
 			}
 		result.setValue(id);
