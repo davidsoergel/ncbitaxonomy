@@ -63,10 +63,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: May 7, 2007 Time: 2:03:39 PM To change this template use File |
- * Settings | File Templates.
- */
+
 public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//extends Singleton<PhyloUtilsService>
 	{
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyService.class);

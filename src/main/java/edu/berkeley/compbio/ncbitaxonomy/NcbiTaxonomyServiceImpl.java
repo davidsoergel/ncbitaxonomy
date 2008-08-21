@@ -49,10 +49,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 2:21:41 PM To change this template use File |
- * Settings | File Templates.
- */
+
 public class NcbiTaxonomyServiceImpl
 	{
 	// ------------------------------ FIELDS ------------------------------

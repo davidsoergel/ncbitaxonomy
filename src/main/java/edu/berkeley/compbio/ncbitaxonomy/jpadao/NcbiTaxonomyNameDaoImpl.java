@@ -50,10 +50,7 @@ import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: Mar 7, 2007 Time: 1:47:27 PM To change this template use File |
- * Settings | File Templates.
- */
+
 @Repository
 public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> implements NcbiTaxonomyNameDao
 	{
@@ -93,7 +90,8 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	// --------------------- Interface NcbiTaxonomyNameDao ---------------------
 
 	@Transactional(propagation = Propagation.SUPPORTS,
-	               noRollbackFor = {javax.persistence.NoResultException.class, javax.persistence.EntityNotFoundException.class})
+	               noRollbackFor = {javax.persistence.NoResultException.class,
+			               javax.persistence.EntityNotFoundException.class})
 	public NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException
 		{
 		NcbiTaxonomyName result = names.get(name);

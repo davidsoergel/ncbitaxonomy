@@ -31,7 +31,6 @@
  */
 
 
-
 package edu.berkeley.compbio.ncbitaxonomy.jpadao;
 
 import com.davidsoergel.springjpautils.GenericDaoImpl;
@@ -44,10 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: Mar 7, 2007 Time: 1:47:27 PM To change this template use File |
- * Settings | File Templates.
- */
+
 @Repository
 public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> implements NcbiTaxonomyNodeDao
 	{

@@ -57,10 +57,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 2:30:36 PM To change this template use File |
- * Settings | File Templates.
- */
+
 @Entity
 @Table(name = "nodes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

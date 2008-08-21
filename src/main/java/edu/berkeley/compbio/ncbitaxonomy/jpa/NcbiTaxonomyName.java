@@ -48,10 +48,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 2:30:36 PM To change this template use File |
- * Settings | File Templates.
- */
+
 @Entity
 @Table(name = "names")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

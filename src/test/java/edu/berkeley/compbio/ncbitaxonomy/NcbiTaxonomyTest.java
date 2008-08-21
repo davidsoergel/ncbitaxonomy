@@ -35,10 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import org.testng.annotations.Test;
 
-/**
- * Created by IntelliJ IDEA. User: soergel Date: Nov 6, 2006 Time: 4:29:37 PM To change this template use File |
- * Settings | File Templates.
- */
+
 public class NcbiTaxonomyTest//extends AbstractJpaTests
 	{
 	// ------------------------------ FIELDS ------------------------------
