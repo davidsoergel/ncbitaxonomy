@@ -245,6 +245,7 @@ public class NcbiTaxonomyServiceImpl
 			}
 		}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public PhylogenyNode getNode(Integer taxid)
 		{
 		return ncbiTaxonomyNodeDao.findById(taxid);
