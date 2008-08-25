@@ -43,6 +43,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,6 +56,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 
@@ -324,6 +326,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return children;
 		}
 
+	@NotNull
 	public PhylogenyNode<Integer> getChild(Integer id)
 		{
 		// We could map the children collection as a Map; but that's some hassle, and since there are generally just 2 children anyway, this is simpler
@@ -335,7 +338,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 				return child;
 				}
 			}
-		return null;
+		throw new NoSuchElementException();
 		}
 
 	public int getMitochondrialGeneticCodeId()
