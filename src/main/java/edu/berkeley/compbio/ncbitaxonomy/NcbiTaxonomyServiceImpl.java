@@ -64,7 +64,6 @@ public class NcbiTaxonomyServiceImpl
 	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.
 	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
 	// always the same one anyway
-	// ** sanity check that the rootPhylogeny is always the same
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
 
 
@@ -263,6 +262,7 @@ public class NcbiTaxonomyServiceImpl
 	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws PhyloUtilsException
 		{
+		// ** sanity check that the rootPhylogeny is always the same when using the cache
 		Integer result = nearestKnownAncestorCache.get(leafId);
 		if (result == null)
 			{
