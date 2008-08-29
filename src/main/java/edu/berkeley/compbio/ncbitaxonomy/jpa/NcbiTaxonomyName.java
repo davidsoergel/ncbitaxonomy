@@ -61,7 +61,7 @@ public class NcbiTaxonomyName extends SpringJpaObject
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(NcbiTaxonomyName.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyName.class);
 
 
 	@ManyToOne(fetch = FetchType.EAGER)

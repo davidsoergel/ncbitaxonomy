@@ -44,7 +44,7 @@ public class NcbiTaxonomyException extends PhyloUtilsException
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(NcbiTaxonomyException.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyException.class);
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------

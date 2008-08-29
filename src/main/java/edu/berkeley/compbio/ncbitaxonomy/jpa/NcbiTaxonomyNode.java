@@ -73,7 +73,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	private static Logger logger = Logger.getLogger(NcbiTaxonomyName.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyName.class);
 
 	//private int taxId;
 	@ManyToOne(fetch = FetchType.LAZY)
