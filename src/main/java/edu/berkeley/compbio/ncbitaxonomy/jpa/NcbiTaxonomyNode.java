@@ -363,13 +363,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 */
 	public Iterator<LengthWeightHierarchyNode<Integer>> iterator()
 		{
-		return null;
+		throw new NotImplementedException("Iterating the entire NCBI taxonomy is probably a bad idea");
 		}
 
 
 	public DepthFirstTreeIterator<Integer, LengthWeightHierarchyNode<Integer>> depthFirstIterator()
 		{
-		return null;
+		throw new NotImplementedException("Iterating the entire NCBI taxonomy is probably a bad idea");
 		}
 
 	public List<PhylogenyNode<Integer>> getAncestorPath()
