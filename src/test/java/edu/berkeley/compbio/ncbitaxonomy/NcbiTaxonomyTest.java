@@ -69,7 +69,7 @@ public class NcbiTaxonomyTest//extends AbstractJpaTests
 	public void findTaxonByNameWorks() throws NcbiTaxonomyException
 		{
 		//assert ncbiTaxonomyNameDao.findByName("Myxococcus xanthus").getTaxon().getTaxId() == 34;
-		assert new NcbiTaxonomyService().findTaxidByName("Myxococcus xanthus") == 34;
+		assert NcbiTaxonomyService.getInstance().findTaxidByName("Myxococcus xanthus") == 34;
 		}
 
 	/*

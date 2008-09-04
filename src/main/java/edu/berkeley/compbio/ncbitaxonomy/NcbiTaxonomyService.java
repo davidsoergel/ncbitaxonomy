@@ -74,7 +74,6 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 
 	private NcbiTaxonomyServiceImpl ncbiTaxonomyServiceImpl;
 
-
 	// -------------------------- STATIC METHODS --------------------------
 
 	public static NcbiTaxonomyService getInstance()
@@ -169,7 +168,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		{
 		try
 			{
-			return ncbiTaxonomyServiceImpl.getNode(taxid);
+			return ncbiTaxonomyServiceImpl.findNode(taxid);
 			}
 		catch (NoResultException e)
 			{
@@ -300,7 +299,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws PhyloUtilsException
 		{
-		return ncbiTaxonomyServiceImpl.nearestKnownAncestor(rootPhylogeny, leafId);
+		return ncbiTaxonomyServiceImpl.findNearestKnownAncestor(rootPhylogeny, leafId);
 		}
 
 	public Integer nearestAncestorWithBranchLength(Integer leafId) throws PhyloUtilsException

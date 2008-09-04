@@ -37,8 +37,6 @@ import com.davidsoergel.springjpautils.GenericDaoImpl;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -70,7 +68,8 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 
 	// --------------------- Interface GenericDao ---------------------
 
-	@Transactional(propagation = Propagation.SUPPORTS)
+	//@Transactional(propagation = Propagation.SUPPORTS)
+
 	public NcbiTaxonomyNode findById(Integer id)
 		{
 		return entityManager.find(NcbiTaxonomyNode.class, id);

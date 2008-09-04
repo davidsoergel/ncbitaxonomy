@@ -39,7 +39,6 @@ import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,7 +92,7 @@ public class NcbiCiccarelliHybridService
 		return _instance;
 		}
 
-	@Transactional
+	//@Transactional
 	public static void makeInstance()
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();

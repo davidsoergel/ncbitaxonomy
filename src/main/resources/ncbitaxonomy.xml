@@ -46,6 +46,56 @@
 
 	<!--<aop:spring-configured/>-->  <!-- note we do need there to be an AnnotationBeanConfigurerAspect; this one is comented out because it's a singleton and we're already loading it in a different application context. -->
 
+	<tx:advice id="supportsTxAdvice">
+		<tx:attributes>
+			<tx:method name="*" propagation="SUPPORTS"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<tx:advice id="requiredTxAdvice">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+
+	<tx:advice id="mandatoryTxAdvice">
+		<tx:attributes>
+			<tx:method name="*" propagation="MANDATORY"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<tx:advice id="noRollbackTxAdvice">
+		<tx:attributes>
+			<tx:method name="*" no-rollback-for="{javax.persistence.NoResultException.class,
+	//		               javax.persistence.EntityNotFoundException.class}" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+
+		<aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceImpl.find*(..))"
+		             advice-ref="requiredTxAdvice"/>
+
+		<aop:advisor
+				pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByName(..))"
+				advice-ref="noRollbackTxAdvice"/>
+
+		<aop:advisor
+				pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findById(..))"
+				advice-ref="supportsTxAdvice"/>
+
+		<aop:advisor
+				pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByNameRelaxed(..))"
+				advice-ref="mandatoryTxAdvice"/>
+
+		<aop:advisor
+				pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.findById(..))"
+				advice-ref="supportsTxAdvice"/>
+
+	</aop:config>
+
+
 	<bean id="entityManagerFactory"
 	      class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter">
@@ -90,11 +140,11 @@
 	</bean>
 
 	<!-- workaround bug arising in testing; see http://forum.springframework.org/showthread.php?t=42870&page=2 -->
-	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"
-	      depends-on="annotationTransactionAspect"/>
+	<!--	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"
+		  depends-on="annotationTransactionAspect"/>
 
 	<bean id="annotationTransactionAspect" class="org.springframework.transaction.aspectj.AnnotationTransactionAspect"
-	      factory-method="aspectOf">
+		  factory-method="aspectOf">
 		<property name="transactionManager" ref="transactionManager"/>
-	</bean>
+	</bean>-->
 </beans>

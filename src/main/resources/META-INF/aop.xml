@@ -35,13 +35,12 @@
 		"-//AspectJ//DTD//EN"    "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
 
 <aspectj>
-	<weaver>
+	<!--	<weaver>
 		<include within="edu.berkeley.compbio.ncbitaxonomy..*"/>
 	</weaver>
 
 	<aspects>
 		<include within="org.springframework.transaction.aspectj.AnnotationTransactionAspect"/>
 		<include within="org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect"/>
-	</aspects>
+	</aspects>-->
 </aspectj>
-		

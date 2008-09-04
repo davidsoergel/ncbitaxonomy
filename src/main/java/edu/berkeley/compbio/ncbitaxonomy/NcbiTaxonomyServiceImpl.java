@@ -39,8 +39,6 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -202,7 +200,8 @@ public class NcbiTaxonomyServiceImpl
 	   }
 	   */
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	//@Transactional(propagation = Propagation.REQUIRED)
+
 	public Integer findTaxidByNameRelaxed(String speciesNameA) throws NcbiTaxonomyException
 		{
 		Integer taxIdA = taxIdByNameRelaxed.get(speciesNameA);
@@ -214,7 +213,7 @@ public class NcbiTaxonomyServiceImpl
 		return taxIdA;
 		}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	//@Transactional(propagation = Propagation.REQUIRED)
 	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
 		{
 		Integer taxIdA = taxIdByName.get(speciesNameA);
@@ -244,8 +243,8 @@ public class NcbiTaxonomyServiceImpl
 			}
 		}
 
-	@Transactional(propagation = Propagation.REQUIRED)
-	public PhylogenyNode getNode(Integer taxid)
+	//@Transactional(propagation = Propagation.REQUIRED)
+	public PhylogenyNode findNode(Integer taxid)
 		{
 		return ncbiTaxonomyNodeDao.findById(taxid);
 		}
@@ -258,8 +257,8 @@ public class NcbiTaxonomyServiceImpl
 	 * @throws edu.berkeley.compbio.phyloutils.PhyloUtilsException
 	 *
 	 */
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
+	//@Transactional(propagation = Propagation.REQUIRED)
+	public Integer findNearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws PhyloUtilsException
 		{
 		// ** sanity check that the rootPhylogeny is always the same when using the cache
@@ -268,7 +267,7 @@ public class NcbiTaxonomyServiceImpl
 			{
 			PhylogenyNode<Integer> n;
 
-			n = getNode(leafId);
+			n = findNode(leafId);
 
 			if (n == null)
 				{
