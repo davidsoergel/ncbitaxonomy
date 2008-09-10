@@ -328,11 +328,12 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 
-	public void propagateWeightFromBelow()
-		{
-		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
-		}
-
+	/*
+	 public void propagateWeightFromBelow()
+		 {
+		 throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		 }
+ */
 	public double distanceToRoot()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
@@ -398,7 +399,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	private void copyValuesToNode(PhylogenyNode<String> stringNode, PhylogenyNode<Integer> result)
 		{
 		result.setLength(stringNode.getLength());
+
 		result.setWeight(stringNode.getWeight());
+
 
 		Integer id = null;
 		try
@@ -416,5 +419,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			{
 			result.addChild(convertToIntegerIDNode(node));
 			}
+		}
+
+	public HierarchyNode<Integer, LengthWeightHierarchyNode<Integer>> getSelfNode()
+		{
+		return getNode(1);
 		}
 	}
