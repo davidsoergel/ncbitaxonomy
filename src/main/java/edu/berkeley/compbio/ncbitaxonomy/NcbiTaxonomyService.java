@@ -35,14 +35,12 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.PropertiesUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
-import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
-import edu.berkeley.compbio.phyloutils.LengthWeightHierarchyNode;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
@@ -164,7 +162,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
 		}
 
-	public PhylogenyNode getNode(Integer taxid)//throws NcbiTaxonomyException
+	public PhylogenyNode<Integer> getNode(Integer taxid)//throws NcbiTaxonomyException
 		{
 		try
 			{
@@ -204,7 +202,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		return null;
 		}
 
-	public HierarchyNode<? extends Integer, LengthWeightHierarchyNode<Integer>> newChild()
+	public PhylogenyNode<Integer> newChild()
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -215,7 +213,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		}
 
 
-	public void setParent(HierarchyNode<? extends Integer, LengthWeightHierarchyNode<Integer>> parent)
+	public void setParent(PhylogenyNode<Integer> parent)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -250,7 +248,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
-	public void addChild(LengthWeightHierarchyNode<Integer> a)
+	public void addChild(PhylogenyNode<Integer> a)
 		{
 		throw new NotImplementedException();
 		}
@@ -261,17 +259,17 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	 *
 	 * @return an Iterator.
 	 */
-	public Iterator<LengthWeightHierarchyNode<Integer>> iterator()
+	public Iterator<PhylogenyNode<Integer>> iterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
 
-	public DepthFirstTreeIterator<Integer, LengthWeightHierarchyNode<Integer>> depthFirstIterator()
+	public DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> depthFirstIterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
 
-	public DepthFirstTreeIterator<Integer, LengthWeightHierarchyNode<Integer>> phylogenyIterator()
+	public DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> phylogenyIterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
@@ -417,11 +415,12 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 
 		for (PhylogenyNode<String> node : stringNode.getChildren())
 			{
-			result.addChild(convertToIntegerIDNode(node));
+			//result.addChild(convertToIntegerIDNode(node));
+			convertToIntegerIDNode(node).setParent(result);
 			}
 		}
 
-	public HierarchyNode<Integer, LengthWeightHierarchyNode<Integer>> getSelfNode()
+	public PhylogenyNode<Integer> getSelfNode()
 		{
 		return getNode(1);
 		}
