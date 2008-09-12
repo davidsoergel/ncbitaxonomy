@@ -36,6 +36,11 @@ import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public class HybridRootedPhylogenyTest
 	{
 	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();

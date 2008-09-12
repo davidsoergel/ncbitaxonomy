@@ -59,6 +59,13 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 
+/**
+ * Represents a row of the "nodes" table in the NCBI taxonomy database.
+ *
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 @Entity
 @Table(name = "nodes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -182,32 +189,50 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return getId();
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Integer getValue()
 		{
 		return getId();
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NcbiTaxonomyNode getParent()
 		{
 		return parent;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean hasValue()
 		{
 		return true;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NcbiTaxonomyNode newChild()
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setValue(Integer contents)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	//** sketchy; should be setParent(NcbiTaxonomyNode parent)
 	public void setParent(PhylogenyNode<Integer> parent)
 		{
@@ -279,6 +304,10 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	//** Using the names collection here probably doesn't work
 	// well, not with LAZY loading, but now that it's EAGER it should be OK
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public boolean equals(Object o)
 		{
 		if (this == o)
@@ -304,6 +333,10 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return true;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public int hashCode()
 		{
 		int result;
@@ -316,11 +349,17 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 	// -------------------------- OTHER METHODS --------------------------
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Collection<NcbiTaxonomyNode> getChildren()
 		{
 		return children;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@NotNull
 	public PhylogenyNode<Integer> getChild(Integer id)
 		{
@@ -362,11 +401,17 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> depthFirstIterator()
 		{
 		throw new NotImplementedException("Iterating the entire NCBI taxonomy is probably a bad idea");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<PhylogenyNode<Integer>> getAncestorPath()
 		{
 		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();
@@ -381,16 +426,25 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return result;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getLength()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setLength(Double d)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getLargestLengthSpan()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
@@ -401,16 +455,25 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException();
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean isLeaf()
 		{
 		return getChildren().isEmpty();
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getWeight()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setWeight(Double d)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
@@ -421,6 +484,9 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void incrementWeightBy(double v)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
@@ -431,16 +497,26 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}*/
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public double distanceToRoot()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public RootedPhylogeny<Integer> clone()
 		{
 		throw new NotImplementedException();
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NcbiTaxonomyNode getSelfNode()
 		{
 		return this;

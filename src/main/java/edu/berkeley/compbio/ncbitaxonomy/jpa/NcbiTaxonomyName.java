@@ -49,6 +49,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
+/**
+ * Represents a row of the "names" table in the NCBI taxonomy database.
+ *
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 @Entity
 @Table(name = "names")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -122,6 +129,10 @@ public class NcbiTaxonomyName extends SpringJpaObject
 
 	// ------------------------ CANONICAL METHODS ------------------------
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public boolean equals(Object o)
 		{
 		if (this == o)
@@ -155,6 +166,10 @@ public class NcbiTaxonomyName extends SpringJpaObject
 		return true;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public int hashCode()
 		{
 		int result;
@@ -169,6 +184,10 @@ public class NcbiTaxonomyName extends SpringJpaObject
 		return result;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String toString()
 		{
 		return getName();

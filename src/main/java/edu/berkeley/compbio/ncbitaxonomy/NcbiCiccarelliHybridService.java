@@ -47,17 +47,18 @@ import java.util.Set;
 
 /**
  * Provides a view of a tree that extends the Ciccarelli tree from its leaves with subtrees taken from the NCBI
- * taxonomy. The NCBI taxonomy may contain several strains of a species that is represented in the Ciccarelli tree as a
+ * taxonomy.  The NCBI taxonomy may contain several strains of a species that is represented in the Ciccarelli tree as a
  * single node.  This tree places these strains below the appropriate node in the Ciccarelli tree.  At higher levels of
- * the tree, only the Ciccarelli topology is considered; the NCBI topology is ignored.  The Ciccarelli tree provides
- * branch lengths, but the NCBI taxonomy does not.  This hybrid tree provides branch lengths according to the Ciccarelli
- * tree. It navigates the NCBI topology where necessary, but assigns zero length to those branches.  Thus, it is
- * possible to compute a distance between two strains that do not appear explicitly in the Ciccarelli tree, but this
- * distance is a lower bound.  Of course, the distance from a species node to a strain node below it is usually
- * effectively zero anyway, so this lower bound can be expected to be reasonably tight.
+ * the tree, only the Ciccarelli topology is considered; the NCBI topology is ignored.
+ * <p/>
+ * The Ciccarelli tree provides branch lengths, but the NCBI taxonomy does not.  This hybrid tree provides branch
+ * lengths according to the Ciccarelli tree.  It navigates the NCBI topology where necessary, but assigns zero length to
+ * those branches.  Thus, it is possible to compute a distance between two strains that do not appear explicitly in the
+ * Ciccarelli tree, but this distance is a lower bound.  Of course, the distance from a species node to a strain node
+ * below it is usually effectively zero anyway, so this lower bound can be expected to be reasonably tight.
  *
- * @Author David Soergel
- * @Version 1.0
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
  */
 public class NcbiCiccarelliHybridService
 	{

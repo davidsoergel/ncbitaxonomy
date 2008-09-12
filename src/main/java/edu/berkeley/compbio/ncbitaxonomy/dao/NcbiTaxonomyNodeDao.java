@@ -37,6 +37,11 @@ import com.davidsoergel.springjpautils.GenericDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public interface NcbiTaxonomyNodeDao extends GenericDao<NcbiTaxonomyNode, Integer>
 	{
 	// -------------------------- OTHER METHODS --------------------------

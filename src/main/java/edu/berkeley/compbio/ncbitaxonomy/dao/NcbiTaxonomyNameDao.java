@@ -38,6 +38,11 @@ import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyException;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 public interface NcbiTaxonomyNameDao extends GenericDao<NcbiTaxonomyName, Integer>
 	{
 	// -------------------------- OTHER METHODS --------------------------

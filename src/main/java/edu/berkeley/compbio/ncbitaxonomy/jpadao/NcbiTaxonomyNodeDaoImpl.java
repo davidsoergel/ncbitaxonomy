@@ -42,6 +42,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 @Repository
 public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> implements NcbiTaxonomyNodeDao
 	{
@@ -52,6 +57,10 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public EntityManager getEntityManager()
 		{
 		return entityManager;
@@ -70,6 +79,9 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 
 	//@Transactional(propagation = Propagation.SUPPORTS)
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NcbiTaxonomyNode findById(Integer id)
 		{
 		return entityManager.find(NcbiTaxonomyNode.class, id);

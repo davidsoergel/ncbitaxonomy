@@ -49,6 +49,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
+ */
+
 @Repository
 public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> implements NcbiTaxonomyNameDao
 	{
@@ -63,6 +68,10 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public EntityManager getEntityManager()
 		{
 		return entityManager;
@@ -81,6 +90,9 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 
 	//@Transactional(propagation = Propagation.SUPPORTS)
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NcbiTaxonomyName findById(Integer id)
 		{
 		return entityManager.find(NcbiTaxonomyName.class, id);
@@ -92,6 +104,9 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	//               noRollbackFor = {javax.persistence.NoResultException.class,
 	//		               javax.persistence.EntityNotFoundException.class})
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException
 		{
 		NcbiTaxonomyName result = names.get(name);
@@ -132,6 +147,9 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		return result;
 		}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	//@Transactional(propagation = Propagation.MANDATORY)
 	public NcbiTaxonomyName findByNameRelaxed(String name) throws NcbiTaxonomyException
 		{

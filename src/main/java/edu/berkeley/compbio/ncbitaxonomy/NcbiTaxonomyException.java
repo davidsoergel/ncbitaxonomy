@@ -37,9 +37,12 @@ import org.apache.log4j.Logger;
 
 
 /**
- * @author lorax
- * @version 1.0
+ * This exception is thrown when something goes wrong when accessing the NCBI taxonomy database.
+ *
+ * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @version $Id$
  */
+
 public class NcbiTaxonomyException extends PhyloUtilsException
 	{
 	// ------------------------------ FIELDS ------------------------------
