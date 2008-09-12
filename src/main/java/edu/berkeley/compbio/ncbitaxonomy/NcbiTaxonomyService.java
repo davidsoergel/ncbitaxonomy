@@ -426,6 +426,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	/**
 	 * Not implemented
 	 */
+	public Double getCurrentWeight()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
+
+	/**
+	 * Not implemented
+	 */
 	public void setWeight(Double v)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
@@ -527,7 +535,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		{
 		result.setLength(stringNode.getLength());
 
-		result.setWeight(stringNode.getWeight());
+		result.setWeight(stringNode.getCurrentWeight());
 
 
 		Integer id = null;

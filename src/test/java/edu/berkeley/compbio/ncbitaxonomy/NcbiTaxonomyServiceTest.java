@@ -30,28 +30,48 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
-import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
+import org.testng.annotations.Test;
 
 
 /**
+ * Although the NcbiTaxonomyService technically extends AbstractRootedPhylogeny, in reality its behavior is extremely
+ * limited, and any methods are not implemented.  As a result, we can't use the Contract Test methodology to run
+ * AbstractRootedPhylogenyAbstractTest, since it'll just cause a ton of failures.  So, we'll just test a few things
+ * explicitly.
+ *
  * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 
-public class HybridRootedPhylogenyTest
+public class NcbiTaxonomyServiceTest
+		//extends ContractTestAware<NcbiTaxonomyService>
+		//implements TestInstanceFactory<NcbiTaxonomyService>
 	{
-	private static final NcbiTaxonomyService ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
-	private static final CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
 
-	private HybridRootedPhylogeny<Integer> hybridTree;
-
-	/*@Test
-	public void nearestKnownAncestorWorks() throws PhyloUtilsException
+	@Test
+	public void findTaxonByNameWorks() throws NcbiTaxonomyException
 		{
-		hybridTree = new HybridRootedPhylogeny(ciccarelli.getTree(), ncbiTaxonomyService);
-		assert hybridTree.nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961") == 666; //243277)
-		}*/
+		//assert ncbiTaxonomyNameDao.findByName("Myxococcus xanthus").getTaxon().getTaxId() == 34;
+		assert NcbiTaxonomyService.getInstance().findTaxidByName("Myxococcus xanthus") == 34;
+		}
+
+
+	/*	public NcbiTaxonomyService createInstance() throws Exception
+	   {
+	   return NcbiTaxonomyService.getInstance();
+	   }
+
+   public void addContractTestsToQueue(Queue theContractTests)
+	   {
+	   theContractTests.add(new AbstractRootedPhylogenyAbstractTest<NcbiTaxonomyService>(this));
+	   }
+
+   @Factory
+   public Object[] instantiateAllContractTests()
+	   {
+	   return super.instantiateAllContractTestsWithName(NcbiTaxonomyService.class.getCanonicalName());
+	   }*/
 	}

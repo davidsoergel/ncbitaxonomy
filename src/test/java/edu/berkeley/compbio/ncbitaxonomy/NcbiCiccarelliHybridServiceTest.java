@@ -43,9 +43,41 @@ import org.testng.annotations.Test;
 public class NcbiCiccarelliHybridServiceTest
 	{
 	@Test
-	public void nearestKnownAncestorWorks() throws PhyloUtilsException
+	public void nearestKnownAncestorStringWorks() throws PhyloUtilsException
 		{
 		assert NcbiCiccarelliHybridService.getInstance()
 				.nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961") == 666;//243277)
+		}
+
+
+	@Test
+	public void nearestKnownAncestorIntegerWorks() throws PhyloUtilsException
+		{
+		assert NcbiCiccarelliHybridService.getInstance()
+				.nearestKnownAncestor(243277) == 666;
+		}
+
+	@Test
+	public void exactDistanceBetweenWorks()
+		{
+		assert false;
+		}
+
+	@Test
+	public void minDistanceBetweenWorks()
+		{
+		assert false;
+		}
+
+	@Test
+	public void extractTreeWithLeafIDsWorks()
+		{
+		assert false;
+		}
+
+	@Test
+	public void findTaxIDByNameWorks()
+		{
+		assert false;
 		}
 	}
