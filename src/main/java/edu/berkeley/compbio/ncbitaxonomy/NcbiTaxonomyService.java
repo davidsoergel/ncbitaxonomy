@@ -154,17 +154,42 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			}
 		}
 
-
+	/**
+	 * Cache database search results for the current session in a local file in /tmp/edu.berkeley.compbio.ncbitaxonomy.cache,
+	 * since it'll be much faster to load that up again in the future than to rerun all the database queries.  The
+	 * assumption is that the database isn't changing anyway; if it does change, deleting the cache file will allow the new
+	 * data to take effect.
+	 */
 	public void saveState()
 		{
 		ncbiTaxonomyServiceImpl.saveState();
 		}
 
+
+	/**
+	 * Find the taxid corresponding to the given taxon name.
+	 *
+	 * @param name the name of the taxon, matching any name in the NCBI names table (including scientific names,
+	 *             misspellings, etc.)
+	 * @return the taxid for the given name, if found
+	 * @throws NcbiTaxonomyException when the name is not found, or if the name maps to multiple taxids
+	 */
 	public int findTaxidByName(String name) throws NcbiTaxonomyException
 		{
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
 
+	/**
+	 * Find the taxid corresponding to the given taxon name, removing space-delimited words from the end of the name one at
+	 * a time until a match is found.  The idea is to find the species node when a name is given that includes more
+	 * detailed information, such as a strain identifier.  Similarly, will match the genus if the species name does not
+	 * exist.
+	 *
+	 * @param name the name of the taxon, with a prefix matching any name in the NCBI names table (including scientific
+	 *             names, misspellings, etc.)
+	 * @return the taxid for the given name, if found
+	 * @throws NcbiTaxonomyException when the name is not found, or if the name maps to multiple taxids
+	 */
 	public int findTaxidByNameRelaxed(String name) throws NcbiTaxonomyException
 		{
 		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
@@ -489,7 +514,12 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 
-
+	/**
+	 * Maps String names in the given tree to their corresponding taxids, and returns a tree with Integer ids
+	 *
+	 * @param stringTree
+	 * @return
+	 */
 	public RootedPhylogeny<Integer> convertToIntegerIDTree(RootedPhylogeny<String> stringTree)
 		//	throws NcbiTaxonomyException
 		{

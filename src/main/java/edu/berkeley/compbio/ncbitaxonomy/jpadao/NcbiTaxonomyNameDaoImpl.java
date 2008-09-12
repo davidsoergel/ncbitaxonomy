@@ -41,7 +41,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
@@ -166,11 +165,6 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 					break;
 					}
 				catch (NoResultException e)
-					{
-					oldname = name;
-					name = name.substring(0, name.lastIndexOf(" "));
-					}
-				catch (EntityNotFoundException e)
 					{
 					oldname = name;
 					name = name.substring(0, name.lastIndexOf(" "));
