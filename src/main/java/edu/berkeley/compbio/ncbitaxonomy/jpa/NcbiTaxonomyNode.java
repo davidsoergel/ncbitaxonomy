@@ -340,7 +340,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public int hashCode()
 		{
 		int result;
-		result = ((parent != null && parent.getId() != this.getId()) ? parent.hashCode() : 0);
+		result = ((parent != null && !parent.getId().equals(this.getId())) ? parent.hashCode() : 0);
 		result = 31 * result + (names != null ? names.hashCode() : 0);
 
 		return result;
@@ -367,7 +367,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 		for (NcbiTaxonomyNode child : children)
 			{
-			if (child.getId() == id)
+			if (child.getId().equals(id))
 				{
 				return child;
 				}

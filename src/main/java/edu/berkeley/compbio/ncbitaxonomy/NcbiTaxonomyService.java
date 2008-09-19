@@ -122,7 +122,16 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 					.findPropertiesFile("NCBI_TAXONOMY_PROPERTIES", ".ncbitaxonomy", "ncbi_taxonomy.properties");
 			logger.debug("Using properties file: " + propsFile);
 			Properties p = new Properties();
-			p.load(new FileInputStream(propsFile));
+			FileInputStream is = null;
+			try
+				{
+				is = new FileInputStream(propsFile);
+				p.load(is);
+				}
+			finally
+				{
+				is.close();
+				}
 			String dbName = (String) p.get("default");
 
 			Map<String, Properties> databases = PropertiesUtils.splitPeriodDelimitedProperties(p);

@@ -42,6 +42,7 @@ import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class NcbiTaxonomyServiceImpl
 	{
 	// ------------------------------ FIELDS ------------------------------
 
-	protected static Logger logger = Logger.getLogger(NcbiTaxonomyServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyServiceImpl.class);
 	private NcbiTaxonomyNameDao ncbiTaxonomyNameDao;
 	private NcbiTaxonomyNodeDao ncbiTaxonomyNodeDao;
 
@@ -114,9 +115,15 @@ public class NcbiTaxonomyServiceImpl
 			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
 			ois.close();
 			}
-		catch (Exception e)
+		catch (IOException e)
 			{// no problem
 			//e.printStackTrace();
+			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
+			}
+		catch (ClassNotFoundException e)
+			{// no problem
+			//e.printStackTrace();
+			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			}
 		}
 
