@@ -62,7 +62,7 @@ import java.util.Set;
 /**
  * Represents a row of the "nodes" table in the NCBI taxonomy database.
  *
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 

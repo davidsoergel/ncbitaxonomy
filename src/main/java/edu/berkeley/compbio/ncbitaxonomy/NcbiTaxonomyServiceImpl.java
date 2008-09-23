@@ -52,7 +52,7 @@ import java.util.Map;
  * Provides access to a MySQL database containing the NCBI taxonomy, translating database records into Java objects
  * using Hibernate, JPA, and Spring.
  *
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 public class NcbiTaxonomyServiceImpl

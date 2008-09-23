@@ -39,7 +39,7 @@ import org.apache.log4j.Logger;
 /**
  * This exception is thrown when something goes wrong when accessing the NCBI taxonomy database.
  *
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 

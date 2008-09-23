@@ -89,7 +89,7 @@ import java.util.Properties;
  * Those methods that are functional are largely delegated to NcbiTaxonomyServiceImpl, which is instantiated here and
  * configured by Spring.
  *
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//extends Singleton<PhyloUtilsService>

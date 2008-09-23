@@ -57,7 +57,7 @@ import java.util.Set;
  * Ciccarelli tree, but this distance is a lower bound.  Of course, the distance from a species node to a strain node
  * below it is usually effectively zero anyway, so this lower bound can be expected to be reasonably tight.
  *
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 public class NcbiCiccarelliHybridService

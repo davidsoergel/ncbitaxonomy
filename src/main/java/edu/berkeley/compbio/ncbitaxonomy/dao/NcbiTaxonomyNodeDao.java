@@ -38,7 +38,7 @@ import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
 
 
 /**
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 

@@ -42,7 +42,7 @@ import org.testng.annotations.Test;
  * AbstractRootedPhylogenyAbstractTest, since it'll just cause a ton of failures.  So, we'll just test a few things
  * explicitly.
  *
- * @author <a href="mailto:dev.davidsoergel.com">David Soergel</a>
+ * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 
