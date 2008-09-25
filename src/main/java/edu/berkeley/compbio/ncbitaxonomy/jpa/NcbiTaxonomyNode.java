@@ -130,6 +130,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 	@Column(name = "comments")
 	private String comments;
+	private static final String SCIENTIFIC_NAME = "scientific name";
 
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
@@ -236,7 +237,15 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	//** sketchy; should be setParent(NcbiTaxonomyNode parent)
 	public void setParent(PhylogenyNode<Integer> parent)
 		{
+		if (this.parent != null)
+			{
+			this.parent.unregisterChild(this);
+			}
 		this.parent = (NcbiTaxonomyNode) parent;
+		if (this.parent != null)
+			{
+			this.parent.registerChild(this);
+			}
 		}
 
 	public String getRank()
@@ -450,10 +459,22 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
-	public void addChild(NcbiTaxonomyNode a)
+	/**
+	 * Not implemented
+	 */
+	public void registerChild(PhylogenyNode<Integer> a)
 		{
 		throw new NotImplementedException();
 		}
+
+	/**
+	 * Not implemented
+	 */
+	public void unregisterChild(PhylogenyNode<Integer> a)
+		{
+		throw new NotImplementedException();
+		}
+
 
 	/**
 	 * {@inheritDoc}
@@ -528,5 +549,30 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public NcbiTaxonomyNode getSelfNode()
 		{
 		return this;
+		}
+
+	/**
+	 * Not implemented
+	 */
+	public void appendSubtree(StringBuffer sb, String indent)
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a String is probably a bad idea");
+		}
+
+	public String toString()
+		{
+		return getTaxId() + "/" + getScientificName();
+		}
+
+	private String getScientificName()
+		{
+		for (NcbiTaxonomyName name : names)
+			{
+			if (name.getNameClass().equals(SCIENTIFIC_NAME))
+				{
+				return name.getName();
+				}
+			}
+		return "No Scientific Name Available";
 		}
 	}

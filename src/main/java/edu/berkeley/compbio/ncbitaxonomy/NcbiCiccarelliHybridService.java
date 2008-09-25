@@ -42,6 +42,7 @@ import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 
@@ -130,8 +131,9 @@ public class NcbiCiccarelliHybridService
 				try
 					{
 					String name = n.getValue();
-					if (!name.contains(
-							"subclade"))// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
+
+					// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
+					if (!name.contains("subclade"))
 						{
 						int id = ncbiTaxonomyService.findTaxidByName(name);
 						ciccarelliNames.put(id, name);
@@ -193,7 +195,15 @@ public class NcbiCiccarelliHybridService
 		// we can't let the Ciccarelli tree deal with the String<->id mapping, because it doesn't have access to NcbiTaxonomyService.
 
 		String ciccarelliName1 = ciccarelliNames.get(taxidA);
+		if (ciccarelliName1 == null)
+			{
+			throw new NoSuchElementException("No such element: " + taxidA);
+			}
 		String ciccarelliName2 = ciccarelliNames.get(taxidB);
+		if (ciccarelliName2 == null)
+			{
+			throw new NoSuchElementException("No such element: " + taxidB);
+			}
 
 		return ciccarelli.exactDistanceBetween(ciccarelliName1, ciccarelliName2);
 		}

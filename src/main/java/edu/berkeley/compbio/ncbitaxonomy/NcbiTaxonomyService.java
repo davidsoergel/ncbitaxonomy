@@ -60,6 +60,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 /**
@@ -245,8 +246,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			}
 		catch (NoResultException e)
 			{
-			return null;
+			//return null;
 			//throw new NcbiTaxonomyException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
+			throw new NoSuchElementException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
 			}
 		}
 
@@ -362,7 +364,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	/**
 	 * Not implemented
 	 */
-	public void addChild(PhylogenyNode<Integer> a)
+	public void registerChild(PhylogenyNode<Integer> a)
+		{
+		throw new NotImplementedException();
+		}
+
+	/**
+	 * Not implemented
+	 */
+	public void unregisterChild(PhylogenyNode<Integer> a)
 		{
 		throw new NotImplementedException();
 		}
@@ -546,7 +556,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		// this duplicates convertToIntegerIDNode just so we operate on a BasicRootedPhylogeny instead of a PhylogenyNode
 
 		BasicRootedPhylogeny<Integer> result = new BasicRootedPhylogeny<Integer>();
-		copyValuesToNode(stringTree, result);
+		copyValuesToNode(stringTree, result.getSelfNode());
 		IntegerNodeNamer namer = new IntegerNodeNamer(10000000);
 		try
 			{
@@ -602,5 +612,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	public PhylogenyNode<Integer> getSelfNode()
 		{
 		return getNode(1);
+		}
+
+
+	/**
+	 * Not implemented
+	 */
+	public void appendSubtree(StringBuffer sb, String indent)
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a String is probably a bad idea");
 		}
 	}
