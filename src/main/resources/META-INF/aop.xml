@@ -31,9 +31,9 @@
   -->
 
 
-<!DOCTYPE aspectj PUBLIC
-		"-//AspectJ//DTD//EN"    "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
-
+<!--<!DOCTYPE aspectj PUBLIC
+		"-//AspectJ//DTD//EN"
+		"http://www.eclipse.org/aspectj/dtd/aspectj.dtd">-->
 <aspectj>
 	<!--	<weaver>
 		<include within="edu.berkeley.compbio.ncbitaxonomy..*"/>

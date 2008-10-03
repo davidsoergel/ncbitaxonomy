@@ -289,7 +289,10 @@ public class NcbiTaxonomyServiceImpl
 
 			while (rootPhylogeny.getNode(n.getValue()) == null)
 				{
-				logger.info("Node " + n + " not in root tree, trying parent: " + n.getParent());
+				if (logger.isDebugEnabled())
+					{
+					logger.debug("Node " + n + " not in root tree, trying parent: " + n.getParent());
+					}
 				n = n.getParent();
 				if (n.getValue() == 1)
 					{
