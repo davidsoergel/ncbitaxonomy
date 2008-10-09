@@ -207,4 +207,9 @@ public class NcbiCiccarelliHybridService
 
 		return ciccarelli.exactDistanceBetween(ciccarelliName1, ciccarelliName2);
 		}
+
+	public boolean isDescendant(Integer labelInt, Integer id) throws PhyloUtilsException
+		{
+		return hybridTree.isDescendant(labelInt, id);
+		}
 	}
