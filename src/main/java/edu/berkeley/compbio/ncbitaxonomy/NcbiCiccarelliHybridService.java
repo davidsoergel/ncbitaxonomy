@@ -212,4 +212,9 @@ public class NcbiCiccarelliHybridService
 		{
 		return hybridTree.isDescendant(labelInt, id);
 		}
+
+	public void saveState()
+		{
+		hybridTree.saveState();
+		}
 	}
