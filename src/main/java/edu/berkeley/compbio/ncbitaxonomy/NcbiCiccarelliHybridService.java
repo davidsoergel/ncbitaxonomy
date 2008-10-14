@@ -39,6 +39,7 @@ import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +123,7 @@ public class NcbiCiccarelliHybridService
 					}
 				catch (NcbiTaxonomyException e)
 					{
-					logger.warn("Leaf with unknown taxid: " + n.getValue());
+					logger.error("Leaf with unknown taxid: " + n.getValue());
 					}
 				}
 
@@ -141,7 +142,7 @@ public class NcbiCiccarelliHybridService
 					}
 				catch (NcbiTaxonomyException e)
 					{
-					// too bad, ignore that one; probably an internal node
+					// too bad, ignore that one; probably an internal node anyway
 					}
 				}
 			}
@@ -208,7 +209,7 @@ public class NcbiCiccarelliHybridService
 		return ciccarelli.exactDistanceBetween(ciccarelliName1, ciccarelliName2);
 		}
 
-	public boolean isDescendant(Integer labelInt, Integer id) throws PhyloUtilsException
+	public boolean isDescendant(@NotNull Integer labelInt, @NotNull Integer id) throws PhyloUtilsException
 		{
 		return hybridTree.isDescendant(labelInt, id);
 		}
