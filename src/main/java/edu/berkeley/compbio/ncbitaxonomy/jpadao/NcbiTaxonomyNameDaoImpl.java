@@ -126,16 +126,61 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			{
 			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByName")
 					.setParameter("name", name).getSingleResult());
+
+			if (result == null)
+				{
+				throw new NcbiTaxonomyException("Could not find taxon: " + name);
+				}
+			names.put(name, result);
+			return result;
 			}
 		catch (NonUniqueResultException e)
 			{
-			logger.error("Name not unique in database: " + name);
-			throw new NcbiTaxonomyException("Name not unique in database: " + name);
+			logger.error("Name not unique in database; trying unique: " + name);
+			return findByUniqueName(name);
+			//	throw new NcbiTaxonomyException("Name not unique in database: " + name);
+			}
+		catch (NoResultException e)
+			{
+			return findByUniqueName(name);
+			//logger.error("Name not unique in database: " + name);
+			//	throw new NcbiTaxonomyException("Name not found: " + name);
+			}
+		}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public NcbiTaxonomyName findByUniqueName(String name) throws NcbiTaxonomyException
+		{
+		NcbiTaxonomyName result = names.get(name);
+		if (result != null)
+			{
+			return result;
+			}
+		//HibernateDB.getDb().beginTaxn();
+		// Status notstarted = Status.findByName("Waiting");
+
+		/*Query q = PhyloUtils.getNcbiDb().createNamedQuery("NcbiTaxonomyName.findByName");
+		q.setMaxResults(1);
+		q.setParameter("name", name);
+
+		result = (NcbiTaxonomyName) q.getSingleResult();*/
+
+		try
+			{
+			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByUniqueName")
+					.setParameter("name", name).getSingleResult());
+			}
+		catch (NonUniqueResultException e)
+			{
+			logger.error("Impossible: unique name is not unique in database: " + name);
+			throw new NcbiTaxonomyException("Impossible: unique name is not unique in database: " + name);
 			}
 		catch (NoResultException e)
 			{
 			//logger.error("Name not unique in database: " + name);
-			throw new NcbiTaxonomyException("Name not found: " + name);
+			throw new NcbiTaxonomyException("Unique Name not found: " + name);
 			}
 
 		if (result == null)

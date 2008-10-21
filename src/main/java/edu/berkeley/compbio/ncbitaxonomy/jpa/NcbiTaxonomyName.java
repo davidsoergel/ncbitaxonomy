@@ -61,7 +61,9 @@ import javax.persistence.Table;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @NamedQueries({@NamedQuery(
 		name = "NcbiTaxonomyName.findByName",
-		query = "select n from NcbiTaxonomyName n WHERE n.name = :name")})
+		query = "select n from NcbiTaxonomyName n WHERE n.name = :name"), @NamedQuery(
+		name = "NcbiTaxonomyName.findByUniqueName",
+		query = "select n from NcbiTaxonomyName n WHERE n.unique_name = :name")})
 
 // or NONSTRICT_READ_WRITE?
 public class NcbiTaxonomyName extends SpringJpaObject
