@@ -63,7 +63,7 @@ import javax.persistence.Table;
 		name = "NcbiTaxonomyName.findByName",
 		query = "select n from NcbiTaxonomyName n WHERE n.name = :name"), @NamedQuery(
 		name = "NcbiTaxonomyName.findByUniqueName",
-		query = "select n from NcbiTaxonomyName n WHERE n.unique_name = :name")})
+		query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name")})
 
 // or NONSTRICT_READ_WRITE?
 public class NcbiTaxonomyName extends SpringJpaObject
