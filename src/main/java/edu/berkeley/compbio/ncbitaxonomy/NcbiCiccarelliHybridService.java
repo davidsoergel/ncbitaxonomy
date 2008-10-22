@@ -89,7 +89,11 @@ public class NcbiCiccarelliHybridService
 		{
 		if (_instance == null)
 			{
-			makeInstance();
+			if (!loadCachedInstance)
+				{
+				makeInstance();
+				storeCachedInstance();
+				}
 			}
 
 		return _instance;
