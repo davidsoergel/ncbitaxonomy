@@ -117,12 +117,12 @@ public class NcbiTaxonomyServiceImpl
 			}
 		catch (IOException e)
 			{// no problem
-			//e.printStackTrace();
+			e.printStackTrace();
 			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			}
 		catch (ClassNotFoundException e)
 			{// no problem
-			//e.printStackTrace();
+			e.printStackTrace();
 			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			}
 		}
