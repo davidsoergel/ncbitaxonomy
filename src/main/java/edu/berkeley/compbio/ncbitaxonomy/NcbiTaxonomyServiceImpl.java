@@ -39,6 +39,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -70,6 +71,8 @@ public class NcbiTaxonomyServiceImpl
 	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
 	// always the same one anyway
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
+
+	private final Integer HASNOTAXID = -1;
 
 
 	// --------------------------- CONSTRUCTORS ---------------------------
@@ -227,14 +230,25 @@ public class NcbiTaxonomyServiceImpl
 		}
 
 	//@Transactional(propagation = Propagation.REQUIRED)
+	@Nullable
 	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
 		{
 		Integer taxIdA = taxIdByName.get(speciesNameA);
+
 		if (taxIdA == null)
 			{
 			taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
-			taxIdByName.put(speciesNameA, taxIdA);
+			if (taxIdA == null)
+				{
+				taxIdA = HASNOTAXID;
+				}
 			}
+
+		if (taxIdA == HASNOTAXID)
+			{
+			return null;
+			}
+
 		return taxIdA;
 		}
 

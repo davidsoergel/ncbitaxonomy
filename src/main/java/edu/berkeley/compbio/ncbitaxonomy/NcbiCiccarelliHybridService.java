@@ -108,6 +108,7 @@ public class NcbiCiccarelliHybridService
 				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree());
 		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyService);
 		_instance = new NcbiCiccarelliHybridService();
+		_instance.saveState();
 		}
 
 	// ------------------
@@ -170,7 +171,7 @@ public class NcbiCiccarelliHybridService
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
 		//return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
-		return hybridTree.extractTreeWithLeafIDs(ids);
+		return hybridTree.extractTreeWithLeafIDs(ids, true);
 		}
 
 	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
