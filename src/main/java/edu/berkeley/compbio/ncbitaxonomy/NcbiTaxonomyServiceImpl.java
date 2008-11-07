@@ -237,16 +237,21 @@ public class NcbiTaxonomyServiceImpl
 
 		if (taxIdA == null)
 			{
-			taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
-			if (taxIdA == null)
+			try
+				{
+				taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
+				}
+			//if (taxIdA == null)
+			catch (NcbiTaxonomyException e)
 				{
 				taxIdA = HASNOTAXID;
 				}
+			taxIdByName.put(speciesNameA, taxIdA);
 			}
 
-		if (taxIdA == HASNOTAXID)
+		if (taxIdA.equals(HASNOTAXID))
 			{
-			return null;
+			throw new NcbiTaxonomyException("No taxId found for name: " + speciesNameA);
 			}
 
 		return taxIdA;

@@ -44,7 +44,7 @@
 
 	<!--<tx:annotation-driven/>-->
 
-	<!--<aop:spring-configured/>-->  <!-- note we do need there to be an AnnotationBeanConfigurerAspect; this one is comented out because it's a singleton and we're already loading it in a different application context. -->
+	<!--<aop:spring-configured/>-->  <!-- note we do need there to be an AnnotationBeanConfigurerAspect; this one is commented out because it's a singleton and we're already loading it in a different application context. -->
 
 	<tx:advice id="supportsTxAdvice">
 		<tx:attributes>
@@ -73,6 +73,18 @@
 	</tx:advice>
 
 	<aop:config>
+
+		<aop:advisor
+				pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService.extractTreeWithLeafIDs(..))"
+				advice-ref="requiredTxAdvice"/>
+
+		<!--	<aop:advisor
+			  pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.getAncestorPath(..))"
+			  advice-ref="requiredTxAdvice"/>-->
+
+		<!--		<aop:advisor
+			  pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getAncestorPath(..))"
+			  advice-ref="requiredTxAdvice"/>-->
 
 		<aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceImpl.find*(..))"
 		             advice-ref="requiredTxAdvice"/>

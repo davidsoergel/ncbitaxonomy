@@ -84,8 +84,28 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	 */
 	public NcbiTaxonomyNode findById(Integer id)
 		{
-		return entityManager.find(NcbiTaxonomyNode.class, id);
+		NcbiTaxonomyNode node = entityManager.find(NcbiTaxonomyNode.class, id);
+		// eagerly load the path
+		node.getAncestorPath();
+		return node;
 		}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	/*public List<PhylogenyNode<Integer>> getAncestorPath(NcbiTaxonomyNode n)
+		{
+		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();
+		NcbiTaxonomyNode trav = n;
+
+		while (trav != null)
+			{
+			result.add(0, trav);
+			trav = trav.getParent();
+			}
+
+		return result;
+		}*/
 
 	// --------------------- Interface NcbiTaxonomyNodeDao ---------------------
 

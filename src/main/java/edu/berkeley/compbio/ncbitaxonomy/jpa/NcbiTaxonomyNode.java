@@ -42,6 +42,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -313,6 +314,10 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	//** Using the names collection here probably doesn't work
 	// well, not with LAZY loading, but now that it's EAGER it should be OK
 
+
+	// ** gah why can't equals and hashCode depend only on getId?
+	// If there are ever transient nodes that don't have an ID yet, that'sa problem; but the NCBI taxonomy is read-only so that should never occur
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -330,27 +335,34 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 		NcbiTaxonomyNode that = (NcbiTaxonomyNode) o;
 
-		if (names != null ? !names.equals(that.names) : that.names != null)
-			{
-			return false;
-			}
-		if (parent != null ? !parent.equals(that.parent) : that.parent != null)
-			{
-			return false;
-			}
+		return this.getId().equals(that.getId());
+		/*
+				if (names != null ? !names.equals(that.names) : that.names != null)
+					{
+					return false;
+					}
+				if (parent != null ? !parent.equals(that.parent) : that.parent != null)
+					{
+					return false;
+					}
 
-		return true;
+				return true;*/
 		}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
+	//@Transactional
 	public int hashCode()
 		{
 		int result;
+
+		result = getId();
+		/*
 		result = ((parent != null && !parent.getId().equals(this.getId())) ? parent.hashCode() : 0);
 		result = 31 * result + (names != null ? names.hashCode() : 0);
+*/
 
 		return result;
 		}
@@ -429,7 +441,19 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		while (trav != null)
 			{
 			result.add(0, trav);
-			trav = trav.getParent();
+
+			// because the nodes.parent_id columnis notnull, the root node is its own parent.
+			// avoid infinite loop:
+
+			NcbiTaxonomyNode parent = trav.getParent();
+			if (parent == null || trav.getId().equals(parent.getId()))
+				{
+				trav = null;
+				}
+			else
+				{
+				trav = parent;
+				}
 			}
 
 		return result;
@@ -438,9 +462,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	public Double getLength()
 		{
-		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		return null;
+		//throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
 	/**
@@ -454,9 +480,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
+	@Nullable
 	public Double getLargestLengthSpan()
 		{
-		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		return null;
+		//throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
 	/**

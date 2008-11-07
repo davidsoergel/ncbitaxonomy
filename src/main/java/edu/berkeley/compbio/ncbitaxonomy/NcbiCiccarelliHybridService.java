@@ -106,6 +106,10 @@ public class NcbiCiccarelliHybridService
 		ciccarelli = CiccarelliUtils.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree =
 				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree());
+
+		// the root must be node 1, regardless of what children have unknown IDs
+		ciccarelliIntegerTree.setValue(new Integer(1));
+
 		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyService);
 		_instance = new NcbiCiccarelliHybridService();
 		_instance.saveState();
