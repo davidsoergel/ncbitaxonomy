@@ -74,20 +74,22 @@ public class NcbiTaxonomyServiceImpl
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	//private static HibernateDB ncbiDb;	/*
-		{
-		try
-			{
-			logger.info("Initializing NCBI taxonomy database connection...");
-			init();
-			}
-		catch (PhyloUtilsException e)
-			{
-			e.printStackTrace();
-			logger.error(e);
-			}
-		}
-*/
+	//private static HibernateDB ncbiDb;
+
+	/*
+		 {
+		 try
+			 {
+			 logger.info("Initializing NCBI taxonomy database connection...");
+			 init();
+			 }
+		 catch (PhyloUtilsException e)
+			 {
+			 e.printStackTrace();
+			 logger.error(e);
+			 }
+		 }
+ */
 
 
 	/*
