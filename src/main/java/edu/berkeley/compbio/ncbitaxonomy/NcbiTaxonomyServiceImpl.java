@@ -57,8 +57,7 @@ import java.util.Map;
  * @version $Id$
  */
 public class NcbiTaxonomyServiceImpl
-	{
-	// ------------------------------ FIELDS ------------------------------
+	{	// ------------------------------ FIELDS ------------------------------
 
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyServiceImpl.class);
 	private NcbiTaxonomyNameDao ncbiTaxonomyNameDao;
@@ -67,9 +66,7 @@ public class NcbiTaxonomyServiceImpl
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 
-	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.
-	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
-	// always the same one anyway
+	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is	// always the same one anyway
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
 
 	private final Integer HASNOTAXID = -1;
@@ -77,8 +74,7 @@ public class NcbiTaxonomyServiceImpl
 
 	// --------------------------- CONSTRUCTORS ---------------------------
 
-	//private static HibernateDB ncbiDb;
-	/*
+	//private static HibernateDB ncbiDb;	/*
 		{
 		try
 			{
@@ -114,19 +110,21 @@ public class NcbiTaxonomyServiceImpl
 			FileInputStream fin = new FileInputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.cache");
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
-			taxIdByName = (Map<String, Integer>) ois.readObject();
-			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
+			taxIdByName = (Map<String, Integer>) ois
+					.readObject();			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
 			ois.close();
 			}
 		catch (IOException e)
-			{// no problem
-			e.printStackTrace();
+			{// no problem			//e.printStackTrace();
 			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
+			taxIdByNameRelaxed = new HashMap<String, Integer>();
+			taxIdByName = new HashMap<String, Integer>();
 			}
 		catch (ClassNotFoundException e)
-			{// no problem
-			e.printStackTrace();
+			{// no problem			//e.printStackTrace();
 			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
+			taxIdByNameRelaxed = new HashMap<String, Integer>();
+			taxIdByName = new HashMap<String, Integer>();
 			}
 		}
 
@@ -162,8 +160,7 @@ public class NcbiTaxonomyServiceImpl
 
 		 return tree.commonAncestor(knownMergeIds);
 		 }
- */
-	/*
+ */	/*
    public static HibernateDB getNcbiDb()
 	   {
 	   return ncbiDb;
@@ -240,8 +237,7 @@ public class NcbiTaxonomyServiceImpl
 			try
 				{
 				taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
-				}
-			//if (taxIdA == null)
+				}			//if (taxIdA == null)
 			catch (NcbiTaxonomyException e)
 				{
 				taxIdA = HASNOTAXID;
@@ -265,8 +261,7 @@ public class NcbiTaxonomyServiceImpl
 			FileOutputStream fout = new FileOutputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.cache");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(taxIdByNameRelaxed);
-			oos.writeObject(taxIdByName);
-			//	oos.writeObject(nearestKnownAncestorCache);
+			oos.writeObject(taxIdByName);			//	oos.writeObject(nearestKnownAncestorCache);
 			oos.close();
 			}
 		catch (Exception e)
@@ -288,12 +283,10 @@ public class NcbiTaxonomyServiceImpl
 	 * @return
 	 * @throws edu.berkeley.compbio.phyloutils.PhyloUtilsException
 	 *
-	 */
-	//@Transactional(propagation = Propagation.REQUIRED)
+	 */	//@Transactional(propagation = Propagation.REQUIRED)
 	public Integer findNearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws PhyloUtilsException
-		{
-		// ** sanity check that the rootPhylogeny is always the same when using the cache
+		{		// ** sanity check that the rootPhylogeny is always the same when using the cache
 		Integer result = nearestKnownAncestorCache.get(leafId);
 		if (result == null)
 			{
@@ -314,16 +307,13 @@ public class NcbiTaxonomyServiceImpl
 					}
 				n = n.getParent();
 				if (n.getValue() == 1)
-					{
-					// arrived at root, too bad
+					{					// arrived at root, too bad
 					throw new PhyloUtilsException("Taxon " + leafId + " not found in tree.");
-					}
-				//ncbiDb.getEntityManager().refresh(n);
+					}				//ncbiDb.getEntityManager().refresh(n);
 				}
 			result = n.getValue();
 			nearestKnownAncestorCache.put(leafId, result);
-			}
-		//return n.getId();
+			}		//return n.getId();
 		return result;
 		}
 	}
