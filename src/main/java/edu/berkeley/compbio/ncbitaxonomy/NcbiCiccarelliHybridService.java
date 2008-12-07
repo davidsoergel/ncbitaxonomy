@@ -175,7 +175,7 @@ public class NcbiCiccarelliHybridService
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
 		//return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
-		return hybridTree.extractTreeWithLeafIDs(ids, true);
+		return hybridTree.extractTreeWithLeafIDs(ids, false);  // ** why was this true before??
 		}
 
 	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
