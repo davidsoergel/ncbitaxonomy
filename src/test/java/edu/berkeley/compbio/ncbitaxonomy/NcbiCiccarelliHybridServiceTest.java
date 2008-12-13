@@ -62,16 +62,14 @@ public class NcbiCiccarelliHybridServiceTest
 	@Test
 	public void nearestKnownAncestorIntegerWorks() throws PhyloUtilsException
 		{
-		assert NcbiCiccarelliHybridService.getInstance()
-				.nearestKnownAncestor(243277) == 666;
+		assert NcbiCiccarelliHybridService.getInstance().nearestKnownAncestor(243277) == 666;
 		}
 
 	@Test
 	public void exactDistanceBetweenWorks() throws PhyloUtilsException
 		{
 		NcbiCiccarelliHybridService s = NcbiCiccarelliHybridService.getInstance();
-		assert MathUtils.equalWithinFPError(s
-				.exactDistanceBetween(5664, 5741), 1.11275);
+		assert MathUtils.equalWithinFPError(s.exactDistanceBetween(5664, 5741), 1.11275);
 
 
 		double d = s.exactDistanceBetween(s.findTaxidByName("Escherichia coli O6"),
@@ -88,8 +86,7 @@ public class NcbiCiccarelliHybridServiceTest
 	@Test(expectedExceptions = NoSuchElementException.class)
 	public void exactDistanceBetweenThrowsNoSuchElementExceptionOnUnknownTaxid() throws PhyloUtilsException
 		{
-		assert NcbiCiccarelliHybridService.getInstance()
-				.exactDistanceBetween(243277, 666) == 0;
+		assert NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(243277, 666) == 0;
 		}
 
 	@Test
@@ -107,7 +104,7 @@ public class NcbiCiccarelliHybridServiceTest
 		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
-		assert result.getNodes().size() == 7;
+		assert result.getNodes().size() == 6;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
@@ -121,12 +118,12 @@ public class NcbiCiccarelliHybridServiceTest
 
 		leafIds.remove(7147);// this one is internal
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
-		assert result.getNodes().size() == 8;
+		assert result.getNodes().size() == 7;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
 
-	@Test(expectedExceptions = NoSuchElementException.class)
+	@Test(expectedExceptions = PhyloUtilsException.class)
 	public void extractTreeWithLeafIDsForNonCiccarelliNodesIsNotAllowed() throws PhyloUtilsException
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(422676, 244440, 9031, 199202);
