@@ -402,6 +402,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
 
+	public void toNewick(StringBuffer sb, int minClusterSize, double minLabelProb)
+		{
+		throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
+		}
+
 	/**
 	 * Not implemented
 	 */

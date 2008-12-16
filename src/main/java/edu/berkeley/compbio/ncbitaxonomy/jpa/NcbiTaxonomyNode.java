@@ -603,4 +603,10 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			}
 		return "No Scientific Name Available";
 		}
+
+
+	public void toNewick(StringBuffer sb, int minClusterSize, double minLabelProb)
+		{
+		throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
+		}
 	}
