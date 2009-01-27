@@ -157,7 +157,6 @@ public class NcbiCiccarelliHybridService
 			}
 		catch (Throwable e)
 			{
-			e.printStackTrace();
 			logger.error(e);
 			}
 		}

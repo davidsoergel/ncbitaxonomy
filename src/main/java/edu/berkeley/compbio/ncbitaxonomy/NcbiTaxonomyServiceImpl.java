@@ -85,7 +85,6 @@ public class NcbiTaxonomyServiceImpl
 			 }
 		 catch (PhyloUtilsException e)
 			 {
-			 e.printStackTrace();
 			 logger.error(e);
 			 }
 		 }
@@ -117,14 +116,14 @@ public class NcbiTaxonomyServiceImpl
 			ois.close();
 			}
 		catch (IOException e)
-			{// no problem			//e.printStackTrace();
-			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
+			{// no problem
+			logger.warn("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			taxIdByNameRelaxed = new HashMap<String, Integer>();
 			taxIdByName = new HashMap<String, Integer>();
 			}
 		catch (ClassNotFoundException e)
-			{// no problem			//e.printStackTrace();
-			logger.info("Failed to read NcbiTaxonomy cache; will query database from scratch");
+			{// no problem
+			logger.warn("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			taxIdByNameRelaxed = new HashMap<String, Integer>();
 			taxIdByName = new HashMap<String, Integer>();
 			}
@@ -268,7 +267,7 @@ public class NcbiTaxonomyServiceImpl
 			}
 		catch (Exception e)
 			{
-			e.printStackTrace();
+			logger.error(e);
 			}
 		}
 

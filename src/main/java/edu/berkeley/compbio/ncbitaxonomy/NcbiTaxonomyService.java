@@ -159,7 +159,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			}
 		catch (Exception e)
 			{
-			e.printStackTrace();
+			logger.error(e);
 			throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
 			}
 		}
@@ -570,8 +570,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		catch (PhyloUtilsException e)
 			{
 			// impossible
-			logger.debug(e);
-			e.printStackTrace();
+			logger.error(e);
 			throw new Error(e);
 			}
 		return result;
@@ -599,7 +598,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			}
 		catch (NcbiTaxonomyException e)
 			{
-			logger.warn("Integer ID not found for name: " + stringNode.getValue());
+			logger.debug("Integer ID not found for name: " + stringNode.getValue());
 			//id = namer.generate(); //nameInternal(unknownCount)
 			}
 		result.setValue(id);
