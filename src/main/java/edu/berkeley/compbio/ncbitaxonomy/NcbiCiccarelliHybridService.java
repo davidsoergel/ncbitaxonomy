@@ -157,7 +157,7 @@ public class NcbiCiccarelliHybridService
 			}
 		catch (Throwable e)
 			{
-			logger.error(e);
+			logger.error("Error", e);
 			}
 		}
 

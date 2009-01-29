@@ -159,7 +159,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 			}
 		catch (Exception e)
 			{
-			logger.error(e);
+			logger.error("Error", e);
 			throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
 			}
 		}
@@ -570,7 +570,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		catch (PhyloUtilsException e)
 			{
 			// impossible
-			logger.error(e);
+			logger.error("Error", e);
 			throw new Error(e);
 			}
 		return result;

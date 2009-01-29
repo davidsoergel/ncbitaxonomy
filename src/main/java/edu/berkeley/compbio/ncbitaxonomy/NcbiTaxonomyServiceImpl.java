@@ -267,7 +267,7 @@ public class NcbiTaxonomyServiceImpl
 			}
 		catch (Exception e)
 			{
-			logger.error(e);
+			logger.error("Error", e);
 			}
 		}
 
