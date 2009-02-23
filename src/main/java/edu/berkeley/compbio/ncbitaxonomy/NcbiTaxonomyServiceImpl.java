@@ -66,7 +66,9 @@ public class NcbiTaxonomyServiceImpl
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 
-	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is	// always the same one anyway
+	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.
+	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
+	// always the same one anyway
 	private Map<Integer, Integer> nearestKnownAncestorCache = new HashMap<Integer, Integer>();
 
 	private final Integer HASNOTAXID = -1;
