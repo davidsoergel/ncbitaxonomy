@@ -289,7 +289,8 @@ public class NcbiTaxonomyServiceImpl
 	 */	//@Transactional(propagation = Propagation.REQUIRED)
 	public Integer findNearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws PhyloUtilsException
-		{		// ** sanity check that the rootPhylogeny is always the same when using the cache
+		{
+		// ** sanity check that the rootPhylogeny is always the same when using the cache
 		Integer result = nearestKnownAncestorCache.get(leafId);
 		if (result == null)
 			{

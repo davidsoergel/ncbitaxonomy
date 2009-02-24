@@ -41,10 +41,15 @@ import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 
 /**
@@ -62,7 +67,7 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiCiccarelliHybridService
+public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Integer> //, RootedPhylogeny<Integer>
 	{
 	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridService.class);
 
@@ -159,28 +164,117 @@ public class NcbiCiccarelliHybridService
 			{
 			logger.error("Error", e);
 			}
+		readStateIfAvailable();
 		}
+
+	private Map<String, Integer> stringNearestKnownAncestorCache = new HashMap<String, Integer>();
+	private Map<Integer, Integer> integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
+	private Map<Integer, Integer> integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
 
 	public Integer nearestKnownAncestor(String name) throws PhyloUtilsException
 		{
-		return hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByNameRelaxed(name));
+		Integer result = stringNearestKnownAncestorCache.get(name);
+		if (result == null)
+			{
+			result = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByNameRelaxed(name));
+			stringNearestKnownAncestorCache.put(name, result);
+			}
+		return result;
 		}
 
 	public Integer nearestKnownAncestor(Integer id) throws PhyloUtilsException
 		{
-		return hybridTree.nearestKnownAncestor(id);
+		Integer result = integerNearestKnownAncestorCache.get(id);
+		if (result == null)
+			{
+			result = hybridTree.nearestKnownAncestor(id);
+			integerNearestKnownAncestorCache.put(id, result);
+			}
+		return result;
 		}
 
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
+	public Integer nearestAncestorWithBranchLength(Integer id) throws PhyloUtilsException
+		{
+		Integer result = integerNearestAncestorWithBranchLengthCache.get(id);
+		if (result == null)
+			{
+			result = hybridTree.nearestAncestorWithBranchLength(id);
+			integerNearestAncestorWithBranchLengthCache.put(id, result);
+			}
+		return result;
+		}
+
+	private void readStateIfAvailable()
+		{
+		try
+			{
+			FileInputStream fin = new FileInputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.ciccarellihybrid.cache");
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			stringNearestKnownAncestorCache = (Map<String, Integer>) ois.readObject();
+			integerNearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
+			integerNearestAncestorWithBranchLengthCache = (Map<Integer, Integer>) ois.readObject();
+			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
+			ois.close();
+			}
+		catch (IOException e)
+			{// no problem
+			logger.warn("Failed to read NCBI/Ciccarelli hybrid taxonomy cache; will query database from scratch");
+			stringNearestKnownAncestorCache = new HashMap<String, Integer>();
+			integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
+			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
+			}
+		catch (ClassNotFoundException e)
+			{// no problem
+			logger.warn("Failed to read NCBI/Ciccarelli hybrid taxonomy cache; will query database from scratch");
+			stringNearestKnownAncestorCache = new HashMap<String, Integer>();
+			integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
+			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
+			}
+		}
+
+/*	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
 		//return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
 		return hybridTree.extractTreeWithLeafIDs(ids, false);  // ** why was this true before??
+		}*/
+
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids) throws PhyloUtilsException
+		{
+		return hybridTree.extractTreeWithLeafIDs(ids);
+		}
+
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes)
+			throws PhyloUtilsException
+		{
+		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes);
+		}
+
+	public void saveState()
+		{
+		hybridTree.saveState();
+		try
+			{
+			FileOutputStream fout =
+					new FileOutputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.ciccarellihybrid.cache");
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(stringNearestKnownAncestorCache);
+			oos.writeObject(integerNearestKnownAncestorCache);
+			oos.writeObject(
+					integerNearestAncestorWithBranchLengthCache);			//	oos.writeObject(nearestKnownAncestorCache);
+			oos.close();
+			}
+		catch (Exception e)
+			{
+			logger.error("Error", e);
+			}
 		}
 
 	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
 		{
-		int id1 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
-		int id2 = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
+		int id1 = nearestKnownAncestor(
+				name1); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
+		int id2 = nearestKnownAncestor(
+				name2); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
 
 		return exactDistanceBetween(id1, id2);
 		}
@@ -191,10 +285,11 @@ public class NcbiCiccarelliHybridService
 		}
 
 
-	public TaxonMergingPhylogeny<Integer> getTree()
+/*	public TaxonMergingPhylogeny<Integer> getTree()
 		{
 		return hybridTree;
-		}
+		}*/
+
 
 	public double exactDistanceBetween(Integer taxidA, Integer taxidB)
 		{
@@ -220,10 +315,5 @@ public class NcbiCiccarelliHybridService
 	public boolean isDescendant(@NotNull Integer ancestor, @NotNull Integer descendant) throws PhyloUtilsException
 		{
 		return hybridTree.isDescendant(ancestor, descendant);
-		}
-
-	public void saveState()
-		{
-		hybridTree.saveState();
 		}
 	}

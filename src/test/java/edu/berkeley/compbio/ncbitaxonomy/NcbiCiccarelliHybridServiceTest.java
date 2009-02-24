@@ -35,9 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
-import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
-import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
 
@@ -137,14 +135,14 @@ public class NcbiCiccarelliHybridServiceTest
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
 
-	@Test
+/*	@Test
 	public void findNodeByTaxIDInRootPhylogenyWorks()
 		{
 		PhylogenyNode<Integer> n =
 				((HybridRootedPhylogeny<Integer>) NcbiCiccarelliHybridService.getInstance().getTree())
 						.getRootPhylogeny().getNode(666);
 		assert n.getParent().getValue().equals(662);
-		}
+		}*/
 
 	@Test
 	public void findTaxIDByNameWorks() throws NcbiTaxonomyException
