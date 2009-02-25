@@ -316,4 +316,20 @@ public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Intege
 		{
 		return hybridTree.isDescendant(ancestor, descendant);
 		}
+
+	public double greatestDepth(Integer taxidA)
+		{
+		// this is tricky because we don't know which name variant the Ciccarelli tree uses
+		// (if loaded from a file in terms of names rather than IDs).
+
+		// we can't let the Ciccarelli tree deal with the String<->id mapping, because it doesn't have access to NcbiTaxonomyService.
+
+		String ciccarelliName1 = ciccarelliNames.get(taxidA);
+		if (ciccarelliName1 == null)
+			{
+			throw new NoSuchElementException("No such element: " + taxidA);
+			}
+
+		return ciccarelli.greatestDepth(ciccarelliName1);
+		}
 	}

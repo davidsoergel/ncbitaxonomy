@@ -488,6 +488,16 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Nullable
+	public Double getGreatestDepth()
+		{
+		return null;
+		//throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	/**
 	 * Not implemented
 	 */
 	public void registerChild(PhylogenyNode<Integer> a)

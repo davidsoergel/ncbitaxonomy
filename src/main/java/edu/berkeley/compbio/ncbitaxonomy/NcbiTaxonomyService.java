@@ -364,6 +364,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	/**
 	 * Not implemented
 	 */
+	public Double getGreatestDepth()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	/**
+	 * Not implemented
+	 */
 	public void registerChild(PhylogenyNode<Integer> a)
 		{
 		throw new NotImplementedException();
