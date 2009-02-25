@@ -314,6 +314,7 @@ public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Intege
 
 	public boolean isDescendant(@NotNull Integer ancestor, @NotNull Integer descendant) throws PhyloUtilsException
 		{
+		// PERF cache this
 		return hybridTree.isDescendant(ancestor, descendant);
 		}
 
