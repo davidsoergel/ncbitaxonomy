@@ -233,6 +233,16 @@ public class NcbiTaxonomyServiceImpl
 	@Nullable
 	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
 		{
+		//sometimes the taxid is already in the string
+		try
+			{
+			return Integer.parseInt(speciesNameA);
+			}
+		catch (NumberFormatException e)
+			{
+			// no problem, look for it by name then
+			}
+
 		Integer taxIdA = taxIdByName.get(speciesNameA);
 
 		if (taxIdA == null)
