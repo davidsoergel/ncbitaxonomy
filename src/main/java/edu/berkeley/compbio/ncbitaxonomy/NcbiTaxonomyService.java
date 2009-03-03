@@ -38,12 +38,10 @@ import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
-import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -93,7 +91,8 @@ import java.util.Properties;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//extends Singleton<PhyloUtilsService>
+public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
+		implements TaxonomyService<Integer> //extends Singleton<PhyloUtilsService>
 	{
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyService.class);
 	// ------------------------------ FIELDS ------------------------------
@@ -184,7 +183,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	 * @return the taxid for the given name, if found
 	 * @throws NcbiTaxonomyException when the name is not found, or if the name maps to multiple taxids
 	 */
-	public int findTaxidByName(String name) throws NcbiTaxonomyException
+	public Integer findTaxidByName(String name) throws NcbiTaxonomyException
 		{
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
@@ -230,6 +229,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 	 */
 	@Override
 	public double distanceBetween(Integer taxIdA, Integer taxIdB)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
+		}
+
+	/**
+	 * Not implemented
+	 */
+	public Double minDistanceBetween(Integer taxIdA, Integer taxIdB)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
@@ -546,77 +554,6 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>//exten
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 
-	/**
-	 * Maps String names in the given tree to their corresponding taxids, and returns a tree with Integer ids
-	 *
-	 * @param stringTree
-	 * @return
-	 */
-	public RootedPhylogeny<Integer> convertToIntegerIDTree(RootedPhylogeny<String> stringTree)
-		//	throws NcbiTaxonomyException
-		{
-		if (stringTree.getBasePhylogeny() != null)
-			{
-			logger.warn("Converting an extracted subtree from String IDs to Integer IDs; base phylogeny gets lost");
-			}
-
-		if (stringTree.getParent() != null)
-			{
-			logger.warn(
-					"Rooted phylogeny shouldn't have a parent; dropping it in conversion from String IDs to Integer IDs");
-			}
-
-		// this duplicates convertToIntegerIDNode just so we operate on a BasicRootedPhylogeny instead of a PhylogenyNode
-
-		BasicRootedPhylogeny<Integer> result = new BasicRootedPhylogeny<Integer>();
-		copyValuesToNode(stringTree, result.getSelfNode());
-		IntegerNodeNamer namer = new IntegerNodeNamer(10000000);
-		try
-			{
-			result.updateNodes(namer);
-			}
-		catch (PhyloUtilsException e)
-			{
-			// impossible
-			logger.error("Error", e);
-			throw new Error(e);
-			}
-		return result;
-		}
-
-	private PhylogenyNode<Integer> convertToIntegerIDNode(
-			PhylogenyNode<String> stringNode)//throws NcbiTaxonomyException
-		{
-		PhylogenyNode<Integer> result = new BasicPhylogenyNode<Integer>();
-		copyValuesToNode(stringNode, result);
-		return result;
-		}
-
-	private void copyValuesToNode(PhylogenyNode<String> stringNode, PhylogenyNode<Integer> result)
-		{
-		result.setLength(stringNode.getLength());
-
-		result.setWeight(stringNode.getCurrentWeight());
-
-
-		Integer id = null;
-		try
-			{
-			id = findTaxidByName(stringNode.getValue());
-			}
-		catch (NcbiTaxonomyException e)
-			{
-			logger.debug("Integer ID not found for name: " + stringNode.getValue());
-			//id = namer.generate(); //nameInternal(unknownCount)
-			}
-		result.setValue(id);
-
-		for (PhylogenyNode<String> node : stringNode.getChildren())
-			{
-			//result.addChild(convertToIntegerIDNode(node));
-			convertToIntegerIDNode(node).setParent(result);
-			}
-		}
 
 	/**
 	 * {@inheritDoc}

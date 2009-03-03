@@ -34,7 +34,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
-import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
+import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
@@ -102,7 +102,7 @@ public class NcbiCiccarelliHybridServiceTest
 		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
-		assert result.getNodes().size() == 6;
+		assert result.getUniqueIdToNodeMap().size() == 6;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
@@ -116,7 +116,7 @@ public class NcbiCiccarelliHybridServiceTest
 
 		leafIds.remove(7147);// this one is internal
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
-		assert result.getNodes().size() == 7;
+		assert result.getUniqueIdToNodeMap().size() == 7;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
@@ -129,7 +129,7 @@ public class NcbiCiccarelliHybridServiceTest
 		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
-		assert result.getNodes().size() == 7;
+		assert result.getUniqueIdToNodeMap().size() == 7;
 
 		assert MathUtils.equalWithinFPError(result.distanceBetween(422676, 199202),
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
@@ -165,7 +165,7 @@ public class NcbiCiccarelliHybridServiceTest
 	@Test
 	public void ciccarelliTreeIsConvertedToTaxIdTree()
 		{
-		CiccarelliUtils ciccarelli = CiccarelliUtils.getInstance();
+		CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
 				NcbiTaxonomyService.getInstance().convertToIntegerIDTree(ciccarelli.getTree());
 		System.err.println(ciccarelliIntegerTree);

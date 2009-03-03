@@ -32,12 +32,13 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import edu.berkeley.compbio.phyloutils.CiccarelliUtils;
+import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.TaxonMergingPhylogeny;
+import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,12 +68,13 @@ import java.util.NoSuchElementException;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Integer> //, RootedPhylogeny<Integer>
+public class NcbiCiccarelliHybridService
+		implements TaxonomyService<Integer> //TaxonMergingPhylogeny<Integer> //, RootedPhylogeny<Integer>
 	{
 	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridService.class);
 
 	private static NcbiTaxonomyService ncbiTaxonomyService;// = NcbiTaxonomyService.getInstance();
-	private static CiccarelliUtils ciccarelli;// = CiccarelliUtils.getInstance();
+	private static CiccarelliTaxonomyService ciccarelli;// = CiccarelliUtils.getInstance();
 
 	private static HybridRootedPhylogeny<Integer> hybridTree;
 
@@ -108,9 +110,9 @@ public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Intege
 	public static void makeInstance()
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
-		ciccarelli = CiccarelliUtils.getInstance();
-		RootedPhylogeny<Integer> ciccarelliIntegerTree =
-				ncbiTaxonomyService.convertToIntegerIDTree(ciccarelli.getTree());
+		ciccarelli = CiccarelliTaxonomyService.getInstance();
+		RootedPhylogeny<Integer> ciccarelliIntegerTree = ncbiTaxonomyService
+				.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService);
 
 		// the root must be node 1, regardless of what children have unknown IDs
 		ciccarelliIntegerTree.setValue(new Integer(1));
@@ -141,7 +143,7 @@ public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Intege
 					}
 				}
 
-			for (PhylogenyNode<String> n : ciccarelli.getTree().getNodes())
+			for (PhylogenyNode<String> n : ciccarelli.getTree().getUniqueIdToNodeMap())
 				{
 				try
 					{
@@ -166,6 +168,7 @@ public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Intege
 			}
 		readStateIfAvailable();
 		}
+
 
 	private Map<String, Integer> stringNearestKnownAncestorCache = new HashMap<String, Integer>();
 	private Map<Integer, Integer> integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
@@ -268,6 +271,16 @@ public class NcbiCiccarelliHybridService implements TaxonMergingPhylogeny<Intege
 			logger.error("Error", e);
 			}
 		}
+
+
+	public Double minDistanceBetween(Integer id1, Integer id2) throws PhyloUtilsException
+		{
+		id1 = nearestKnownAncestor(id1); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
+		id2 = nearestKnownAncestor(id2); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
+
+		return exactDistanceBetween(id1, id2);
+		}
+
 
 	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
 		{
