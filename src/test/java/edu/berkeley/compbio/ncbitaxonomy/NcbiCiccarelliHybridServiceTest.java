@@ -35,6 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
+import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
@@ -167,7 +168,8 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
-				NcbiTaxonomyService.getInstance().convertToIntegerIDTree(ciccarelli.getTree());
+				NcbiTaxonomyService.getInstance().convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000),
+				                                                  NcbiTaxonomyService.getInstance());
 		System.err.println(ciccarelliIntegerTree);
 		assert ciccarelliIntegerTree.getLeaves().size() > 100;
 		}

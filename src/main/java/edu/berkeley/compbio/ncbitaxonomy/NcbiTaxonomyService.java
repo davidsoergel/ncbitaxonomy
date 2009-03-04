@@ -234,6 +234,23 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
 		}
 
+	@Override
+	public double distanceBetween(PhylogenyNode<Integer> a, PhylogenyNode<Integer> b)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public PhylogenyNode<Integer> nearestAncestorWithBranchLength(PhylogenyNode<Integer> id) throws PhyloUtilsException
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public Double minDistanceBetween(PhylogenyNode<Integer> node1, PhylogenyNode<Integer> node2)
+			throws PhyloUtilsException
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
 	/**
 	 * Not implemented
 	 */
@@ -426,14 +443,6 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Collection<PhylogenyNode<Integer>> getNodes()
-		{
-		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
-		}
-
-	/**
-	 * Not implemented
-	 */
 	public Collection<PhylogenyNode<Integer>> getLeaves()
 		{
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
@@ -451,6 +460,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * Not implemented
 	 */
 	public Collection<Integer> getNodeValues()
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		}
+
+	public Map<Integer, ? extends PhylogenyNode<Integer>> getUniqueIdToNodeMap()
 		{
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
@@ -570,5 +584,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public void appendSubtree(StringBuffer sb, String indent)
 		{
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a String is probably a bad idea");
+		}
+
+	public RootedPhylogeny<Integer> getTree()
+		{
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Tree is probably a bad idea");
+		}
+
+	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws PhyloUtilsException
+		{
+		throw new PhyloUtilsException("Root doesn't have a branch length.");
 		}
 	}

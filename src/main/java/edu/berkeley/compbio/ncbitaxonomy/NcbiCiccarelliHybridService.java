@@ -39,6 +39,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -143,7 +144,7 @@ public class NcbiCiccarelliHybridService
 					}
 				}
 
-			for (PhylogenyNode<String> n : ciccarelli.getTree().getUniqueIdToNodeMap())
+			for (PhylogenyNode<String> n : ciccarelli.getTree().getUniqueIdToNodeMap().values())
 				{
 				try
 					{
@@ -281,6 +282,15 @@ public class NcbiCiccarelliHybridService
 		return exactDistanceBetween(id1, id2);
 		}
 
+/*	public Double minDistanceBetween(PhylogenyNode<Integer> node1, PhylogenyNode<Integer> node2)
+			throws PhyloUtilsException
+		{
+		int id1 = nearestKnownAncestor(node1); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
+		int id2 = nearestKnownAncestor(node2); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
+
+		return exactDistanceBetween(id1, id2);
+		}*/
+
 
 	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
 		{
@@ -331,6 +341,12 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.isDescendant(ancestor, descendant);
 		}
 
+/*	public boolean isDescendant(PhylogenyNode<Integer> ancestor, PhylogenyNode<Integer> descendant)
+			throws PhyloUtilsException
+		{
+		hybridTree.isDescendant(ancestor, descendant);
+		}*/
+
 	public double greatestDepth(Integer taxidA)
 		{
 		// this is tricky because we don't know which name variant the Ciccarelli tree uses
@@ -345,5 +361,22 @@ public class NcbiCiccarelliHybridService
 			}
 
 		return ciccarelli.greatestDepth(ciccarelliName1);
+		}
+
+	public PhylogenyNode<Integer> getRoot()
+		{
+		throw new NotImplementedException();
+		}
+
+
+	public PhylogenyNode<Integer> nearestAncestorWithBranchLength(PhylogenyNode<Integer> id) throws PhyloUtilsException
+		{
+		return null;
+		}
+
+	public RootedPhylogeny<Integer> extractTreeWithLeaves(Collection<PhylogenyNode<Integer>> ids)
+			throws PhyloUtilsException
+		{
+		return null;
 		}
 	}
