@@ -32,11 +32,13 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
+import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import org.apache.commons.lang.NotImplementedException;
@@ -112,8 +114,9 @@ public class NcbiCiccarelliHybridService
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 		ciccarelli = CiccarelliTaxonomyService.getInstance();
-		RootedPhylogeny<Integer> ciccarelliIntegerTree = ncbiTaxonomyService
-				.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService);
+		RootedPhylogeny<Integer> ciccarelliIntegerTree = PhylogenyTypeConverter
+				.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService,
+				                 new HashMultimap<String, Integer>());
 
 		// the root must be node 1, regardless of what children have unknown IDs
 		ciccarelliIntegerTree.setValue(new Integer(1));
