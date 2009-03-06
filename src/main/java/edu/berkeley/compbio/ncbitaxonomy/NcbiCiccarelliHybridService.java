@@ -154,7 +154,7 @@ public class NcbiCiccarelliHybridService
 					String name = n.getValue();
 
 					// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
-					if (!name.contains("subclade"))
+					if (name != null && !name.contains("subclade"))
 						{
 						int id = ncbiTaxonomyService.findTaxidByName(name);
 						ciccarelliNames.put(id, name);

@@ -160,7 +160,7 @@ public class NcbiCiccarelliHybridServiceTest
 		}
 
 	@Test(expectedExceptions = NcbiTaxonomyException.class)
-	public void findTaxIDByUnknownNameThowsException() throws NcbiTaxonomyException
+	public void findTaxIDByUnknownNameThrowsException() throws NcbiTaxonomyException
 		{
 		NcbiCiccarelliHybridService.getInstance().findTaxidByName("This species does not exist");
 		}
