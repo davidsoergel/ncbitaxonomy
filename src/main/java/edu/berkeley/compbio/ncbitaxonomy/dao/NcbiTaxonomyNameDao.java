@@ -37,6 +37,8 @@ import com.davidsoergel.springjpautils.GenericDao;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyException;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
 
+import java.util.Collection;
+
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
@@ -46,6 +48,8 @@ import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
 public interface NcbiTaxonomyNameDao extends GenericDao<NcbiTaxonomyName, Integer>
 	{
 	// -------------------------- OTHER METHODS --------------------------
+
+	Collection<String> findSynonyms(String name) throws NcbiTaxonomyException;
 
 	NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException;
 

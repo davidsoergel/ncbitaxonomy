@@ -59,11 +59,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "names")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({@NamedQuery(
-		name = "NcbiTaxonomyName.findByName",
-		query = "select n from NcbiTaxonomyName n WHERE n.name = :name"), @NamedQuery(
-		name = "NcbiTaxonomyName.findByUniqueName",
-		query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name")})
+@NamedQueries({
+		@NamedQuery(
+				name = "NcbiTaxonomyName.findSynonyms",
+				query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon = m.taxon AND n.name = :name"),
+		@NamedQuery(
+				name = "NcbiTaxonomyName.findByName",
+				query = "select n from NcbiTaxonomyName n WHERE n.name = :name"),
+		@NamedQuery(
+				name = "NcbiTaxonomyName.findByUniqueName",
+				query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name")
+})
 
 // or NONSTRICT_READ_WRITE?
 public class NcbiTaxonomyName extends SpringJpaObject

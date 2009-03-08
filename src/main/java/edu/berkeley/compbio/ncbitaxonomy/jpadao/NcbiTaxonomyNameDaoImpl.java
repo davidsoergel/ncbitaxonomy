@@ -44,7 +44,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -146,6 +148,13 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			//logger.error("Name not unique in database: " + name);
 			//	throw new NcbiTaxonomyException("Name not found: " + name);
 			}
+		}
+
+	public Collection<String> findSynonyms(String name)
+		{
+		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonyms")
+				.setParameter("name", name).getResultList());
+		return result;
 		}
 
 	/**

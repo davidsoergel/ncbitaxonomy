@@ -42,6 +42,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
+import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +93,7 @@ import java.util.Properties;
  * @version $Id$
  */
 public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
-		implements TaxonomyService<Integer> //extends Singleton<PhyloUtilsService>
+		implements TaxonomyService<Integer>, TaxonomySynonymService //extends Singleton<PhyloUtilsService>
 	{
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyService.class);
 	// ------------------------------ FIELDS ------------------------------
@@ -204,10 +205,21 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
 		}
 
+
+	public Collection<String> synonymsOf(String s) throws NcbiTaxonomyException
+		{
+		return ncbiTaxonomyServiceImpl.synonymsOf(s);
+		}
+
+	public Collection<String> synonymsOfParent(String s) throws NcbiTaxonomyException
+		{
+		return ncbiTaxonomyServiceImpl.synonymsOfParent(s);
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	//@Override
 	public PhylogenyNode<Integer> getRoot()
 		{
 		return getNode(1);
@@ -258,6 +270,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
+		}
+
+	public void setSynonymService(TaxonomySynonymService taxonomySynonymService)
+		{
+		throw new NotImplementedException("NCBI taxonomy doesn't currently use other synonym services for any purpose");
 		}
 
 	/**

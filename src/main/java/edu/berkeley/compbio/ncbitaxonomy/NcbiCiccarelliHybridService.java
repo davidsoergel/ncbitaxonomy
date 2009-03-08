@@ -41,6 +41,7 @@ import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
+import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -381,5 +382,12 @@ public class NcbiCiccarelliHybridService
 			throws PhyloUtilsException
 		{
 		return null;
+		}
+
+
+	public void setSynonymService(TaxonomySynonymService taxonomySynonymService)
+		{
+		throw new NotImplementedException(
+				"NCBI/Ciccarelli hybrid taxonomy doesn't currently use other synonym services for any purpose");
 		}
 	}
