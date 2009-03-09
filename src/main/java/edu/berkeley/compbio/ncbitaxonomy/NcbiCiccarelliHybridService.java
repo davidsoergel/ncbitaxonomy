@@ -32,6 +32,8 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.collections.DSCollectionUtils;
+import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
@@ -40,6 +42,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.TaxonMerger;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
@@ -55,6 +58,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 /**
@@ -172,6 +176,17 @@ public class NcbiCiccarelliHybridService
 			logger.error("Error", e);
 			}
 		readStateIfAvailable();
+		}
+
+
+	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
+			throws PhyloUtilsException, TreeException
+		{
+		Map<Integer, Set<Integer>> mergeIdSets =
+				TaxonMerger.merge(hybridTree.getLeafValues(), hybridTree, mergeThreshold);
+		Set<Integer> mergedIds = mergeIdSets.keySet();
+		DSCollectionUtils.retainRandom(mergedIds, numTaxa);
+		return extractTreeWithLeafIDs(mergedIds);
 		}
 
 

@@ -35,6 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.PropertiesUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
+import com.davidsoergel.dsutils.tree.TreeException;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
@@ -113,6 +114,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return instance;
 		}
 
+	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
+			throws PhyloUtilsException, TreeException
+		{
+		throw new NotImplementedException();
+		}
 	// --------------------------- CONSTRUCTORS ---------------------------
 
 	public NcbiTaxonomyService()
