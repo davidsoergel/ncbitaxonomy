@@ -216,6 +216,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceImpl.synonymsOfParent(s);
 		}
 
+	public Collection<String> synonymsOfRelaxed(String s) throws NcbiTaxonomyException
+		{
+		return ncbiTaxonomyServiceImpl.synonymsOfRelaxed(s);
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */

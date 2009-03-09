@@ -64,6 +64,9 @@ import javax.persistence.Table;
 				name = "NcbiTaxonomyName.findSynonyms",
 				query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon = m.taxon AND n.name = :name"),
 		@NamedQuery(
+				name = "NcbiTaxonomyName.findSynonymsOfParent",
+				query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon.parent = m.taxon AND n.name = :name"),
+		@NamedQuery(
 				name = "NcbiTaxonomyName.findByName",
 				query = "select n from NcbiTaxonomyName n WHERE n.name = :name"),
 		@NamedQuery(

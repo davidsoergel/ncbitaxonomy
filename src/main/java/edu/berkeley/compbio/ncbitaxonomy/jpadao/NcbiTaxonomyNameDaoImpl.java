@@ -46,6 +46,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +158,13 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		return result;
 		}
 
+	public Collection<String> findSynonymsOfParent(String name)
+		{
+		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonymsOfParent")
+				.setParameter("name", name).getResultList());
+		return result;
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -234,6 +242,23 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			logger.warn("Relaxed name " + origName + " to " + name);
 			}
 		return result;
+		}
+
+
+	public Collection<String> findSynonymsRelaxed(String name) throws NcbiTaxonomyException
+		{
+		try
+			{
+			String relaxedName = findByNameRelaxed(name).getName();
+			List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonyms")
+					.setParameter("name", relaxedName).getResultList());
+			return result;
+			}
+		catch (NcbiTaxonomyException e)
+			{
+			// nothing found
+			return new HashSet<String>(0);
+			}
 		}
 	}
 

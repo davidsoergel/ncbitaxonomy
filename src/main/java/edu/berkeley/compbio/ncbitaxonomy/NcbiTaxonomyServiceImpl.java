@@ -35,7 +35,6 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
-import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
@@ -49,9 +48,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Provides access to a MySQL database containing the NCBI taxonomy, translating database records into Java objects
@@ -276,14 +273,21 @@ public class NcbiTaxonomyServiceImpl
 		return ncbiTaxonomyNameDao.findSynonyms(s);
 		}
 
+	public Collection<String> synonymsOfRelaxed(String s) throws NcbiTaxonomyException
+		{
+		return ncbiTaxonomyNameDao.findSynonymsRelaxed(s);
+		}
+
 	public Collection<String> synonymsOfParent(String s) throws NcbiTaxonomyException
 		{
-		Set<String> result = new HashSet<String>();
-		for (NcbiTaxonomyName n : ncbiTaxonomyNodeDao.findById(findTaxidByName(s)).getParent().getNames())
-			{
-			result.add(n.getName());
-			}
-		return result;
+		return ncbiTaxonomyNameDao.findSynonymsOfParent(s);
+
+		//	Set<String> result = new HashSet<String>();
+		//	for (NcbiTaxonomyName n : ncbiTaxonomyNodeDao.findById(findTaxidByName(s)).getParent().getNames())
+		//		{
+		//		result.add(n.getName());
+		//		}
+		//	return result;
 		}
 
 
