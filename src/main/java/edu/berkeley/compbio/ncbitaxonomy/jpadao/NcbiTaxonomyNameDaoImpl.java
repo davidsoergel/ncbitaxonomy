@@ -46,7 +46,6 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -151,20 +150,27 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			}
 		}
 
-	public Collection<String> findSynonyms(String name)
+	public Collection<String> findSynonyms(Integer taxid)
+		{
+		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonyms")
+				.setParameter("taxid", taxid).getResultList());
+		return result;
+		}
+	/*public Collection<String> findSynonyms(String name)
 		{
 		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonyms")
 				.setParameter("name", name).getResultList());
 		return result;
-		}
+		}*/
 
-	public Collection<String> findSynonymsOfParent(String name)
-		{
-		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonymsOfParent")
-				.setParameter("name", name).getResultList());
-		return result;
-		}
-
+	/*
+	 public Collection<String> findSynonymsOfParent(String name)
+		 {
+		 List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonymsOfParent")
+				 .setParameter("name", name).getResultList());
+		 return result;
+		 }
+ */
 	/**
 	 * {@inheritDoc}
 	 */
@@ -244,7 +250,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		return result;
 		}
 
-
+/*
 	public Collection<String> findSynonymsRelaxed(String name) throws NcbiTaxonomyException
 		{
 		try
@@ -259,6 +265,6 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			// nothing found
 			return new HashSet<String>(0);
 			}
-		}
+		}*/
 	}
 

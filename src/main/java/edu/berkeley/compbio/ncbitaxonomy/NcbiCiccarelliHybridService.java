@@ -182,8 +182,7 @@ public class NcbiCiccarelliHybridService
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 			throws PhyloUtilsException, TreeException
 		{
-		Map<Integer, Set<Integer>> mergeIdSets =
-				TaxonMerger.merge(hybridTree.getLeafValues(), hybridTree, mergeThreshold);
+		Map<Integer, Set<Integer>> mergeIdSets = TaxonMerger.merge(hybridTree.getLeafValues(), this, mergeThreshold);
 		Set<Integer> mergedIds = mergeIdSets.keySet();
 		DSCollectionUtils.retainRandom(mergedIds, numTaxa);
 		return extractTreeWithLeafIDs(mergedIds);

@@ -49,11 +49,11 @@ public interface NcbiTaxonomyNameDao extends GenericDao<NcbiTaxonomyName, Intege
 	{
 	// -------------------------- OTHER METHODS --------------------------
 
-	Collection<String> findSynonyms(String name);
+	Collection<String> findSynonyms(Integer taxid);
 
-	Collection<String> findSynonymsOfParent(String s);
+//	Collection<String> findSynonymsOfParent(String s);
 
-	Collection<String> findSynonymsRelaxed(String s) throws NcbiTaxonomyException;
+//	Collection<String> findSynonymsRelaxed(String s) throws NcbiTaxonomyException;
 
 
 	NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException;

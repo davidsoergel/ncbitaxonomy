@@ -62,10 +62,7 @@ import javax.persistence.Table;
 @NamedQueries({
 		@NamedQuery(
 				name = "NcbiTaxonomyName.findSynonyms",
-				query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon = m.taxon AND n.name = :name"),
-		@NamedQuery(
-				name = "NcbiTaxonomyName.findSynonymsOfParent",
-				query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon.parent = m.taxon AND n.name = :name"),
+				query = "select n.name from NcbiTaxonomyName n WHERE n.taxon.id = :taxid"),
 		@NamedQuery(
 				name = "NcbiTaxonomyName.findByName",
 				query = "select n from NcbiTaxonomyName n WHERE n.name = :name"),
@@ -73,6 +70,14 @@ import javax.persistence.Table;
 				name = "NcbiTaxonomyName.findByUniqueName",
 				query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name")
 })
+
+/*@NamedQuery(
+		name = "NcbiTaxonomyName.findSynonyms",
+		query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon = m.taxon AND n.name = :name"),
+@NamedQuery(
+		name = "NcbiTaxonomyName.findSynonymsOfParent",
+		query = "select m.name from NcbiTaxonomyName n, NcbiTaxonomyName m WHERE n.taxon.parent = m.taxon AND n.name = :name"),*/
+
 
 // or NONSTRICT_READ_WRITE?
 public class NcbiTaxonomyName extends SpringJpaObject

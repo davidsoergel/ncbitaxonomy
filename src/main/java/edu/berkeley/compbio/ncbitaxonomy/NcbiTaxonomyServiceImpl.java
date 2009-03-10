@@ -48,7 +48,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides access to a MySQL database containing the NCBI taxonomy, translating database records into Java objects
@@ -66,6 +68,8 @@ public class NcbiTaxonomyServiceImpl
 
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
+
+	private Map<Integer, Set<String>> synonyms = new HashMap<Integer, Set<String>>();
 
 	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.
 	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
@@ -116,6 +120,7 @@ public class NcbiTaxonomyServiceImpl
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
 			taxIdByName = (Map<String, Integer>) ois
 					.readObject();			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
+			synonyms = (Map<Integer, Set<String>>) ois.readObject();
 			ois.close();
 			}
 		catch (IOException e)
@@ -123,12 +128,14 @@ public class NcbiTaxonomyServiceImpl
 			logger.warn("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			taxIdByNameRelaxed = new HashMap<String, Integer>();
 			taxIdByName = new HashMap<String, Integer>();
+			synonyms = new HashMap<Integer, Set<String>>();
 			}
 		catch (ClassNotFoundException e)
 			{// no problem
 			logger.warn("Failed to read NcbiTaxonomy cache; will query database from scratch");
 			taxIdByNameRelaxed = new HashMap<String, Integer>();
 			taxIdByName = new HashMap<String, Integer>();
+			synonyms = new HashMap<Integer, Set<String>>();
 			}
 		}
 
@@ -267,27 +274,79 @@ public class NcbiTaxonomyServiceImpl
 		return taxIdA;
 		}
 
+	//@Transactional(propagation = Propagation.REQUIRED)
+	@Nullable
+	public Integer findParentTaxidByName(String speciesNameA) throws NcbiTaxonomyException
+		{
+		//sometimes the taxid is already in the string
+		try
+			{
+			return Integer.parseInt(speciesNameA);
+			}
+		catch (NumberFormatException e)
+			{
+			// no problem, look for it by name then
+			}
+
+		Integer taxIdA = taxIdByName.get(speciesNameA);
+
+		if (taxIdA == null)
+			{
+			try
+				{
+				taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getParent().getId();
+				}			//if (taxIdA == null)
+			catch (NcbiTaxonomyException e)
+				{
+				taxIdA = HASNOTAXID;
+				}
+			taxIdByName.put(speciesNameA, taxIdA);
+			}
+
+		if (taxIdA.equals(HASNOTAXID))
+			{
+			throw new NcbiTaxonomyException("No taxId found for name: " + speciesNameA);
+			}
+
+		return taxIdA;
+		}
+
 
 	public Collection<String> synonymsOf(String s) throws NcbiTaxonomyException
 		{
-		return ncbiTaxonomyNameDao.findSynonyms(s);
+		int taxid = findTaxidByName(s);
+		Set<String> result = synonyms.get(taxid);
+		if (result == null)
+			{
+			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));
+			synonyms.put(taxid, result);
+			}
+		return result;
 		}
 
 	public Collection<String> synonymsOfRelaxed(String s) throws NcbiTaxonomyException
 		{
-		return ncbiTaxonomyNameDao.findSynonymsRelaxed(s);
+		int taxid = findTaxidByNameRelaxed(s);
+		Set<String> result = synonyms.get(taxid);
+		if (result == null)
+			{
+			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));
+			synonyms.put(taxid, result);
+			}
+		return result;
+		//return ncbiTaxonomyNameDao.findSynonymsRelaxed(s);
 		}
 
 	public Collection<String> synonymsOfParent(String s) throws NcbiTaxonomyException
 		{
-		return ncbiTaxonomyNameDao.findSynonymsOfParent(s);
-
-		//	Set<String> result = new HashSet<String>();
-		//	for (NcbiTaxonomyName n : ncbiTaxonomyNodeDao.findById(findTaxidByName(s)).getParent().getNames())
-		//		{
-		//		result.add(n.getName());
-		//		}
-		//	return result;
+		int taxid = findParentTaxidByName(s);
+		Set<String> result = synonyms.get(taxid);
+		if (result == null)
+			{
+			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));
+			synonyms.put(taxid, result);
+			}
+		return result;
 		}
 
 
@@ -299,6 +358,7 @@ public class NcbiTaxonomyServiceImpl
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(taxIdByNameRelaxed);
 			oos.writeObject(taxIdByName);			//	oos.writeObject(nearestKnownAncestorCache);
+			oos.writeObject(synonyms);
 			oos.close();
 			}
 		catch (Exception e)
