@@ -33,6 +33,7 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
@@ -57,7 +58,6 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 
@@ -146,7 +146,7 @@ public class NcbiCiccarelliHybridService
 					String name = n.getValue();
 					int id = ncbiTaxonomyService.findTaxidByName(name);
 					}
-				catch (NcbiTaxonomyException e)
+				catch (NoSuchNodeException e)
 					{
 					logger.error("Leaf with unknown taxid: " + n.getValue());
 					}
@@ -165,7 +165,7 @@ public class NcbiCiccarelliHybridService
 						ciccarelliNames.put(id, name);
 						}
 					}
-				catch (NcbiTaxonomyException e)
+				catch (NoSuchNodeException e)
 					{
 					// too bad, ignore that one; probably an internal node anyway
 					}
@@ -180,7 +180,7 @@ public class NcbiCiccarelliHybridService
 
 
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
-			throws PhyloUtilsException, TreeException
+			throws NoSuchNodeException, TreeException
 		{
 		Map<Integer, Set<Integer>> mergeIdSets = TaxonMerger.merge(hybridTree.getLeafValues(), this, mergeThreshold);
 		Set<Integer> mergedIds = mergeIdSets.keySet();
@@ -193,7 +193,7 @@ public class NcbiCiccarelliHybridService
 	private Map<Integer, Integer> integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
 	private Map<Integer, Integer> integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
 
-	public Integer nearestKnownAncestor(String name) throws PhyloUtilsException
+	public Integer nearestKnownAncestor(String name) throws NoSuchNodeException
 		{
 		Integer result = stringNearestKnownAncestorCache.get(name);
 		if (result == null)
@@ -204,7 +204,7 @@ public class NcbiCiccarelliHybridService
 		return result;
 		}
 
-	public Integer nearestKnownAncestor(Integer id) throws PhyloUtilsException
+	public Integer nearestKnownAncestor(Integer id) throws NoSuchNodeException
 		{
 		Integer result = integerNearestKnownAncestorCache.get(id);
 		if (result == null)
@@ -215,7 +215,7 @@ public class NcbiCiccarelliHybridService
 		return result;
 		}
 
-	public Integer nearestAncestorWithBranchLength(Integer id) throws PhyloUtilsException
+	public Integer nearestAncestorWithBranchLength(Integer id) throws NoSuchNodeException
 		{
 		Integer result = integerNearestAncestorWithBranchLengthCache.get(id);
 		if (result == null)
@@ -260,13 +260,13 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.extractTreeWithLeafIDs(ids, false);  // ** why was this true before??
 		}*/
 
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids) throws PhyloUtilsException
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids) throws NoSuchNodeException
 		{
 		return hybridTree.extractTreeWithLeafIDs(ids);
 		}
 
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes)
-			throws PhyloUtilsException
+			throws NoSuchNodeException
 		{
 		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes);
 		}
@@ -292,7 +292,7 @@ public class NcbiCiccarelliHybridService
 		}
 
 
-	public Double minDistanceBetween(Integer id1, Integer id2) throws PhyloUtilsException
+	public Double minDistanceBetween(Integer id1, Integer id2) throws NoSuchNodeException
 		{
 		id1 = nearestKnownAncestor(id1); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
 		id2 = nearestKnownAncestor(id2); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name2));
@@ -310,7 +310,7 @@ public class NcbiCiccarelliHybridService
 		}*/
 
 
-	public Double minDistanceBetween(String name1, String name2) throws PhyloUtilsException
+	public Double minDistanceBetween(String name1, String name2) throws NoSuchNodeException
 		{
 		int id1 = nearestKnownAncestor(
 				name1); //hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByName(name1));
@@ -320,7 +320,7 @@ public class NcbiCiccarelliHybridService
 		return exactDistanceBetween(id1, id2);
 		}
 
-	public Integer findTaxidByName(String name) throws NcbiTaxonomyException
+	public Integer findTaxidByName(String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyService.findTaxidByName(name);
 		}
@@ -332,7 +332,7 @@ public class NcbiCiccarelliHybridService
 		}*/
 
 
-	public double exactDistanceBetween(Integer taxidA, Integer taxidB)
+	public double exactDistanceBetween(Integer taxidA, Integer taxidB) throws NoSuchNodeException
 		{
 		// this is tricky because we don't know which name variant the Ciccarelli tree uses
 		// (if loaded from a file in terms of names rather than IDs).
@@ -342,18 +342,18 @@ public class NcbiCiccarelliHybridService
 		String ciccarelliName1 = ciccarelliNames.get(taxidA);
 		if (ciccarelliName1 == null)
 			{
-			throw new NoSuchElementException("No such element: " + taxidA);
+			throw new NoSuchNodeException("No such element: " + taxidA);
 			}
 		String ciccarelliName2 = ciccarelliNames.get(taxidB);
 		if (ciccarelliName2 == null)
 			{
-			throw new NoSuchElementException("No such element: " + taxidB);
+			throw new NoSuchNodeException("No such element: " + taxidB);
 			}
 
 		return ciccarelli.exactDistanceBetween(ciccarelliName1, ciccarelliName2);
 		}
 
-	public boolean isDescendant(@NotNull Integer ancestor, @NotNull Integer descendant) throws PhyloUtilsException
+	public boolean isDescendant(@NotNull Integer ancestor, @NotNull Integer descendant) throws NoSuchNodeException
 		{
 		// PERF cache this
 		return hybridTree.isDescendant(ancestor, descendant);
@@ -365,7 +365,7 @@ public class NcbiCiccarelliHybridService
 		hybridTree.isDescendant(ancestor, descendant);
 		}*/
 
-	public double greatestDepth(Integer taxidA)
+	public double greatestDepth(Integer taxidA) throws NoSuchNodeException
 		{
 		// this is tricky because we don't know which name variant the Ciccarelli tree uses
 		// (if loaded from a file in terms of names rather than IDs).
@@ -375,7 +375,7 @@ public class NcbiCiccarelliHybridService
 		String ciccarelliName1 = ciccarelliNames.get(taxidA);
 		if (ciccarelliName1 == null)
 			{
-			throw new NoSuchElementException("No such element: " + taxidA);
+			throw new NoSuchNodeException("No such element: " + taxidA);
 			}
 
 		return ciccarelli.greatestDepth(ciccarelliName1);

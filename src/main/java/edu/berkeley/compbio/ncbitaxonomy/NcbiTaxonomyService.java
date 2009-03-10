@@ -35,11 +35,12 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.PropertiesUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
-import com.davidsoergel.dsutils.tree.TreeException;
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
@@ -60,7 +61,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 
 /**
@@ -115,7 +115,6 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		}
 
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
-			throws PhyloUtilsException, TreeException
 		{
 		throw new NotImplementedException();
 		}
@@ -190,7 +189,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * @return the taxid for the given name, if found
 	 * @throws NcbiTaxonomyException when the name is not found, or if the name maps to multiple taxids
 	 */
-	public Integer findTaxidByName(String name) throws NcbiTaxonomyException
+	public Integer findTaxidByName(String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
 		}
@@ -204,25 +203,25 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * @param name the name of the taxon, with a prefix matching any name in the NCBI names table (including scientific
 	 *             names, misspellings, etc.)
 	 * @return the taxid for the given name, if found
-	 * @throws NcbiTaxonomyException when the name is not found, or if the name maps to multiple taxids
+	 * @throws NoSuchNodeException when the name is not found, or if the name maps to multiple taxids
 	 */
-	public int findTaxidByNameRelaxed(String name) throws NcbiTaxonomyException
+	public int findTaxidByNameRelaxed(String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
 		}
 
 
-	public Collection<String> synonymsOf(String s) throws NcbiTaxonomyException
+	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.synonymsOf(s);
 		}
 
-	public Collection<String> synonymsOfParent(String s) throws NcbiTaxonomyException
+	public Collection<String> synonymsOfParent(String s) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.synonymsOfParent(s);
 		}
 
-	public Collection<String> synonymsOfRelaxed(String s) throws NcbiTaxonomyException
+	public Collection<String> synonymsOfRelaxed(String s) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.synonymsOfRelaxed(s);
 		}
@@ -233,7 +232,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	//@Override
 	public PhylogenyNode<Integer> getRoot()
 		{
-		return getNode(1);
+		try
+			{
+			return getNode(1);
+			}
+		catch (NoSuchNodeException e)
+			{
+			logger.error("Ncbi taxonomy has no root!", e);
+			throw new PhyloUtilsRuntimeException(e, "Ncbi taxonomy has no root!");
+			}
 		}
 
 	/*	public Integer commonAncestor(Set<Integer> knownMergeIds)
@@ -263,7 +270,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
-	public PhylogenyNode<Integer> nearestAncestorWithBranchLength(PhylogenyNode<Integer> id) throws PhyloUtilsException
+	public PhylogenyNode<Integer> nearestAncestorWithBranchLength(PhylogenyNode<Integer> id)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
@@ -291,7 +298,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * {@inheritDoc}
 	 */
-	public PhylogenyNode<Integer> getNode(Integer taxid)//throws NcbiTaxonomyException
+	@NotNull
+	public PhylogenyNode<Integer> getNode(Integer taxid) throws NoSuchNodeException//throws NcbiTaxonomyException
 		{
 		try
 			{
@@ -299,9 +307,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 			}
 		catch (NoResultException e)
 			{
+			throw new NoSuchNodeException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
 			//return null;
 			//throw new NcbiTaxonomyException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
-			throw new NoSuchElementException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
+
+			//throw new NoSuchElementException("Taxon " + taxid + " does not exist in the NCBI taxonomy.");
 			}
 		}
 
@@ -314,18 +324,20 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 				 return ncbiTaxonomyServiceImpl.extractTreeWithLeaves(ids);
 				 }
 		 */
+	@NotNull
 	public Collection<? extends PhylogenyNode<Integer>> getChildren()
 		{
-		return getNode(1).getChildren();
+
+		return getRoot().getChildren();
 		}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@NotNull
-	public PhylogenyNode<Integer> getChild(Integer id)
+	public PhylogenyNode<Integer> getChild(Integer id) throws NoSuchNodeException
 		{
-		return getNode(1).getChild(id);
+		return getRoot().getChild(id);
 		}
 
 	/**
@@ -385,7 +397,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		// this is the root node
 		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();
 
-		result.add(0, getNode(1));
+		result.add(0, getRoot());
 
 		return result;
 		}
@@ -501,7 +513,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * {@inheritDoc}
 	 */
 	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
-			throws PhyloUtilsException
+			throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.findNearestKnownAncestor(rootPhylogeny, leafId);
 		}
@@ -509,7 +521,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Integer nearestAncestorWithBranchLength(Integer leafId) throws PhyloUtilsException
+	public Integer nearestAncestorWithBranchLength(Integer leafId)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
@@ -602,7 +614,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 */
 	public PhylogenyNode<Integer> getSelfNode()
 		{
-		return getNode(1);
+		return getRoot();
 		}
 
 
@@ -619,8 +631,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Tree is probably a bad idea");
 		}
 
-	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws PhyloUtilsException
+	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws NoSuchNodeException
 		{
-		throw new PhyloUtilsException("Root doesn't have a branch length.");
+		throw new NoSuchNodeException("Root doesn't have a branch length.");
 		}
 	}

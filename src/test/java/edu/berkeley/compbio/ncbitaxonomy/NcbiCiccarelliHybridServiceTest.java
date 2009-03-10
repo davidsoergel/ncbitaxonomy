@@ -34,6 +34,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
@@ -42,7 +43,6 @@ import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
 
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 
@@ -53,7 +53,7 @@ import java.util.Set;
 public class NcbiCiccarelliHybridServiceTest
 	{
 	@Test
-	public void nearestKnownAncestorStringWorks() throws PhyloUtilsException
+	public void nearestKnownAncestorStringWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridService.getInstance()
 				.nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961") == 666;//243277)
@@ -61,13 +61,13 @@ public class NcbiCiccarelliHybridServiceTest
 
 
 	@Test
-	public void nearestKnownAncestorIntegerWorks() throws PhyloUtilsException
+	public void nearestKnownAncestorIntegerWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridService.getInstance().nearestKnownAncestor(243277) == 666;
 		}
 
 	@Test
-	public void exactDistanceBetweenWorks() throws PhyloUtilsException
+	public void exactDistanceBetweenWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		NcbiCiccarelliHybridService s = NcbiCiccarelliHybridService.getInstance();
 		assert MathUtils.equalWithinFPError(s.exactDistanceBetween(5664, 5741), 1.11275);
@@ -84,21 +84,22 @@ public class NcbiCiccarelliHybridServiceTest
 		}
 
 
-	@Test(expectedExceptions = NoSuchElementException.class)
-	public void exactDistanceBetweenThrowsNoSuchElementExceptionOnUnknownTaxid() throws PhyloUtilsException
+	@Test(expectedExceptions = NoSuchNodeException.class)
+	public void exactDistanceBetweenThrowsNoSuchNodeExceptionOnUnknownTaxid()
+			throws PhyloUtilsException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(243277, 666) == 0;
 		}
 
 	@Test
-	public void minDistanceBetweenWorks() throws PhyloUtilsException
+	public void minDistanceBetweenWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridService.getInstance()
 				.minDistanceBetween("Vibrio cholerae O1 biovar eltor str. N16961", "Vibrio cholerae") == 0;
 		}
 
 	@Test
-	public void extractTreeWithLeafIDsWorksForCiccarelliNodes() throws PhyloUtilsException
+	public void extractTreeWithLeafIDsWorksForCiccarelliNodes() throws PhyloUtilsException, NoSuchNodeException
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7227, 9031, 317);
 
@@ -111,7 +112,8 @@ public class NcbiCiccarelliHybridServiceTest
 		}
 
 	@Test
-	public void extractTreeWithLeafIDsWorksForCiccarelliNodesWhenArgumentsAreNotAllLeaves() throws PhyloUtilsException
+	public void extractTreeWithLeafIDsWorksForCiccarelliNodesWhenArgumentsAreNotAllLeaves()
+			throws PhyloUtilsException, NoSuchNodeException
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7147, 7227, 9031, 317);
 
@@ -124,8 +126,9 @@ public class NcbiCiccarelliHybridServiceTest
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
 
-	@Test(expectedExceptions = PhyloUtilsException.class)
-	public void extractTreeWithLeafIDsForNonCiccarelliNodesIsNotAllowed() throws PhyloUtilsException
+	@Test(expectedExceptions = NoSuchNodeException.class)
+	public void extractTreeWithLeafIDsForNonCiccarelliNodesIsNotAllowed()
+			throws PhyloUtilsException, NoSuchNodeException
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(422676, 244440, 9031, 199202);
 
@@ -148,7 +151,7 @@ public class NcbiCiccarelliHybridServiceTest
 		}*/
 
 	@Test
-	public void findTaxIDByNameWorks() throws NcbiTaxonomyException
+	public void findTaxIDByNameWorks() throws NcbiTaxonomyException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridService.getInstance().findTaxidByName("Vibrio cholerae") == 666;
 
@@ -159,8 +162,8 @@ public class NcbiCiccarelliHybridServiceTest
 				== 10304;
 		}
 
-	@Test(expectedExceptions = NcbiTaxonomyException.class)
-	public void findTaxIDByUnknownNameThrowsException() throws NcbiTaxonomyException
+	@Test(expectedExceptions = NoSuchNodeException.class)
+	public void findTaxIDByUnknownNameThrowsException() throws NcbiTaxonomyException, NoSuchNodeException
 		{
 		NcbiCiccarelliHybridService.getInstance().findTaxidByName("This species does not exist");
 		}

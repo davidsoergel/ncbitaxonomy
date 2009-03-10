@@ -33,6 +33,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import org.testng.annotations.Test;
 
 
@@ -52,7 +53,7 @@ public class NcbiTaxonomyServiceTest
 	{
 
 	@Test
-	public void findTaxonByNameWorks() throws NcbiTaxonomyException
+	public void findTaxonByNameWorks() throws NcbiTaxonomyException, NoSuchNodeException
 		{
 		//assert ncbiTaxonomyNameDao.findByName("Myxococcus xanthus").getTaxon().getTaxId() == 34;
 		assert NcbiTaxonomyService.getInstance().findTaxidByName("Myxococcus xanthus") == 34;

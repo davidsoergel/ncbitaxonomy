@@ -33,11 +33,13 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.jpadao;
 
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.GenericDaoImpl;
-import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyException;
+import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyRuntimeException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -94,9 +96,16 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	public NcbiTaxonomyName findById(Integer id)
 		{
-		return entityManager.find(NcbiTaxonomyName.class, id);
+		NcbiTaxonomyName result = entityManager.find(NcbiTaxonomyName.class, id);
+		if (result == null)
+			{
+			throw new NoResultException("Could not find taxon: " + id);
+			//throw new NoSuchElementException();
+			}
+		return result;
 		}
 
 	// --------------------- Interface NcbiTaxonomyNameDao ---------------------
@@ -108,7 +117,8 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	/**
 	 * {@inheritDoc}
 	 */
-	public NcbiTaxonomyName findByName(String name) throws NcbiTaxonomyException
+	@NotNull
+	public NcbiTaxonomyName findByName(String name) throws NoSuchNodeException
 		{
 		NcbiTaxonomyName result = names.get(name);
 		if (result != null)
@@ -128,11 +138,11 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			{
 			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByName")
 					.setParameter("name", name).getSingleResult());
-
-			if (result == null)
+			assert result != null;
+			/*if (result == null)
 				{
-				throw new NcbiTaxonomyException("Could not find taxon: " + name);
-				}
+				throw new NoSuchNodeException("Could not find taxon: " + name);
+				}*/
 			names.put(name, result);
 			return result;
 			}
@@ -150,6 +160,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			}
 		}
 
+	@NotNull
 	public Collection<String> findSynonyms(Integer taxid)
 		{
 		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonyms")
@@ -171,10 +182,12 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		 return result;
 		 }
  */
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public NcbiTaxonomyName findByUniqueName(String name) throws NcbiTaxonomyException
+	@NotNull
+	public NcbiTaxonomyName findByUniqueName(String name) throws NoSuchNodeException
 		{
 		NcbiTaxonomyName result = names.get(name);
 		if (result != null)
@@ -198,18 +211,18 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		catch (NonUniqueResultException e)
 			{
 			logger.error("Impossible: unique name is not unique in database: " + name);
-			throw new NcbiTaxonomyException("Impossible: unique name is not unique in database: " + name);
+			throw new NcbiTaxonomyRuntimeException("Impossible: unique name is not unique in database: " + name);
 			}
 		catch (NoResultException e)
 			{
 			//logger.error("Name not unique in database: " + name);
-			throw new NcbiTaxonomyException("Unique Name not found: " + name);
+			throw new NoSuchNodeException("Unique Name not found: " + name);
 			}
-
-		if (result == null)
-			{
-			throw new NcbiTaxonomyException("Could not find taxon: " + name);
-			}
+		assert result != null;
+		/*	if (result == null)
+		   {
+		   throw new NcbiTaxonomyException("Could not find taxon: " + name);
+		   }*/
 		names.put(name, result);
 		return result;
 		}
@@ -218,7 +231,8 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	 * {@inheritDoc}
 	 */
 	//@Transactional(propagation = Propagation.MANDATORY)
-	public NcbiTaxonomyName findByNameRelaxed(String name) throws NcbiTaxonomyException
+	@NotNull
+	public NcbiTaxonomyName findByNameRelaxed(String name) throws NoSuchNodeException
 		{
 		NcbiTaxonomyName result = null;
 		String origName = name;
@@ -241,7 +255,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			}
 		catch (IndexOutOfBoundsException e)
 			{
-			throw new NcbiTaxonomyException("Could not find taxon: " + name);
+			throw new NoSuchNodeException("Could not find taxon: " + name);
 			}
 		if (!name.equals(origName))
 			{

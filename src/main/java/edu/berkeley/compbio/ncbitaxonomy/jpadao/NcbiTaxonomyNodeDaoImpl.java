@@ -36,9 +36,11 @@ package edu.berkeley.compbio.ncbitaxonomy.jpadao;
 import com.davidsoergel.springjpautils.GenericDaoImpl;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 
@@ -82,9 +84,14 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	public NcbiTaxonomyNode findById(Integer id)
 		{
 		NcbiTaxonomyNode node = entityManager.find(NcbiTaxonomyNode.class, id);
+		if (node == null)
+			{
+			throw new NoResultException("Could not find taxon: " + id);
+			}
 		// eagerly load the path
 		node.getAncestorPath();
 		return node;

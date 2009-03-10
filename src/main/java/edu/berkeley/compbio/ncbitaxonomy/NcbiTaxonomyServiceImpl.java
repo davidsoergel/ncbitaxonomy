@@ -33,14 +33,16 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.persistence.NoResultException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -226,7 +228,7 @@ public class NcbiTaxonomyServiceImpl
 
 	//@Transactional(propagation = Propagation.REQUIRED)
 
-	public Integer findTaxidByNameRelaxed(String speciesNameA) throws NcbiTaxonomyException
+	public Integer findTaxidByNameRelaxed(String speciesNameA) throws NoSuchNodeException
 		{
 		Integer taxIdA = taxIdByNameRelaxed.get(speciesNameA);
 		if (taxIdA == null)
@@ -239,7 +241,7 @@ public class NcbiTaxonomyServiceImpl
 
 	//@Transactional(propagation = Propagation.REQUIRED)
 	@Nullable
-	public Integer findTaxidByName(String speciesNameA) throws NcbiTaxonomyException
+	public Integer findTaxidByName(String speciesNameA) throws NoSuchNodeException
 		{
 		//sometimes the taxid is already in the string
 		try
@@ -259,7 +261,7 @@ public class NcbiTaxonomyServiceImpl
 				{
 				taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getId();
 				}			//if (taxIdA == null)
-			catch (NcbiTaxonomyException e)
+			catch (NoSuchNodeException e)
 				{
 				taxIdA = HASNOTAXID;
 				}
@@ -268,7 +270,7 @@ public class NcbiTaxonomyServiceImpl
 
 		if (taxIdA.equals(HASNOTAXID))
 			{
-			throw new NcbiTaxonomyException("No taxId found for name: " + speciesNameA);
+			throw new NoSuchNodeException("No taxId found for name: " + speciesNameA);
 			}
 
 		return taxIdA;
@@ -276,7 +278,7 @@ public class NcbiTaxonomyServiceImpl
 
 	//@Transactional(propagation = Propagation.REQUIRED)
 	@Nullable
-	public Integer findParentTaxidByName(String speciesNameA) throws NcbiTaxonomyException
+	public Integer findParentTaxidByName(String speciesNameA) throws NoSuchNodeException
 		{
 		//sometimes the taxid is already in the string
 		try
@@ -296,7 +298,7 @@ public class NcbiTaxonomyServiceImpl
 				{
 				taxIdA = ncbiTaxonomyNameDao.findByName(speciesNameA).getTaxon().getParent().getId();
 				}			//if (taxIdA == null)
-			catch (NcbiTaxonomyException e)
+			catch (NoSuchNodeException e)
 				{
 				taxIdA = HASNOTAXID;
 				}
@@ -305,14 +307,14 @@ public class NcbiTaxonomyServiceImpl
 
 		if (taxIdA.equals(HASNOTAXID))
 			{
-			throw new NcbiTaxonomyException("No taxId found for name: " + speciesNameA);
+			throw new NoSuchNodeException("No taxId found for name: " + speciesNameA);
 			}
 
 		return taxIdA;
 		}
 
 
-	public Collection<String> synonymsOf(String s) throws NcbiTaxonomyException
+	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
 		{
 		int taxid = findTaxidByName(s);
 		Set<String> result = synonyms.get(taxid);
@@ -324,7 +326,7 @@ public class NcbiTaxonomyServiceImpl
 		return result;
 		}
 
-	public Collection<String> synonymsOfRelaxed(String s) throws NcbiTaxonomyException
+	public Collection<String> synonymsOfRelaxed(String s) throws NoSuchNodeException
 		{
 		int taxid = findTaxidByNameRelaxed(s);
 		Set<String> result = synonyms.get(taxid);
@@ -337,7 +339,7 @@ public class NcbiTaxonomyServiceImpl
 		//return ncbiTaxonomyNameDao.findSynonymsRelaxed(s);
 		}
 
-	public Collection<String> synonymsOfParent(String s) throws NcbiTaxonomyException
+	public Collection<String> synonymsOfParent(String s) throws NoSuchNodeException
 		{
 		int taxid = findParentTaxidByName(s);
 		Set<String> result = synonyms.get(taxid);
@@ -368,9 +370,17 @@ public class NcbiTaxonomyServiceImpl
 		}
 
 	//@Transactional(propagation = Propagation.REQUIRED)
-	public PhylogenyNode findNode(Integer taxid)
+	@NotNull
+	public PhylogenyNode findNode(Integer taxid) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyNodeDao.findById(taxid);
+		try
+			{
+			return ncbiTaxonomyNodeDao.findById(taxid);
+			}
+		catch (NoResultException e)
+			{
+			throw new NoSuchNodeException(e);
+			}
 		}
 
 	/**
@@ -382,7 +392,7 @@ public class NcbiTaxonomyServiceImpl
 	 *
 	 */	//@Transactional(propagation = Propagation.REQUIRED)
 	public Integer findNearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
-			throws PhyloUtilsException
+			throws NoSuchNodeException
 		{
 		// ** sanity check that the rootPhylogeny is always the same when using the cache
 		Integer result = nearestKnownAncestorCache.get(leafId);
@@ -392,22 +402,33 @@ public class NcbiTaxonomyServiceImpl
 
 			n = findNode(leafId);
 
-			if (n == null)
+			/*if (n == null)
 				{
-				throw new PhyloUtilsException("Leaf phylogeny does not contain node " + leafId + ".");
-				}
+				throw new NoSuchNodeException("Leaf phylogeny does not contain node " + leafId + ".");
+				}*/
 
-			while (rootPhylogeny.getNode(n.getValue()) == null)
+			//while (rootPhylogeny.getNode(n.getValue()) == null)
+			while (true)
 				{
-				if (logger.isDebugEnabled())
+				try
 					{
-					logger.debug("Node " + n + " not in root tree, trying parent: " + n.getParent());
+					rootPhylogeny.getNode(n.getValue());
+
+					// if we got here, we found a node
+					break;
 					}
-				n = n.getParent();
-				if (n.getValue() == 1)
-					{					// arrived at root, too bad
-					throw new PhyloUtilsException("Taxon " + leafId + " not found in tree.");
-					}				//ncbiDb.getEntityManager().refresh(n);
+				catch (NoSuchNodeException e)
+					{
+					if (logger.isDebugEnabled())
+						{
+						logger.debug("Node " + n + " not in root tree, trying parent: " + n.getParent());
+						}
+					n = n.getParent();
+					if (n.getValue() == 1)
+						{					// arrived at root, too bad
+						throw new NoSuchNodeException("Taxon " + leafId + " not found in tree.");
+						}				//ncbiDb.getEntityManager().refresh(n);
+					}
 				}
 			result = n.getValue();
 			nearestKnownAncestorCache.put(leafId, result);

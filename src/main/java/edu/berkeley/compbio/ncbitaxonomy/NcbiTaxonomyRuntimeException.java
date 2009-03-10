@@ -30,33 +30,40 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package edu.berkeley.compbio.ncbitaxonomy;
 
-package edu.berkeley.compbio.ncbitaxonomy.dao;
-
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
-import com.davidsoergel.springjpautils.GenericDao;
-import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
-
-import java.util.Collection;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
+import org.apache.log4j.Logger;
 
 
 /**
+ * This exception is thrown when something goes wrong when accessing the NCBI taxonomy database.
+ *
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
 
-public interface NcbiTaxonomyNameDao extends GenericDao<NcbiTaxonomyName, Integer>
+public class NcbiTaxonomyRuntimeException extends PhyloUtilsRuntimeException
 	{
-	// -------------------------- OTHER METHODS --------------------------
+	// ------------------------------ FIELDS ------------------------------
 
-	Collection<String> findSynonyms(Integer taxid);
-
-//	Collection<String> findSynonymsOfParent(String s);
-
-//	Collection<String> findSynonymsRelaxed(String s) throws NcbiTaxonomyException;
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyRuntimeException.class);
 
 
-	NcbiTaxonomyName findByName(String name) throws NoSuchNodeException;
+	// --------------------------- CONSTRUCTORS ---------------------------
 
-	NcbiTaxonomyName findByNameRelaxed(String name) throws NoSuchNodeException;
+	public NcbiTaxonomyRuntimeException(String s)
+		{
+		super(s);
+		}
+
+	public NcbiTaxonomyRuntimeException(Exception e)
+		{
+		super(e);
+		}
+
+	public NcbiTaxonomyRuntimeException(Exception e, String s)
+		{
+		super(e, s);
+		}
 	}

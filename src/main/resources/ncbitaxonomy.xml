@@ -68,7 +68,7 @@
     <tx:advice id="noRollbackTxAdvice">
         <tx:attributes>
             <tx:method name="*" no-rollback-for="{javax.persistence.NoResultException.class,
-	//		               javax.persistence.EntityNotFoundException.class}" propagation="REQUIRED"/>
+			               javax.persistence.EntityNotFoundException.class}" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
 

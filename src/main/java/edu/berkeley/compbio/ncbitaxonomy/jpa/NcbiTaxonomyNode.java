@@ -34,8 +34,8 @@
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
+import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.SpringJpaObject;
-import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.commons.lang.NotImplementedException;
@@ -57,7 +57,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 
@@ -383,7 +382,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 * {@inheritDoc}
 	 */
 	@NotNull
-	public PhylogenyNode<Integer> getChild(Integer id)
+	public PhylogenyNode<Integer> getChild(Integer id) throws NoSuchNodeException
 		{
 		// We could map the children collection as a Map; but that's some hassle, and since there are generally just 2 children anyway, this is simpler
 
@@ -394,7 +393,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 				return child;
 				}
 			}
-		throw new NoSuchElementException();
+		throw new NoSuchNodeException("Could not find child: " + id);
 		}
 
 	public int getMitochondrialGeneticCodeId()
@@ -573,7 +572,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
-	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws PhyloUtilsException
+	public PhylogenyNode<Integer> nearestAncestorWithBranchLength()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
