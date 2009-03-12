@@ -246,7 +246,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 					result = findByName(name);
 					break;
 					}
-				catch (NoResultException e)
+				catch (NoSuchNodeException e)
 					{
 					oldname = name;
 					name = name.substring(0, name.lastIndexOf(" "));

@@ -98,7 +98,22 @@ public class NcbiCiccarelliHybridService
 	private static NcbiCiccarelliHybridService _instance;//= new NcbiCiccarelliHybridService();
 
 
+	public boolean isLeaf(Integer leafId) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyService.isLeaf(leafId);
+		}
+
 	// -------------------------- STATIC METHODS --------------------------
+
+	public static NcbiCiccarelliHybridService getInjectedInstance()
+		{
+		return getInstance();
+		}
+
+	public static void setInjectedInstance(NcbiCiccarelliHybridService o)
+		{
+		throw new Error("Impossible");
+		}
 
 	public static NcbiCiccarelliHybridService getInstance()
 		{
@@ -182,7 +197,9 @@ public class NcbiCiccarelliHybridService
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 			throws NoSuchNodeException, TreeException
 		{
+		//return ciccarelli.getRandomSubtree(numTaxa, mergeThreshold);
 		Map<Integer, Set<Integer>> mergeIdSets = TaxonMerger.merge(hybridTree.getLeafValues(), this, mergeThreshold);
+		//Map<Integer, Set<Integer>> mergeIdSets = TaxonMerger.merge(ciccarelli.getTree().getLeafValues(), this, mergeThreshold);
 		Set<Integer> mergedIds = mergeIdSets.keySet();
 		DSCollectionUtils.retainRandom(mergedIds, numTaxa);
 		return extractTreeWithLeafIDs(mergedIds);
@@ -401,7 +418,7 @@ public class NcbiCiccarelliHybridService
 
 	public void setSynonymService(TaxonomySynonymService taxonomySynonymService)
 		{
-		throw new NotImplementedException(
-				"NCBI/Ciccarelli hybrid taxonomy doesn't currently use other synonym services for any purpose");
+		logger.warn(
+				"NCBI/Ciccarelli hybrid taxonomy doesn't currently use other synonym services for any purpose; ignoring");
 		}
 	}

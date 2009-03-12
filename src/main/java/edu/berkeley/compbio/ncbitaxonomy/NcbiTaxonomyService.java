@@ -120,6 +120,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		}
 	// --------------------------- CONSTRUCTORS ---------------------------
 
+	public boolean isLeaf(Integer leafId) throws NoSuchNodeException
+		{
+		return getNode(leafId).isLeaf();
+		}
+
 	public NcbiTaxonomyService()
 		{
 		try
