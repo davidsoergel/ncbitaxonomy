@@ -317,6 +317,14 @@ public class NcbiCiccarelliHybridService
 		return exactDistanceBetween(id1, id2);
 		}
 
+	public Double getDepth(Integer id2) throws NoSuchNodeException
+		{
+		Integer id1 = hybridTree.getRootPhylogeny().getRoot().getValue();
+		id2 = nearestKnownAncestor(id2);
+		return exactDistanceBetween(id1, id2);
+		//return stringTaxonomyService.minDistanceBetween(intToNodeMap.get(a), intToNodeMap.get(b));
+		//	return exactDistanceBetween(name1, name2);
+		}
 /*	public Double minDistanceBetween(PhylogenyNode<Integer> node1, PhylogenyNode<Integer> node2)
 			throws PhyloUtilsException
 		{
