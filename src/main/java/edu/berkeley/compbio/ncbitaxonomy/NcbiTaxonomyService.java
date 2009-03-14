@@ -210,7 +210,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * @return the taxid for the given name, if found
 	 * @throws NoSuchNodeException when the name is not found, or if the name maps to multiple taxids
 	 */
-	public int findTaxidByNameRelaxed(String name) throws NoSuchNodeException
+	public Integer findTaxidByNameRelaxed(String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
 		}
@@ -297,7 +297,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	public void setSynonymService(TaxonomySynonymService taxonomySynonymService)
 		{
-		throw new NotImplementedException("NCBI taxonomy doesn't currently use other synonym services for any purpose");
+		logger.warn("NCBI taxonomy doesn't currently use other synonym services for any purpose; ignoring");
 		}
 
 	/**
@@ -639,5 +639,12 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws NoSuchNodeException
 		{
 		throw new NoSuchNodeException("Root doesn't have a branch length.");
+		}
+
+	public Double getDepth(Integer b) throws NoSuchNodeException
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		//return stringTaxonomyService.minDistanceBetween(intToNodeMap.get(a), intToNodeMap.get(b));
+		//	return exactDistanceBetween(name1, name2);
 		}
 	}

@@ -350,6 +350,11 @@ public class NcbiCiccarelliHybridService
 		return ncbiTaxonomyService.findTaxidByName(name);
 		}
 
+	public Integer findTaxidByNameRelaxed(String name) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyService.findTaxidByNameRelaxed(name);
+		}
+
 
 /*	public TaxonMergingPhylogeny<Integer> getTree()
 		{
