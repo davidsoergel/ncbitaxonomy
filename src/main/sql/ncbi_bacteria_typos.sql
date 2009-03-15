@@ -50,4 +50,3 @@ mv 'Pseudomonas syringae pv. phaseolicola 1448A large' 'Pseudomonas syringae pv.
 mv 'Gluconacetobacter_diazotrophicus_PAl_5' 'Gluconacetobacter diazotrophicus PAL5'
 mv 'Acinetobacter baumannii' 'Acinetobacter baumannii SDF'
 mv 'Salmonella enterica subsp. arizonae serovar 62:z4' 'Salmonella enterica subsp. arizonae serovar 62:z4,z23:--'
-mv 'Salmonella enterica subsp. enterica serovar Gallinarum str. 287_91'

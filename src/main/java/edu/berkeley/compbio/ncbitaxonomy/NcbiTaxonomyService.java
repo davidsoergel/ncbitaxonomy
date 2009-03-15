@@ -193,7 +193,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		}
 
 	/**
-	 * Cache database search results for the current session in a local file in /tmp/edu.berkeley.compbio.ncbitaxonomy.cache,
+	 * Cache database search results for the current session in a local file in /tmp/edu.berkeley.compbio/ncbitaxonomy.cache,
 	 * since it'll be much faster to load that up again in the future than to rerun all the database queries.  The
 	 * assumption is that the database isn't changing anyway; if it does change, deleting the cache file will allow the new
 	 * data to take effect.

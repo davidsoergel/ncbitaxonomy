@@ -50,6 +50,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -129,6 +130,9 @@ public class NcbiCiccarelliHybridService
 
 		return _instance;
 		}
+
+	private static String cacheFilename = "/tmp/edu.berkeley.compbio/ncbitaxonomy.ciccarellihybrid.cache";
+
 
 	//@Transactional
 	public static void makeInstance()
@@ -282,7 +286,8 @@ public class NcbiCiccarelliHybridService
 		{
 		try
 			{
-			FileInputStream fin = new FileInputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.ciccarellihybrid.cache");
+
+			FileInputStream fin = new FileInputStream(cacheFilename);
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			stringNearestKnownAncestorCache = (Map<String, Integer>) ois.readObject();
 			integerNearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
@@ -328,8 +333,9 @@ public class NcbiCiccarelliHybridService
 		hybridTree.saveState();
 		try
 			{
-			FileOutputStream fout =
-					new FileOutputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.ciccarellihybrid.cache");
+			File cacheFile = new File(cacheFilename);
+			cacheFile.getParentFile().mkdirs();
+			FileOutputStream fout = new FileOutputStream(cacheFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(stringNearestKnownAncestorCache);
 			oos.writeObject(integerNearestKnownAncestorCache);

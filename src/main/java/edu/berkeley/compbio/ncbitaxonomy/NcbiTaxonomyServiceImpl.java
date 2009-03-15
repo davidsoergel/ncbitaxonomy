@@ -43,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.NoResultException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -117,7 +118,7 @@ public class NcbiTaxonomyServiceImpl
 		{
 		try
 			{
-			FileInputStream fin = new FileInputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.cache");
+			FileInputStream fin = new FileInputStream(cacheFilename);
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
 			taxIdByName = (Map<String, Integer>) ois
@@ -362,11 +363,15 @@ public class NcbiTaxonomyServiceImpl
 		}
 
 
+	String cacheFilename = "/tmp/edu.berkeley.compbio/ncbitaxonomy.cache";
+
 	public void saveState()
 		{
 		try
 			{
-			FileOutputStream fout = new FileOutputStream("/tmp/edu.berkeley.compbio.ncbitaxonomy.cache");
+			File cacheFile = new File(cacheFilename);
+			cacheFile.getParentFile().mkdirs();
+			FileOutputStream fout = new FileOutputStream(cacheFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(taxIdByNameRelaxed);
 			oos.writeObject(taxIdByName);			//	oos.writeObject(nearestKnownAncestorCache);
