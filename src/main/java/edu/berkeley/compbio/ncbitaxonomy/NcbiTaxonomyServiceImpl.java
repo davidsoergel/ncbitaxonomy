@@ -230,6 +230,16 @@ public class NcbiTaxonomyServiceImpl
 
 	public Integer findTaxidByNameRelaxed(String speciesNameA) throws NoSuchNodeException
 		{
+		//sometimes the taxid is already in the string
+		try
+			{
+			return Integer.parseInt(speciesNameA);
+			}
+		catch (NumberFormatException e)
+			{
+			// no problem, look for it by name then
+			}
+
 		Integer taxIdA = taxIdByNameRelaxed.get(speciesNameA);
 		if (taxIdA == null)
 			{

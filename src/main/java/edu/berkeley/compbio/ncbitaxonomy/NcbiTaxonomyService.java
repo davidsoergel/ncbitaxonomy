@@ -114,6 +114,17 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return instance;
 		}
 
+	public static NcbiTaxonomyService getInjectedInstance()
+		{
+		return instance;
+		}
+
+	public static void setInjectedInstance(NcbiTaxonomyService instance)
+		{
+		NcbiTaxonomyService.instance = instance;
+		}
+
+
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 		{
 		throw new NotImplementedException();
