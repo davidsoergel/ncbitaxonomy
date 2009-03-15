@@ -1,5 +1,8 @@
+# @Deprecated
+
 # here we create a table listing all genome names for full bacterial genomes from NCBI as of 2008-06-05
-# the directory names use underscores instead of spaces; we fix that
+# the directory names use underscores instead of spaces;
+we fix that
 # then we can check which of these names do not exist in the NCBI taxonomy names table
 
 use ncbi_taxonomy;
@@ -692,6 +695,5 @@ insert into tmp values ('Yersinia pseudotuberculosis IP 31758');
 insert into tmp values ('Yersinia pseudotuberculosis IP 32953');
 insert into tmp values ('Yersinia pseudotuberculosis YPIII');
 insert into tmp values ('Zymomonas mobilis subsp. mobilis ZM4');
-
 
 select name_txt, tax_id from tmp LEFT OUTER JOIN names USING (name_txt) where tax_id is null;

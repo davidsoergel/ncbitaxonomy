@@ -57,6 +57,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -197,10 +198,44 @@ public class NcbiCiccarelliHybridService
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 			throws NoSuchNodeException, TreeException
 		{
-		//return ciccarelli.getRandomSubtree(numTaxa, mergeThreshold);
-		Map<Integer, Set<Integer>> mergeIdSets = TaxonMerger.merge(hybridTree.getLeafValues(), this, mergeThreshold);
-		//Map<Integer, Set<Integer>> mergeIdSets = TaxonMerger.merge(ciccarelli.getTree().getLeafValues(), this, mergeThreshold);
-		Set<Integer> mergedIds = mergeIdSets.keySet();
+		return getRandomSubtree(numTaxa, mergeThreshold, null);
+		}
+
+
+	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Integer exceptDescendantsOf)
+			throws TreeException, NoSuchNodeException
+		{
+		return getRandomSubtree(numTaxa, null, exceptDescendantsOf);
+		}
+
+	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold, Integer exceptDescendantsOf)
+			throws TreeException, NoSuchNodeException
+		{
+		Collection<Integer> mergedIds;
+		if (mergeThreshold != null)
+			{
+			Map<Integer, Set<Integer>> mergeIdSets =
+					TaxonMerger.merge(hybridTree.getLeafValues(), this, mergeThreshold);
+
+			mergedIds = mergeIdSets.keySet();
+			}
+		else
+			{
+			mergedIds = hybridTree.getLeafValues();
+			}
+
+		if (exceptDescendantsOf != null)
+			{
+			for (Iterator<Integer> iter = mergedIds.iterator(); iter.hasNext();)
+				{
+				Integer id = iter.next();
+				if (isDescendant(exceptDescendantsOf, id))
+					{
+					iter.remove();
+					}
+				}
+			}
+
 		DSCollectionUtils.retainRandom(mergedIds, numTaxa);
 		return extractTreeWithLeafIDs(mergedIds);
 		}
