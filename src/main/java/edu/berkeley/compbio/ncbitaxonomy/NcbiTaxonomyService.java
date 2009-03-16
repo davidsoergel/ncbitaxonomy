@@ -307,7 +307,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Double minDistanceBetween(Integer taxIdA, Integer taxIdB)
+	public double minDistanceBetween(Integer taxIdA, Integer taxIdB)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		//		return ncbiTaxonomyServiceImpl.distanceBetween(taxIdA, taxIdB);
@@ -444,7 +444,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Double getLargestLengthSpan()
+	public double getLargestLengthSpan()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
@@ -452,7 +452,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Double getGreatestDepth()
+	public double getGreatestDepthBelow()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	/**
+	 * Not implemented
+	 */
+	public double getGreatestDepthBelow(Integer a)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
@@ -659,7 +667,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NoSuchNodeException("Root doesn't have a branch length.");
 		}
 
-	public Double getDepth(Integer b) throws NoSuchNodeException
+	public double getDepthFromRoot(Integer b) throws NoSuchNodeException
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		//return stringTaxonomyService.minDistanceBetween(intToNodeMap.get(a), intToNodeMap.get(b));
