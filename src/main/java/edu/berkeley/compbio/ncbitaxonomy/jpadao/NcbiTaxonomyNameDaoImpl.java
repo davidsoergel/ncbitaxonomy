@@ -139,24 +139,26 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByName")
 					.setParameter("name", name).getSingleResult());
 			assert result != null;
-			/*if (result == null)
-				{
-				throw new NoSuchNodeException("Could not find taxon: " + name);
-				}*/
 			names.put(name, result);
 			return result;
 			}
 		catch (NonUniqueResultException e)
 			{
-			logger.error("Name not unique in database; trying unique: " + name);
-			return findByUniqueName(name);
-			//	throw new NcbiTaxonomyException("Name not unique in database: " + name);
+			logger.error("Name not unique in database; trying scientific: " + name);
+			try
+				{
+				return findByScientificName(name);
+				}
+			catch (NoSuchNodeException f)
+				{
+				logger.error("Scientific Name not found in database; trying unique: " + name);
+				return findByUniqueName(name);
+				}
 			}
 		catch (NoResultException e)
 			{
+			logger.error("Name not found in database; trying unique: " + name);
 			return findByUniqueName(name);
-			//logger.error("Name not unique in database: " + name);
-			//	throw new NcbiTaxonomyException("Name not found: " + name);
 			}
 		}
 
@@ -223,6 +225,38 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		   {
 		   throw new NcbiTaxonomyException("Could not find taxon: " + name);
 		   }*/
+		names.put(name, result);
+		return result;
+		}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@NotNull
+	public NcbiTaxonomyName findByScientificName(String name) throws NoSuchNodeException
+		{
+		NcbiTaxonomyName result = names.get(name);
+		if (result != null)
+			{
+			return result;
+			}
+
+		try
+			{
+			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByScientificName")
+					.setParameter("name", name).getSingleResult());
+			}
+		catch (NonUniqueResultException e)
+			{
+			logger.warn("Scientific Name is not unique in database: " + name);
+			throw new NcbiTaxonomyRuntimeException("Impossible: scientific name is not unique in database: " + name);
+			}
+		catch (NoResultException e)
+			{
+			throw new NoSuchNodeException("Scientific Name not found: " + name);
+			}
+		assert result != null;
+
 		names.put(name, result);
 		return result;
 		}

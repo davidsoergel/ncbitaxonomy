@@ -68,7 +68,10 @@ import javax.persistence.Table;
 				query = "select n from NcbiTaxonomyName n WHERE n.name = :name"),
 		@NamedQuery(
 				name = "NcbiTaxonomyName.findByUniqueName",
-				query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name")
+				query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name"),
+		@NamedQuery(
+				name = "NcbiTaxonomyName.findByScientificName",
+				query = "select n from NcbiTaxonomyName n WHERE n.name = :name AND n.nameClass = 'scientific name'")
 })
 
 /*@NamedQuery(

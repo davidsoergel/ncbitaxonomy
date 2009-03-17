@@ -442,7 +442,7 @@ public class NcbiTaxonomyServiceImpl
 					n = n.getParent();
 					if (n.getValue() == 1)
 						{					// arrived at root, too bad
-						throw new NoSuchNodeException("Taxon " + leafId + " not found in tree.");
+						throw new NoSuchNodeException("Taxon " + leafId + " has no ancestors in provided tree.");
 						}				//ncbiDb.getEntityManager().refresh(n);
 					}
 				}
