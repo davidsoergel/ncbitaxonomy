@@ -32,6 +32,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
@@ -131,7 +132,7 @@ public class NcbiCiccarelliHybridService
 		return _instance;
 		}
 
-	private static String cacheFilename = "/tmp/edu.berkeley.compbio/ncbitaxonomy.ciccarellihybrid.cache";
+	private static String cacheFilename = "/ncbitaxonomy.ciccarellihybrid.cache";
 
 
 	//@Transactional
@@ -287,7 +288,7 @@ public class NcbiCiccarelliHybridService
 		try
 			{
 
-			FileInputStream fin = new FileInputStream(cacheFilename);
+			FileInputStream fin = new FileInputStream(EnvironmentUtils.getCacheRoot() + cacheFilename);
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			stringNearestKnownAncestorCache = (Map<String, Integer>) ois.readObject();
 			integerNearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
@@ -333,7 +334,7 @@ public class NcbiCiccarelliHybridService
 		hybridTree.saveState();
 		try
 			{
-			File cacheFile = new File(cacheFilename);
+			File cacheFile = new File(EnvironmentUtils.getCacheRoot() + cacheFilename);
 			cacheFile.getParentFile().mkdirs();
 			FileOutputStream fout = new FileOutputStream(cacheFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fout);

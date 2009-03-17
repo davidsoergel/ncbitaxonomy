@@ -33,6 +33,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
@@ -118,7 +119,7 @@ public class NcbiTaxonomyServiceImpl
 		{
 		try
 			{
-			FileInputStream fin = new FileInputStream(cacheFilename);
+			FileInputStream fin = new FileInputStream(EnvironmentUtils.getCacheRoot() + cacheFilename);
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
 			taxIdByName = (Map<String, Integer>) ois
@@ -363,13 +364,13 @@ public class NcbiTaxonomyServiceImpl
 		}
 
 
-	String cacheFilename = "/tmp/edu.berkeley.compbio/ncbitaxonomy.cache";
+	String cacheFilename = "/ncbitaxonomy.cache";
 
 	public void saveState()
 		{
 		try
 			{
-			File cacheFile = new File(cacheFilename);
+			File cacheFile = new File(EnvironmentUtils.getCacheRoot() + cacheFilename);
 			cacheFile.getParentFile().mkdirs();
 			FileOutputStream fout = new FileOutputStream(cacheFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
