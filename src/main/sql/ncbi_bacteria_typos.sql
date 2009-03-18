@@ -43,6 +43,10 @@ insert into names (tax_id, name_txt, name_class) select tax_id, 'Yersinia pseudo
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Escherichia coli W3110 DNA', 'synonym' from names where name_txt = 'Escherichia coli W3110';
 insert into names (tax_id, name_txt, name_class) select tax_id, 'Ralstonia eutropha JMP134 mega', 'synonym' from names where name_txt = 'Ralstonia eutropha JMP134';
 
+# finally one from the Mavro2007 set
+
+insert into names (tax_id, name_txt, name_class) select tax_id, 'Streptococcus suis 89_1591', 'synonym' from names where name_txt = 'Streptococcus suis 89/1591';
+
 # Some special-case bugs in that procedure:
 mv 'Aeromonas salmonicida salmonicida A449' 'Aeromonas salmonicida subsp. salmonicida A449'
 mv 'Methanocaldococcus jannaschii DSM 2661 extrachromosomal' 'Methanocaldococcus jannaschii DSM 2661'
