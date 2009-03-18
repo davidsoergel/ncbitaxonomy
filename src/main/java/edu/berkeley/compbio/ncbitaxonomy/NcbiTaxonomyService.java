@@ -465,6 +465,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 
+	public double maxDistance()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
 	/**
 	 * Not implemented
 	 */

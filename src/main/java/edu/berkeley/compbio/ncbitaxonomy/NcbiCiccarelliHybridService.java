@@ -453,6 +453,17 @@ public class NcbiCiccarelliHybridService
 		return ciccarelli.getGreatestDepthBelow(ciccarelliName1);
 		}
 
+	private Double maxDistance = null;
+
+	public double maxDistance()
+		{
+		if (maxDistance == null)
+			{
+			maxDistance = 2.0 * getRoot().getGreatestDepthBelow();
+			}
+		return maxDistance;
+		}
+
 	public PhylogenyNode<Integer> getRoot()
 		{
 		throw new NotImplementedException();
