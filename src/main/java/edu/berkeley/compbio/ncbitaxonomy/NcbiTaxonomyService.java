@@ -678,4 +678,12 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		//return stringTaxonomyService.minDistanceBetween(intToNodeMap.get(a), intToNodeMap.get(b));
 		//	return exactDistanceBetween(name1, name2);
 		}
+
+	@Override
+	public String toString()
+		{
+		String shortname = getClass().getName();
+		shortname = shortname.substring(shortname.lastIndexOf(".") + 1);
+		return shortname;
+		}
 	}

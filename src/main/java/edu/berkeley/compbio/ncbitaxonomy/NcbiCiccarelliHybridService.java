@@ -487,4 +487,12 @@ public class NcbiCiccarelliHybridService
 		logger.warn(
 				"NCBI/Ciccarelli hybrid taxonomy doesn't currently use other synonym services for any purpose; ignoring");
 		}
+
+	@Override
+	public String toString()
+		{
+		String shortname = getClass().getName();
+		shortname = shortname.substring(shortname.lastIndexOf(".") + 1);
+		return shortname;
+		}
 	}
