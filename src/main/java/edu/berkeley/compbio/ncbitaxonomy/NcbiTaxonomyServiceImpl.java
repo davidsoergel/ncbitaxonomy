@@ -122,8 +122,8 @@ public class NcbiTaxonomyServiceImpl
 			FileInputStream fin = new FileInputStream(EnvironmentUtils.getCacheRoot() + cacheFilename);
 			ObjectInputStream ois = new ObjectInputStream(fin);
 			taxIdByNameRelaxed = (Map<String, Integer>) ois.readObject();
-			taxIdByName = (Map<String, Integer>) ois
-					.readObject();			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
+			taxIdByName = (Map<String, Integer>) ois.readObject();
+			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
 			synonyms = (Map<Integer, Set<String>>) ois.readObject();
 			ois.close();
 			}
