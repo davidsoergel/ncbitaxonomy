@@ -33,7 +33,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.EnvironmentUtils;
+import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
@@ -44,12 +44,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.NoResultException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -117,6 +111,27 @@ public class NcbiTaxonomyServiceImpl
 
 	private void readStateIfAvailable()
 		{
+		taxIdByNameRelaxed =
+				CacheManager.getAccumulatingMap(this, "taxIdByNameRelaxed", new HashMap<String, Integer>());
+		taxIdByName = CacheManager.getAccumulatingMap(this, "taxIdByName", new HashMap<String, Integer>());
+		synonyms = CacheManager.getAccumulatingMap(this, "synonyms", new HashMap<Integer, Set<String>>());
+/*
+		if (stringNearestKnownAncestorCache == null)
+			{
+			stringNearestKnownAncestorCache = new HashMap<String, Integer>();
+			}
+		if (integerNearestKnownAncestorCache == null)
+			{
+			integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
+			}
+		if (integerNearestAncestorWithBranchLengthCache == null)
+			{
+			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
+			}*/
+		}
+	/*
+	private void readStateIfAvailable()
+		{
 		try
 			{
 			FileInputStream fin = new FileInputStream(EnvironmentUtils.getCacheRoot() + cacheFilename);
@@ -141,7 +156,7 @@ public class NcbiTaxonomyServiceImpl
 			taxIdByName = new HashMap<String, Integer>();
 			synonyms = new HashMap<Integer, Set<String>>();
 			}
-		}
+		}*/
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
@@ -363,7 +378,7 @@ public class NcbiTaxonomyServiceImpl
 		return result;
 		}
 
-
+/*
 	String cacheFilename = "/ncbitaxonomy.cache";
 
 	public void saveState()
@@ -383,9 +398,10 @@ public class NcbiTaxonomyServiceImpl
 			{
 			logger.error("Error", e);
 			}
-		}
+		}*/
 
 	//@Transactional(propagation = Propagation.REQUIRED)
+
 	@NotNull
 	public PhylogenyNode findNode(Integer taxid) throws NoSuchNodeException
 		{

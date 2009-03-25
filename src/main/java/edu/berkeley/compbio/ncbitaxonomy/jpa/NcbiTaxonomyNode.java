@@ -51,9 +51,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -97,7 +97,8 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	//, CascadeType.REFRESH})
 	//@LazyCollection(LazyCollectionOption.FALSE)
 	//@Fetch(value = FetchMode.SUBSELECT)
-	private Set<NcbiTaxonomyNode> children = new HashSet<NcbiTaxonomyNode>();
+	@OrderBy("id")
+	private List<NcbiTaxonomyNode> children = new ArrayList<NcbiTaxonomyNode>();
 
 	@Column(name = "rank")
 	private String rank;
@@ -373,7 +374,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
-	public Collection<NcbiTaxonomyNode> getChildren()
+	public List<NcbiTaxonomyNode> getChildren()
 		{
 		return children;
 		}
@@ -401,7 +402,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return mitachondrialGeneticCodeId;
 		}
 
-	public void setChildSets(Set<NcbiTaxonomyNode> children)
+	public void setChildSets(List<NcbiTaxonomyNode> children)
 		{
 		this.children = children;
 		}

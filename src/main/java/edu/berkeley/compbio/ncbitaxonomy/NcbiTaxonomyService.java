@@ -198,11 +198,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * assumption is that the database isn't changing anyway; if it does change, deleting the cache file will allow the new
 	 * data to take effect.
 	 */
-	public void saveState()
+/*	public void saveState()
 		{
 		ncbiTaxonomyServiceImpl.saveState();
 		}
-
+*/
 
 	/**
 	 * Find the taxid corresponding to the given taxon name.
@@ -348,9 +348,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 				 }
 		 */
 	@NotNull
-	public Collection<? extends PhylogenyNode<Integer>> getChildren()
+	public List<? extends PhylogenyNode<Integer>> getChildren()
 		{
-
 		return getRoot().getChildren();
 		}
 

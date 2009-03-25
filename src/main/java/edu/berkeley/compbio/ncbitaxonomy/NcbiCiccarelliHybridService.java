@@ -32,17 +32,17 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.EnvironmentUtils;
+import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
+import edu.berkeley.compbio.phyloutils.RequireExistingIntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMerger;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
@@ -51,12 +51,6 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -132,16 +126,17 @@ public class NcbiCiccarelliHybridService
 		return _instance;
 		}
 
-	private static String cacheFilename = "/ncbitaxonomy.ciccarellihybrid.cache";
+//	private static String cacheFilename = "/ncbitaxonomy.ciccarellihybrid.cache";
 
 
 	//@Transactional
+
 	public static void makeInstance()
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 		ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = PhylogenyTypeConverter
-				.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService,
+				.convertToIDTree(ciccarelli.getTree(), new RequireExistingIntegerNodeNamer(), ncbiTaxonomyService,
 				                 new HashMultimap<String, Integer>());
 
 		// the root must be node 1, regardless of what children have unknown IDs
@@ -149,7 +144,7 @@ public class NcbiCiccarelliHybridService
 
 		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyService);
 		_instance = new NcbiCiccarelliHybridService();
-		_instance.saveState();
+		//_instance.saveState();
 		}
 
 	// ------------------
@@ -285,31 +280,27 @@ public class NcbiCiccarelliHybridService
 
 	private void readStateIfAvailable()
 		{
-		try
-			{
 
-			FileInputStream fin = new FileInputStream(EnvironmentUtils.getCacheRoot() + cacheFilename);
-			ObjectInputStream ois = new ObjectInputStream(fin);
-			stringNearestKnownAncestorCache = (Map<String, Integer>) ois.readObject();
-			integerNearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
-			integerNearestAncestorWithBranchLengthCache = (Map<Integer, Integer>) ois.readObject();
-			//nearestKnownAncestorCache = (Map<Integer, Integer>) ois.readObject();
-			ois.close();
-			}
-		catch (IOException e)
-			{// no problem
-			logger.warn("Failed to read NCBI/Ciccarelli hybrid taxonomy cache; will query database from scratch");
+		stringNearestKnownAncestorCache = CacheManager
+				.getAccumulatingMap(this, "stringNearestKnownAncestorCache", new HashMap<String, Integer>());
+		integerNearestKnownAncestorCache = CacheManager
+				.getAccumulatingMap(this, "integerNearestKnownAncestorCache", new HashMap<Integer, Integer>());
+		integerNearestAncestorWithBranchLengthCache = CacheManager
+				.getAccumulatingMap(this, "integerNearestAncestorWithBranchLengthCache",
+				                    new HashMap<Integer, Integer>());
+/*
+		if (stringNearestKnownAncestorCache == null)
+			{
 			stringNearestKnownAncestorCache = new HashMap<String, Integer>();
-			integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
-			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
 			}
-		catch (ClassNotFoundException e)
-			{// no problem
-			logger.warn("Failed to read NCBI/Ciccarelli hybrid taxonomy cache; will query database from scratch");
-			stringNearestKnownAncestorCache = new HashMap<String, Integer>();
+		if (integerNearestKnownAncestorCache == null)
+			{
 			integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
-			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
 			}
+		if (integerNearestAncestorWithBranchLengthCache == null)
+			{
+			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
+			}*/
 		}
 
 /*	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
@@ -329,26 +320,33 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes);
 		}
 
-	public void saveState()
+	/*
+	public void flushCaches()
 		{
 		hybridTree.saveState();
-		try
-			{
-			File cacheFile = new File(EnvironmentUtils.getCacheRoot() + cacheFilename);
-			cacheFile.getParentFile().mkdirs();
-			FileOutputStream fout = new FileOutputStream(cacheFile);
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(stringNearestKnownAncestorCache);
-			oos.writeObject(integerNearestKnownAncestorCache);
-			oos.writeObject(
-					integerNearestAncestorWithBranchLengthCache);			//	oos.writeObject(nearestKnownAncestorCache);
-			oos.close();
-			}
-		catch (Exception e)
-			{
-			logger.error("Error", e);
-			}
-		}
+		CacheManager.merge(this, "stringNearestKnownAncestorCache", stringNearestKnownAncestorCache);
+		CacheManager.merge(this, "integerNearestKnownAncestorCache", integerNearestKnownAncestorCache);
+		CacheManager.merge(this, "integerNearestAncestorWithBranchLengthCache",
+		                   integerNearestAncestorWithBranchLengthCache);
+
+
+	   try
+		   {
+		   File cacheFile = new File(EnvironmentUtils.getCacheRoot() + cacheFilename);
+		   cacheFile.getParentFile().mkdirs();
+		   FileOutputStream fout = new FileOutputStream(cacheFile);
+		   ObjectOutputStream oos = new ObjectOutputStream(fout);
+		   oos.writeObject(stringNearestKnownAncestorCache);
+		   oos.writeObject(integerNearestKnownAncestorCache);
+		   oos.writeObject(
+				   integerNearestAncestorWithBranchLengthCache);			//	oos.writeObject(nearestKnownAncestorCache);
+		   oos.close();
+		   }
+	   catch (Exception e)
+		   {
+		   logger.error("Error", e);
+		   }
+		}*/
 
 
 	public double minDistanceBetween(Integer id1, Integer id2) throws NoSuchNodeException
