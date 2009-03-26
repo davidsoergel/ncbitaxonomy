@@ -58,7 +58,10 @@ import java.util.Set;
  * @version $Id$
  */
 public class NcbiTaxonomyServiceImpl
-	{	// ------------------------------ FIELDS ------------------------------
+	{
+
+
+	// ------------------------------ FIELDS ------------------------------
 
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyServiceImpl.class);
 	private NcbiTaxonomyNameDao ncbiTaxonomyNameDao;
