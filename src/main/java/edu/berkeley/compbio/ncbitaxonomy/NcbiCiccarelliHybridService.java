@@ -39,10 +39,10 @@ import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
-import edu.berkeley.compbio.phyloutils.RequireExistingNodeNamer;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMerger;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
@@ -51,6 +51,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -135,9 +136,17 @@ public class NcbiCiccarelliHybridService
 		{
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 		ciccarelli = CiccarelliTaxonomyService.getInstance();
-		RootedPhylogeny<Integer> ciccarelliIntegerTree = PhylogenyTypeConverter
-				.convertToIDTree(ciccarelli.getTree(), new RequireExistingNodeNamer<Integer>(), ncbiTaxonomyService,
-				                 new HashMultimap<String, Integer>());
+		String className = "edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService";
+
+		RootedPhylogeny<Integer> ciccarelliIntegerTree =
+				(RootedPhylogeny<Integer>) CacheManager.get(className + File.separator + "ciccarelliIntegerTree");
+		if (ciccarelliIntegerTree == null)
+			{
+			ciccarelliIntegerTree = PhylogenyTypeConverter
+					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService,
+					                 new HashMultimap<String, Integer>());
+			CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
+			}
 
 		// the root must be node 1, regardless of what children have unknown IDs
 		ciccarelliIntegerTree.setValue(new Integer(1));
@@ -314,10 +323,10 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.extractTreeWithLeafIDs(ids);
 		}
 
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes)
-			throws NoSuchNodeException
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
+	                                                       boolean includeInternalBranches) throws NoSuchNodeException
 		{
-		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes);
+		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}
 
 	/*

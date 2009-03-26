@@ -37,12 +37,14 @@ import com.davidsoergel.dsutils.math.MathUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
+import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
-import edu.berkeley.compbio.phyloutils.RequireExistingNodeNamer;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -106,7 +108,7 @@ public class NcbiCiccarelliHybridServiceTest
 		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
-		assert result.getUniqueIdToNodeMap().size() == 6;
+		assert result.getUniqueIdToNodeMap().size() == 7;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
@@ -126,9 +128,9 @@ public class NcbiCiccarelliHybridServiceTest
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
 
-	@Test(expectedExceptions = NoSuchNodeException.class)
-	public void extractTreeWithLeafIDsForNonCiccarelliNodesIsNotAllowed()
-			throws PhyloUtilsException, NoSuchNodeException
+	@Test
+	//(expectedExceptions = NoSuchNodeException.class)
+	public void extractTreeWithLeafIDsForNonCiccarelliNodesWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(422676, 244440, 9031, 199202);
 
@@ -173,10 +175,31 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
-				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new RequireExistingNodeNamer(),
+				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000),
 				                                       NcbiTaxonomyService.getInstance(),
 				                                       new HashMultimap<String, Integer>());
 		System.err.println(ciccarelliIntegerTree);
 		assert ciccarelliIntegerTree.getLeaves().size() > 100;
+		}
+
+	@Test
+	public void emptyLinkedListsAreEqual()
+		{
+		List<Integer> l = new LinkedList<Integer>();
+		List<Integer> m = new LinkedList<Integer>();
+
+		assert l.equals(l);
+		assert l.equals(m);
+		assert m.equals(m);
+
+		l.add(1);
+		m.add(2);
+
+		l.remove(new Integer(1));
+		m.remove(new Integer(2));
+
+		assert l.equals(l);
+		assert l.equals(m);
+		assert m.equals(m);
 		}
 	}

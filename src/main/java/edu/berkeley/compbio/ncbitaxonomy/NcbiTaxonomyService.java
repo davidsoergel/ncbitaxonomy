@@ -249,6 +249,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceImpl.synonymsOfRelaxed(s);
 		}
 
+	public PhylogenyNode<Integer> findRoot()
+		{
+		return getRoot();
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */

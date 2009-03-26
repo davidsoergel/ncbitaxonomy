@@ -208,6 +208,18 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return parent;
 		}
 
+	public PhylogenyNode<Integer> findRoot()
+		{
+		if (parent == null)
+			{
+			return this;
+			}
+		else
+			{
+			return parent.findRoot();
+			}
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */
