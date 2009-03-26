@@ -42,7 +42,7 @@ import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
-import edu.berkeley.compbio.phyloutils.RequireExistingIntegerNodeNamer;
+import edu.berkeley.compbio.phyloutils.RequireExistingNodeNamer;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMerger;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
@@ -136,7 +136,7 @@ public class NcbiCiccarelliHybridService
 		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
 		ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = PhylogenyTypeConverter
-				.convertToIDTree(ciccarelli.getTree(), new RequireExistingIntegerNodeNamer(), ncbiTaxonomyService,
+				.convertToIDTree(ciccarelli.getTree(), new RequireExistingNodeNamer<Integer>(), ncbiTaxonomyService,
 				                 new HashMultimap<String, Integer>());
 
 		// the root must be node 1, regardless of what children have unknown IDs

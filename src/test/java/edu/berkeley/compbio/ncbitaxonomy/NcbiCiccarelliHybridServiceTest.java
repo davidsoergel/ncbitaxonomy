@@ -39,7 +39,7 @@ import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
-import edu.berkeley.compbio.phyloutils.RequireExistingIntegerNodeNamer;
+import edu.berkeley.compbio.phyloutils.RequireExistingNodeNamer;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
 
@@ -173,7 +173,7 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
-				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new RequireExistingIntegerNodeNamer(),
+				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new RequireExistingNodeNamer(),
 				                                       NcbiTaxonomyService.getInstance(),
 				                                       new HashMultimap<String, Integer>());
 		System.err.println(ciccarelliIntegerTree);
