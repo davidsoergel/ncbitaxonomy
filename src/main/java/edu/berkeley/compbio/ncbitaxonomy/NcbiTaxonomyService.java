@@ -648,6 +648,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
 
+	public Map<Integer, Double> distributeInternalWeightsToLeaves(Map<Integer, Double> taxIdToWeightMap)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
 
 	/**
 	 * {@inheritDoc}
