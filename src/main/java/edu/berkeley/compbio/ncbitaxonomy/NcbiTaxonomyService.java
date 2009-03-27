@@ -544,7 +544,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
 
-	public Map<Integer, ? extends PhylogenyNode<Integer>> getUniqueIdToNodeMap()
+	public Map<Integer, PhylogenyNode<Integer>> getUniqueIdToNodeMap()
 		{
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}

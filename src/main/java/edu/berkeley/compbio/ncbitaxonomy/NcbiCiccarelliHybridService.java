@@ -363,6 +363,7 @@ public class NcbiCiccarelliHybridService
 		 return hybridTree.extractTreeWithLeafIDs(ids);
 		 }
  */
+
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
 	                                                       boolean includeInternalBranches) throws NoSuchNodeException
 		{
@@ -506,14 +507,14 @@ public class NcbiCiccarelliHybridService
 		{
 		if (maxDistance == null)
 			{
-			maxDistance = 2.0 * getRoot().getGreatestDepthBelow();
+			maxDistance = ciccarelli.maxDistance(); //2.0 * getRoot().getGreatestDepthBelow();
 			}
 		return maxDistance;
 		}
 
 	public PhylogenyNode<Integer> getRoot()
 		{
-		throw new NotImplementedException();
+		throw new NotImplementedException();  //hybridTree.getRoot();
 		}
 
 
