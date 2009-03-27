@@ -105,7 +105,8 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7227, 9031, 317);
 
-		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
+		RootedPhylogeny<Integer> result =
+				NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds, false, false);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
 		assert result.getUniqueIdToNodeMap().size() == 7;
@@ -119,7 +120,8 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7147, 7227, 9031, 317);
 
-		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
+		RootedPhylogeny<Integer> result =
+				NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds, false, false);
 
 		leafIds.remove(7147);// this one is internal
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
@@ -134,7 +136,8 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(422676, 244440, 9031, 199202);
 
-		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds);
+		RootedPhylogeny<Integer> result =
+				NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds, false, false);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
 		assert result.getUniqueIdToNodeMap().size() == 7;

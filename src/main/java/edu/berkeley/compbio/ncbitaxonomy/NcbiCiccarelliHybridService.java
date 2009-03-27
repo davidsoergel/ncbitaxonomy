@@ -155,7 +155,46 @@ public class NcbiCiccarelliHybridService
 		_instance = new NcbiCiccarelliHybridService();
 		//_instance.saveState();
 		}
+/*
+	public static void main(String[] argv)
+		{
+		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
+		ciccarelli = CiccarelliTaxonomyService.getInstance();
+		// add integer ids to unknown nodes
 
+		try
+			{
+			RootedPhylogeny<Integer> theTree = PhylogenyTypeConverter
+					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService,
+					                 new HashMultimap<String, Integer>());
+
+			StringBuffer sb = new StringBuffer();
+			String prefix = argv[1];
+			String tab = argv[2];
+			prefix = prefix.replaceAll(Matcher.quoteReplacement("\\n"), "\n");
+			prefix = prefix.replaceAll(Matcher.quoteReplacement("\\t"), "\t");
+			prefix = prefix.replaceAll("\"", "");
+			prefix = prefix.replaceAll("\'", "");
+			tab = tab.replaceAll(Matcher.quoteReplacement("\\n"), "\n");
+			tab = tab.replaceAll(Matcher.quoteReplacement("\\t"), "\t");
+			tab = tab.replaceAll("\"", "");
+			tab = tab.replaceAll("\'", "");
+
+			theTree.toNewick(sb, prefix, tab, 0, 0);
+
+			//	System.out.println(sb);
+
+			//FileOutputStream foo = new FileOutputStream(argv[2]);
+			FileWriter fw = new FileWriter(argv[3]);
+			fw.write(sb.toString());
+			fw.close();
+			}
+		catch (IOException e)
+			{
+			logger.error("Error", e);
+			}
+		}
+*/
 	// ------------------
 
 	// we have to maintain the mapping from species names used in the Ciccarelli tree to NCBI ids
@@ -246,7 +285,7 @@ public class NcbiCiccarelliHybridService
 			}
 
 		DSCollectionUtils.retainRandom(mergedIds, numTaxa);
-		return extractTreeWithLeafIDs(mergedIds);
+		return extractTreeWithLeafIDs(mergedIds, false, false);
 		}
 
 
@@ -315,14 +354,15 @@ public class NcbiCiccarelliHybridService
 /*	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids) throws PhyloUtilsException
 		{
 		//return ciccarelli.extractTreeWithLeafIDs(CollectionUtils.mapAll(ciccarelliNames, ids));
-		return hybridTree.extractTreeWithLeafIDs(ids, false);  // ** why was this true before??
+		return hybridTree.extractTreeWithLeafIDs(ids, false);
 		}*/
 
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids) throws NoSuchNodeException
-		{
-		return hybridTree.extractTreeWithLeafIDs(ids);
-		}
-
+	/*
+	 public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids) throws NoSuchNodeException
+		 {
+		 return hybridTree.extractTreeWithLeafIDs(ids);
+		 }
+ */
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
 	                                                       boolean includeInternalBranches) throws NoSuchNodeException
 		{
