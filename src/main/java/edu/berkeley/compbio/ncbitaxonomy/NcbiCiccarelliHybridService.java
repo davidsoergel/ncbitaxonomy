@@ -142,8 +142,11 @@ public class NcbiCiccarelliHybridService
 				(RootedPhylogeny<Integer>) CacheManager.get(className + File.separator + "ciccarelliIntegerTree");
 		if (ciccarelliIntegerTree == null)
 			{
+
+			// REVIEW should NCBI taxids be pushed to leaves, or not?
+
 			ciccarelliIntegerTree = PhylogenyTypeConverter
-					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000), ncbiTaxonomyService,
+					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false), ncbiTaxonomyService,
 					                 new HashMultimap<String, Integer>());
 			CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
 			}
@@ -365,7 +368,8 @@ public class NcbiCiccarelliHybridService
  */
 
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
-	                                                       boolean includeInternalBranches) throws NoSuchNodeException
+	                                                       boolean includeInternalBranches)
+			throws NoSuchNodeException //, NodeNamer<Integer> namer
 		{
 		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}

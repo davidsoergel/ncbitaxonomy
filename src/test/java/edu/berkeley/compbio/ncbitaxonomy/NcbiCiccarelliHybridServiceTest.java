@@ -178,7 +178,7 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
-				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000),
+				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false),
 				                                       NcbiTaxonomyService.getInstance(),
 				                                       new HashMultimap<String, Integer>());
 		System.err.println(ciccarelliIntegerTree);
