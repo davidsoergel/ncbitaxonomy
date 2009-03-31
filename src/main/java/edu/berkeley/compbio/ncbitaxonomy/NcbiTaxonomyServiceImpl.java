@@ -306,6 +306,28 @@ public class NcbiTaxonomyServiceImpl
 		return taxIdA;
 		}
 
+
+	public Set<String> getCachedNamesForId(Integer id)
+		{
+		//PERF, need a BiMultiMap or something
+		Set<String> result = new HashSet<String>();
+		for (Map.Entry<String, Integer> entry : taxIdByName.entrySet())
+			{
+			if (entry.getValue().equals(id))
+				{
+				result.add(entry.getKey());
+				}
+			}
+		for (Map.Entry<String, Integer> entry : taxIdByNameRelaxed.entrySet())
+			{
+			if (entry.getValue().equals(id))
+				{
+				result.add(entry.getKey());
+				}
+			}
+		return result;
+		}
+
 	//@Transactional(propagation = Propagation.REQUIRED)
 	@Nullable
 	public Integer findParentTaxidByName(String speciesNameA) throws NoSuchNodeException

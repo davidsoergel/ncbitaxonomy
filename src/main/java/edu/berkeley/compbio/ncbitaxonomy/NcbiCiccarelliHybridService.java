@@ -445,7 +445,10 @@ public class NcbiCiccarelliHybridService
 		return ncbiTaxonomyService.findTaxidByNameRelaxed(name);
 		}
 
-
+	public Set<String> getCachedNamesForId(Integer id)
+		{
+		return ncbiTaxonomyService.getCachedNamesForId(id);
+		}
 /*	public TaxonMergingPhylogeny<Integer> getTree()
 		{
 		return hybridTree;
@@ -510,6 +513,10 @@ public class NcbiCiccarelliHybridService
 			maxDistance = ciccarelli.maxDistance(); //2.0 * getRoot().getGreatestDepthBelow();
 			}
 		return maxDistance;
+		}
+
+	public void printDepthsBelow()
+		{
 		}
 
 	public PhylogenyNode<Integer> getRoot()

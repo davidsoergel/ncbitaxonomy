@@ -63,6 +63,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Presents the NCBI taxonomy as an RootedPhylogeny with Integer IDs corresponding to the NCBI taxids.  This is a live
@@ -233,6 +234,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
 		}
 
+	public Set<String> getCachedNamesForId(Integer id)
+		{
+		return ncbiTaxonomyServiceImpl.getCachedNamesForId(id);
+		}
 
 	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
 		{
@@ -472,6 +477,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public double maxDistance()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	public void printDepthsBelow()
+		{
 		}
 
 	/**
