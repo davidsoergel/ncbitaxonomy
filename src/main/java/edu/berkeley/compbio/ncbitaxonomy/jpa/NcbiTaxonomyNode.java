@@ -36,6 +36,7 @@ package edu.berkeley.compbio.ncbitaxonomy.jpa;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.SpringJpaObject;
+import edu.berkeley.compbio.phyloutils.NodeNamer;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.commons.lang.NotImplementedException;
@@ -57,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -435,6 +437,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 
+	public void addToMap(Map<Integer, PhylogenyNode<Integer>> uniqueIdToNodeMap, NodeNamer<Integer> namer)
+		{
+		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -504,7 +511,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 * {@inheritDoc}
 	 */
 	//@Nullable
-	public double getGreatestDepthBelow()
+	public double getGreatestBranchLengthDepthBelow()
 		{
 		//return null;
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");

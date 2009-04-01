@@ -40,6 +40,7 @@ import com.davidsoergel.dsutils.tree.TreeException;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.NodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
@@ -237,6 +238,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public Set<String> getCachedNamesForId(Integer id)
 		{
 		return ncbiTaxonomyServiceImpl.getCachedNamesForId(id);
+		}
+
+	public void addToMap(Map<Integer, PhylogenyNode<Integer>> uniqueIdToNodeMap, NodeNamer<Integer> namer)
+		{
+		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
 		}
 
 	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
@@ -461,7 +467,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public double getGreatestDepthBelow()
+	public double getGreatestBranchLengthDepthBelow()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
