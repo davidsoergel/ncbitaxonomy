@@ -644,4 +644,9 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		{
 		throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
 		}
+
+	public RootedPhylogeny<Integer> asRootedPhylogeny()
+		{
+		throw new NotImplementedException();
+		}
 	}

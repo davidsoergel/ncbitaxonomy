@@ -709,4 +709,19 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		shortname = shortname.substring(shortname.lastIndexOf(".") + 1);
 		return shortname;
 		}
+
+	public RootedPhylogeny<Integer> findSubtreeByName(String name) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public RootedPhylogeny<Integer> findSubtreeByNameRelaxed(String name) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public String getRelaxedName(String name)
+		{
+		throw new NotImplementedException();
+		}
 	}
