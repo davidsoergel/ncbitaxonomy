@@ -600,6 +600,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
+	public double getWeight(Integer id)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
+		}
+
+	/**
+	 * Not implemented
+	 */
 	public Double getCurrentWeight()
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
