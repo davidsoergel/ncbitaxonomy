@@ -728,7 +728,23 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException();
 		}
 
+
 	public String getRelaxedName(String name)
+		{
+		throw new NotImplementedException();
+		}
+
+	public Integer findTaxIdOfShallowestLeaf(String name) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public RootedPhylogeny<Integer> findTreeForName(String name) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public int getNumNodesForName(String name)
 		{
 		throw new NotImplementedException();
 		}

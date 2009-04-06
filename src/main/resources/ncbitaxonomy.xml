@@ -89,17 +89,23 @@
         <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceImpl.find*(..))"
                      advice-ref="requiredTxAdvice"/>
 
-        <aop:advisor
+        <!--       <aop:advisor
                 pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByName(..))"
                 advice-ref="noRollbackTxAdvice"/>
 
-        <aop:advisor
+       <aop:advisor
                 pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findById(..))"
                 advice-ref="supportsTxAdvice"/>
 
         <aop:advisor
                 pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByNameRelaxed(..))"
                 advice-ref="noRollbackTxAdvice"/>
+        -->
+
+        <aop:advisor
+                pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.find*(..))"
+                advice-ref="noRollbackTxAdvice"/>
+
 
         <aop:advisor
                 pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.findById(..))"
