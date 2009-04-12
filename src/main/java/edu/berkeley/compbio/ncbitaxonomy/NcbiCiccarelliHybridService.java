@@ -453,6 +453,8 @@ public class NcbiCiccarelliHybridService
 		{
 		return ncbiTaxonomyService.getCachedNamesForId(id);
 		}
+
+
 /*	public TaxonMergingPhylogeny<Integer> getTree()
 		{
 		return hybridTree;
@@ -554,7 +556,7 @@ public class NcbiCiccarelliHybridService
 		shortname = shortname.substring(shortname.lastIndexOf(".") + 1);
 		return shortname;
 		}
-
+/*
 	public RootedPhylogeny<Integer> findSubtreeByName(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
@@ -564,12 +566,19 @@ public class NcbiCiccarelliHybridService
 		{
 		throw new NotImplementedException();
 		}
+*/
+
+	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Collection<Integer> matchingIds, String name)
+			throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
 
 	public String getRelaxedName(String name)
 		{
 		throw new NotImplementedException();
 		}
-
+/*
 	public Integer findTaxIdOfShallowestLeaf(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
@@ -581,6 +590,17 @@ public class NcbiCiccarelliHybridService
 		}
 
 	public int getNumNodesForName(String name)
+		{
+		throw new NotImplementedException();
+		}*/
+
+
+	public Collection<Integer> findMatchingIds(String name) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public Collection<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}

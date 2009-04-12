@@ -718,7 +718,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return shortname;
 		}
 
-	public RootedPhylogeny<Integer> findSubtreeByName(String name) throws NoSuchNodeException
+/*	public RootedPhylogeny<Integer> findSubtreeByName(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}
@@ -727,13 +727,13 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		{
 		throw new NotImplementedException();
 		}
-
+*/
 
 	public String getRelaxedName(String name)
 		{
 		throw new NotImplementedException();
 		}
-
+/*
 	public Integer findTaxIdOfShallowestLeaf(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
@@ -745,6 +745,22 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		}
 
 	public int getNumNodesForName(String name)
+		{
+		throw new NotImplementedException();
+		}*/
+
+	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Collection<Integer> matchingIds, String name)
+			throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public Collection<Integer> findMatchingIds(String name) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public Collection<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}
