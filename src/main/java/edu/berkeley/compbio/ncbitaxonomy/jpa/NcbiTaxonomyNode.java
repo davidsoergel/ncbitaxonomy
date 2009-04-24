@@ -45,6 +45,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -537,6 +539,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional(propagation = Propagation.MANDATORY)
 	public boolean isLeaf()
 		{
 		return getChildren().isEmpty();

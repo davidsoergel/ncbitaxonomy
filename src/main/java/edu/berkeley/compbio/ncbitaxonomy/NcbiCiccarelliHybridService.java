@@ -50,6 +50,7 @@ import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.Collection;
@@ -367,6 +368,7 @@ public class NcbiCiccarelliHybridService
 		 }
  */
 
+	@Transactional
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
 	                                                       boolean includeInternalBranches)
 			throws NoSuchNodeException //, NodeNamer<Integer> namer

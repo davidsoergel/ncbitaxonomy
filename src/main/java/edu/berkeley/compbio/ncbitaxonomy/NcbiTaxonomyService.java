@@ -54,6 +54,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.io.File;
@@ -763,5 +764,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public Collection<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
+		}
+
+	@Override
+	@Transactional
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
+	                                                       boolean includeInternalBranches)
+			throws NoSuchNodeException //, NodeNamer<T> namer
+
+		{
+		return super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}
 	}
