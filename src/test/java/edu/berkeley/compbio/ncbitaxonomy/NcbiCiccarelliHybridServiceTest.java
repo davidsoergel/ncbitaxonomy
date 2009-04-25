@@ -39,6 +39,7 @@ import com.google.common.collect.HashMultimap;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.testng.annotations.Test;
@@ -114,8 +115,8 @@ public class NcbiCiccarelliHybridServiceTest
 		                                    NcbiCiccarelliHybridService.getInstance().exactDistanceBetween(5794, 317));
 		}
 
-	@Test
-	public void extractTreeWithLeafIDsWorksForCiccarelliNodesWhenArgumentsAreNotAllLeaves()
+	@Test(expectedExceptions = PhyloUtilsRuntimeException.class)
+	public void extractTreeWithLeafIDsThrowsExceptionForCiccarelliNodesWhenArgumentsAreNotAllLeaves()
 			throws PhyloUtilsException, NoSuchNodeException
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7147, 7227, 9031, 317);
