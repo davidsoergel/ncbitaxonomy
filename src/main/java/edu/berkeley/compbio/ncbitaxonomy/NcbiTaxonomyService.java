@@ -105,7 +105,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	private static NcbiTaxonomyService instance;// = new NcbiTaxonomyService();
 
-	private NcbiTaxonomyServiceImpl ncbiTaxonomyServiceImpl;
+	private NcbiTaxonomyServiceEngine ncbiTaxonomyServiceEngine;
 
 	// -------------------------- STATIC METHODS --------------------------
 
@@ -182,7 +182,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 			// add a shutdown hook for the above context...
 			ctx.registerShutdownHook();
 
-			ncbiTaxonomyServiceImpl = ((NcbiTaxonomyServiceImpl) ctx.getBean("ncbiTaxonomyServiceImpl"));
+			ncbiTaxonomyServiceEngine = ((NcbiTaxonomyServiceEngine) ctx.getBean("ncbiTaxonomyServiceImpl"));
 
 			// we've got what we need, so we can ditch the context already
 			// no, that breaks transactioning
@@ -217,7 +217,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 */
 	public Integer findTaxidByName(String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyServiceImpl.findTaxidByName(name);
+		return ncbiTaxonomyServiceEngine.findTaxidByName(name);
 		}
 
 	/**
@@ -233,12 +233,12 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 */
 	public Integer findTaxidByNameRelaxed(String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyServiceImpl.findTaxidByNameRelaxed(name);
+		return ncbiTaxonomyServiceEngine.findTaxidByNameRelaxed(name);
 		}
 
 	public Set<String> getCachedNamesForId(Integer id)
 		{
-		return ncbiTaxonomyServiceImpl.getCachedNamesForId(id);
+		return ncbiTaxonomyServiceEngine.getCachedNamesForId(id);
 		}
 
 	public void addToMap(Map<Integer, PhylogenyNode<Integer>> uniqueIdToNodeMap, NodeNamer<Integer> namer)
@@ -248,17 +248,17 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyServiceImpl.synonymsOf(s);
+		return ncbiTaxonomyServiceEngine.synonymsOf(s);
 		}
 
 	public Collection<String> synonymsOfParent(String s) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyServiceImpl.synonymsOfParent(s);
+		return ncbiTaxonomyServiceEngine.synonymsOfParent(s);
 		}
 
 	public Collection<String> synonymsOfRelaxed(String s) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyServiceImpl.synonymsOfRelaxed(s);
+		return ncbiTaxonomyServiceEngine.synonymsOfRelaxed(s);
 		}
 
 	public PhylogenyNode<Integer> findRoot()
@@ -343,7 +343,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		{
 		try
 			{
-			return ncbiTaxonomyServiceImpl.findNode(taxid);
+			return ncbiTaxonomyServiceEngine.findNode(taxid);
 			}
 		catch (NoResultException e)
 			{
@@ -571,7 +571,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public Integer nearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId)
 			throws NoSuchNodeException
 		{
-		return ncbiTaxonomyServiceImpl.findNearestKnownAncestor(rootPhylogeny, leafId);
+		return ncbiTaxonomyServiceEngine.findNearestKnownAncestor(rootPhylogeny, leafId);
 		}
 
 	/**

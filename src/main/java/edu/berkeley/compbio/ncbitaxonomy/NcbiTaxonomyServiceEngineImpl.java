@@ -57,13 +57,13 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyServiceImpl
+public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	{
 
 
 	// ------------------------------ FIELDS ------------------------------
 
-	private static final Logger logger = Logger.getLogger(NcbiTaxonomyServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyServiceEngineImpl.class);
 	private NcbiTaxonomyNameDao ncbiTaxonomyNameDao;
 	private NcbiTaxonomyNodeDao ncbiTaxonomyNodeDao;
 
@@ -107,7 +107,7 @@ public class NcbiTaxonomyServiceImpl
 		  }
 		  */
 
-	public NcbiTaxonomyServiceImpl()
+	public NcbiTaxonomyServiceEngineImpl()
 		{
 		readStateIfAvailable();
 		}

@@ -86,7 +86,7 @@
                       pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getAncestorPath(..))"
                       advice-ref="requiredTxAdvice"/>-->
 
-        <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceImpl.find*(..))"
+        <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.find*(..))"
                      advice-ref="requiredTxAdvice"/>
 
         <!--       <aop:advisor
@@ -138,7 +138,7 @@
     <bean id="ncbiTaxonomyNameDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl"/>
     <bean id="ncbiTaxonomyNodeDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl"/>
 
-    <bean id="ncbiTaxonomyServiceImpl" class="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceImpl">
+    <bean id="ncbiTaxonomyServiceImpl" class="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl">
         <property name="ncbiTaxonomyNameDao" ref="ncbiTaxonomyNameDao"/>
         <property name="ncbiTaxonomyNodeDao" ref="ncbiTaxonomyNodeDao"/>
     </bean>
