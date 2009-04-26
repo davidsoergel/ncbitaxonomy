@@ -148,7 +148,7 @@ public class NcbiCiccarelliHybridService
 
 			ciccarelliIntegerTree = PhylogenyTypeConverter
 					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false), ncbiTaxonomyService,
-					                 new HashMultimap<String, Integer>());
+					                 new HashMultimap<String, Integer>(), new HashMultimap<String, Integer>());
 			CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
 			}
 
