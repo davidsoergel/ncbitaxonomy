@@ -32,6 +32,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
@@ -42,6 +43,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.LinkedList;
@@ -206,5 +208,11 @@ public class NcbiCiccarelliHybridServiceTest
 		assert l.equals(l);
 		assert l.equals(m);
 		assert m.equals(m);
+		}
+
+	@BeforeClass
+	public void setUp() throws Exception
+		{
+		EnvironmentUtils.setCacheRoot("/tmp/testCache");
 		}
 	}

@@ -33,7 +33,9 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 
@@ -75,4 +77,10 @@ public class NcbiTaxonomyServiceTest
 	   {
 	   return super.instantiateAllContractTestsWithName(NcbiTaxonomyService.class.getCanonicalName());
 	   }*/
+
+	@BeforeClass
+	public void setUp() throws Exception
+		{
+		EnvironmentUtils.setCacheRoot("/tmp/testCache");
+		}
 	}
