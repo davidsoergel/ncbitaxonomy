@@ -37,4 +37,6 @@ public interface NcbiTaxonomyServiceEngine
 			throws NoSuchNodeException;	//@Transactional(propagation = Propagation.REQUIRED)
 
 	Integer findNearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId) throws NoSuchNodeException;
+
+	Integer findNearestAncestorAtRank(String rankName, Integer leafId) throws NoSuchNodeException;
 	}

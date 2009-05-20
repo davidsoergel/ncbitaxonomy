@@ -574,6 +574,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceEngine.findNearestKnownAncestor(rootPhylogeny, leafId);
 		}
 
+	public Integer nearestAncestorAtRank(final String rankName, Integer leafId) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyServiceEngine.findNearestAncestorAtRank(rankName, leafId);
+		}
+
 	/**
 	 * Not implemented
 	 */

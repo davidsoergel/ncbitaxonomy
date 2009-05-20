@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNameDao;
 import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
+import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
@@ -428,7 +429,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	//@Transactional(propagation = Propagation.REQUIRED)
 
 	@NotNull
-	public PhylogenyNode findNode(Integer taxid) throws NoSuchNodeException
+	public NcbiTaxonomyNode findNode(Integer taxid) throws NoSuchNodeException
 		{
 		try
 			{
@@ -492,4 +493,42 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 			}		//return n.getId();
 		return result;
 		}
+
+
+	/**
+	 * Search up the NCBI taxonomy until a node is encountered that is a leaf in the Ciccarelli taxonomy
+	 *
+	 * @param leafId
+	 * @return
+	 * @throws edu.berkeley.compbio.phyloutils.PhyloUtilsException
+	 *
+	 */	//@Transactional(propagation = Propagation.REQUIRED)
+	public Integer findNearestAncestorAtRank(@NotNull final String rankName, Integer leafId) throws NoSuchNodeException
+		{
+		NcbiTaxonomyNode n;
+
+		n = findNode(leafId);
+
+		/*if (n == null)
+			  {
+			  throw new NoSuchNodeException("Leaf phylogeny does not contain node " + leafId + ".");
+			  }*/
+
+		//while (rootPhylogeny.getNode(n.getValue()) == null)
+		while (true)
+			{
+			if (rankName.equals(n.getRank()))
+				{
+				return n.getValue();
+				}
+
+			n = n.getParent();
+			if (n.getValue() == 1)
+				{					// arrived at root, too bad
+				throw new NoSuchNodeException("Taxon " + leafId + " has no ancestors of rank " + rankName);
+				}				//ncbiDb.getEntityManager().refresh(n);
+			}
+		}
 	}
+
+
