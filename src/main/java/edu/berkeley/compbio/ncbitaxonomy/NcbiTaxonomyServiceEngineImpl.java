@@ -496,7 +496,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 
 
 	/**
-	 * Search up the NCBI taxonomy until a node is encountered that is a leaf in the Ciccarelli taxonomy
+	 * Search up the NCBI taxonomy until a node is encountered that is of the requested rank
 	 *
 	 * @param leafId
 	 * @return
@@ -528,6 +528,22 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 				throw new NoSuchNodeException("Taxon " + leafId + " has no ancestors of rank " + rankName);
 				}				//ncbiDb.getEntityManager().refresh(n);
 			}
+		}
+
+
+	public Set<Integer> getTaxIdsWithRank(String rankName)
+		{
+		/*
+		Set<Integer> result = new HashSet<Integer>();
+		List<NcbiTaxonomyNode> nodes = ncbiTaxonomyNodeDao.findByRank(rankName);
+		for (NcbiTaxonomyNode node : nodes)
+			{
+			result.add(node.getId());
+			}
+		return result;
+		*/
+
+		return new HashSet<Integer>(ncbiTaxonomyNodeDao.findIdsByRank(rankName));
 		}
 	}
 

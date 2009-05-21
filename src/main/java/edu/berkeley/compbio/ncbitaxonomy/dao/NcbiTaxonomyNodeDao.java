@@ -36,6 +36,9 @@ package edu.berkeley.compbio.ncbitaxonomy.dao;
 import com.davidsoergel.springjpautils.GenericDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
 
+import java.util.Collection;
+import java.util.List;
+
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
@@ -47,4 +50,8 @@ public interface NcbiTaxonomyNodeDao extends GenericDao<NcbiTaxonomyNode, Intege
 	// -------------------------- OTHER METHODS --------------------------
 
 	//NcbiTaxonomyNode findByTaxId(Integer taxid);
+
+	List<NcbiTaxonomyNode> findByRank(String rankName);
+
+	Collection<Integer> findIdsByRank(String rankName);
 	}

@@ -579,6 +579,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceEngine.findNearestAncestorAtRank(rankName, leafId);
 		}
 
+	public Set<Integer> getTaxIdsWithRank(final String rankName)
+		{
+		return ncbiTaxonomyServiceEngine.getTaxIdsWithRank(rankName);
+		}
+
 	/**
 	 * Not implemented
 	 */
