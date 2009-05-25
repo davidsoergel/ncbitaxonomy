@@ -53,6 +53,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -74,10 +76,12 @@ import java.util.Set;
 @Entity
 @Table(name = "nodes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-/*@NamedQueries({@NamedQuery(
-		name = "NcbiTaxonomyNode.findByTaxId",
-		query = "select n from NcbiTaxonomyNode n WHERE id = :taxid")})
-*/
+@NamedQueries({@NamedQuery(
+		name = "NcbiTaxonomyNode.findByRank",
+		query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
+		name = "NcbiTaxonomyNode.findIdsByRank",
+		query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank")})
+
 // or NONSTRICT_READ_WRITE?
 //@NamedQuery(name="NcbiTaxonomyNode.findByName",query="select n from NcbiTaxonomyNode n WHERE Name = :name"),
 public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<Integer>
@@ -630,7 +634,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return getTaxId() + "/" + getScientificName();
 		}
 
-	private String getScientificName()
+	public String getScientificName()
 		{
 		for (NcbiTaxonomyName name : names)
 			{

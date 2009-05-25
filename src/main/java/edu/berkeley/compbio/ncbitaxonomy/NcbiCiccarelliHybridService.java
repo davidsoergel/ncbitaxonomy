@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
+import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
@@ -263,7 +264,7 @@ public class NcbiCiccarelliHybridService
 	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold, Integer exceptDescendantsOf)
 			throws TreeException, NoSuchNodeException
 		{
-		Collection<Integer> mergedIds;
+		Set<Integer> mergedIds;
 		if (mergeThreshold != null)
 			{
 			Map<Integer, Set<Integer>> mergeIdSets =
@@ -369,13 +370,21 @@ public class NcbiCiccarelliHybridService
  */
 
 	@Transactional
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
+	                                                       boolean includeInternalBranches,
+	                                                       AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
+			throws NoSuchNodeException //, NodeNamer<Integer> namer
+		{
+		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+		}
+
+	@Transactional
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
 	                                                       boolean includeInternalBranches)
 			throws NoSuchNodeException //, NodeNamer<Integer> namer
 		{
 		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}
-
 	/*
 	public void flushCaches()
 		{
@@ -570,7 +579,7 @@ public class NcbiCiccarelliHybridService
 		}
 */
 
-	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Collection<Integer> matchingIds, String name)
+	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
 			throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
@@ -597,12 +606,12 @@ public class NcbiCiccarelliHybridService
 		}*/
 
 
-	public Collection<Integer> findMatchingIds(String name) throws NoSuchNodeException
+	public Set<Integer> findMatchingIds(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}
 
-	public Collection<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
+	public Set<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}

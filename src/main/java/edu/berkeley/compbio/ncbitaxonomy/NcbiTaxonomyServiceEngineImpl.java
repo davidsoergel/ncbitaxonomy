@@ -48,6 +48,7 @@ import javax.persistence.NoResultException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -531,7 +532,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		}
 
 
-	public Set<Integer> getTaxIdsWithRank(String rankName)
+	public Set<Integer> getTaxIdsWithRank(String rank)
 		{
 		/*
 		Set<Integer> result = new HashSet<Integer>();
@@ -543,7 +544,18 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		return result;
 		*/
 
-		return new HashSet<Integer>(ncbiTaxonomyNodeDao.findIdsByRank(rankName));
+		return new HashSet<Integer>(ncbiTaxonomyNodeDao.findIdsByRank(rank));
+		}
+
+	public Set<String> getNamesWithRank(String rank)
+		{
+		Set<String> result = new HashSet<String>();
+		List<NcbiTaxonomyNode> nodes = ncbiTaxonomyNodeDao.findByRank(rank);
+		for (NcbiTaxonomyNode node : nodes)
+			{
+			result.add(node.getScientificName());
+			}
+		return result;
 		}
 	}
 

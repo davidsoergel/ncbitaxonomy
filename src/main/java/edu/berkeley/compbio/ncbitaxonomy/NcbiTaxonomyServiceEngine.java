@@ -38,7 +38,9 @@ public interface NcbiTaxonomyServiceEngine
 
 	Integer findNearestKnownAncestor(RootedPhylogeny<Integer> rootPhylogeny, Integer leafId) throws NoSuchNodeException;
 
-	Integer findNearestAncestorAtRank(String rankName, Integer leafId) throws NoSuchNodeException;
+	Integer findNearestAncestorAtRank(String rank, Integer leafId) throws NoSuchNodeException;
 
-	Set<Integer> getTaxIdsWithRank(String rankName);
+	Set<Integer> getTaxIdsWithRank(String rank);
+
+	Set<String> getNamesWithRank(String rank);
 	}

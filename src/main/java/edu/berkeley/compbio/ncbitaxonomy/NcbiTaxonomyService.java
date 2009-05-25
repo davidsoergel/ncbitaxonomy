@@ -547,7 +547,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Collection<Integer> getLeafValues()
+	public Set<Integer> getLeafValues()
 		{
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
@@ -555,7 +555,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public Collection<Integer> getNodeValues()
+	public Set<Integer> getNodeValues()
 		{
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
@@ -760,29 +760,30 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException();
 		}*/
 
-	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Collection<Integer> matchingIds, String name)
+	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
 			throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}
 
-	public Collection<Integer> findMatchingIds(String name) throws NoSuchNodeException
+	public Set<Integer> findMatchingIds(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}
 
-	public Collection<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
+	public Set<Integer> findMatchingIdsRelaxed(String name) throws NoSuchNodeException
 		{
 		throw new NotImplementedException();
 		}
 
 	@Override
 	@Transactional
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Collection<Integer> ids, boolean ignoreAbsentNodes,
-	                                                       boolean includeInternalBranches)
+	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
+	                                                       boolean includeInternalBranches,
+	                                                       MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException //, NodeNamer<T> namer
 
 		{
-		return super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
+		return super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
 		}
 	}

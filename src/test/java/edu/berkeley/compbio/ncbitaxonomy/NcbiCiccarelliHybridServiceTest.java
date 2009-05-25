@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.google.common.collect.HashMultimap;
+import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
@@ -108,8 +109,9 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7227, 9031, 317);
 
-		RootedPhylogeny<Integer> result =
-				NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds, false, false);
+		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance()
+				.extractTreeWithLeafIDs(leafIds, false, false,
+				                        AbstractRootedPhylogeny.MutualExclusionResolutionMode.EXCEPTION);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
 		assert result.getUniqueIdToNodeMap().size() == 7;
@@ -123,8 +125,9 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(5794, 7147, 7227, 9031, 317);
 
-		RootedPhylogeny<Integer> result =
-				NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds, false, false);
+		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance()
+				.extractTreeWithLeafIDs(leafIds, false, false,
+				                        AbstractRootedPhylogeny.MutualExclusionResolutionMode.EXCEPTION);
 
 		leafIds.remove(7147);// this one is internal
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
@@ -139,8 +142,9 @@ public class NcbiCiccarelliHybridServiceTest
 		{
 		Set<Integer> leafIds = DSCollectionUtils.setOf(422676, 244440, 9031, 199202);
 
-		RootedPhylogeny<Integer> result =
-				NcbiCiccarelliHybridService.getInstance().extractTreeWithLeafIDs(leafIds, false, false);
+		RootedPhylogeny<Integer> result = NcbiCiccarelliHybridService.getInstance()
+				.extractTreeWithLeafIDs(leafIds, false, false,
+				                        AbstractRootedPhylogeny.MutualExclusionResolutionMode.EXCEPTION);
 
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
 		assert result.getUniqueIdToNodeMap().size() == 7;
@@ -164,10 +168,10 @@ public class NcbiCiccarelliHybridServiceTest
 		assert NcbiCiccarelliHybridService.getInstance().findTaxidByName("Vibrio cholerae") == 666;
 
 		assert NcbiCiccarelliHybridService.getInstance().findTaxidByName("Vibrio cholerae O1 biovar eltor str. N16961")
-				== 243277;
+		       == 243277;
 
 		assert NcbiCiccarelliHybridService.getInstance().findTaxidByName("Herpes simplex virus (type 1 / strain F)")
-				== 10304;
+		       == 10304;
 		}
 
 	@Test(expectedExceptions = NoSuchNodeException.class)
