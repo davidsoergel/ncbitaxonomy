@@ -76,11 +76,14 @@ import java.util.Set;
 @Entity
 @Table(name = "nodes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({@NamedQuery(
-		name = "NcbiTaxonomyNode.findByRank",
-		query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
-		name = "NcbiTaxonomyNode.findIdsByRank",
-		query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank")})
+@NamedQueries({
+		@NamedQuery(
+				name = "NcbiTaxonomyNode.findByRank",
+				query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"),
+		@NamedQuery(
+				name = "NcbiTaxonomyNode.findIdsByRank",
+				query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank")
+})
 
 // or NONSTRICT_READ_WRITE?
 //@NamedQuery(name="NcbiTaxonomyNode.findByName",query="select n from NcbiTaxonomyNode n WHERE Name = :name"),
@@ -459,6 +462,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
+	@Transactional
 	public List<PhylogenyNode<Integer>> getAncestorPath()
 		{
 		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();

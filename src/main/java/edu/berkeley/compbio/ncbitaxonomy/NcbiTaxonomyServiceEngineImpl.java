@@ -43,6 +43,7 @@ import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.Collection;
@@ -430,6 +431,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	//@Transactional(propagation = Propagation.REQUIRED)
 
 	@NotNull
+	@Transactional
 	public NcbiTaxonomyNode findNode(Integer taxid) throws NoSuchNodeException
 		{
 		try

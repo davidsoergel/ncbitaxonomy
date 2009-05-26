@@ -88,6 +88,7 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	 * {@inheritDoc}
 	 */
 	@NotNull
+	@Transactional
 	public NcbiTaxonomyNode findById(Integer id)
 		{
 		NcbiTaxonomyNode node = entityManager.find(NcbiTaxonomyNode.class, id);
