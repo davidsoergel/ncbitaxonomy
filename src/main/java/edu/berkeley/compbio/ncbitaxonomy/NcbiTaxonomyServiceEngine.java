@@ -40,7 +40,7 @@ public interface NcbiTaxonomyServiceEngine
 
 	Integer findNearestAncestorAtRank(String rank, Integer leafId) throws NoSuchNodeException;
 
-	Set<Integer> getTaxIdsWithRank(String rank);
+	Set<Integer> findTaxIdsWithRank(String rank);
 
-	Set<String> getNamesWithRank(String rank);
+	Set<String> findNamesWithRank(String rank);
 	}

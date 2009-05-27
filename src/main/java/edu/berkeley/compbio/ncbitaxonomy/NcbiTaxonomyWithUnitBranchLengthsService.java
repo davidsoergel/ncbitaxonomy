@@ -1,9 +1,12 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
+import edu.berkeley.compbio.phyloutils.RequiresPreparationTaxonomyService;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
+import org.apache.log4j.Logger;
 
 import java.util.Set;
 
@@ -11,8 +14,12 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyService implements TaxonomyService<Integer>
+public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyService
+		implements TaxonomyService<Integer>, RequiresPreparationTaxonomyService<Integer>
 	{
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyWithUnitBranchLengthsService.class);
+	private RootedPhylogeny<Integer> extractedTree;
+
 	// BAD hack
 
 	@Override
@@ -21,8 +28,8 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 	                                                       MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
-		RootedPhylogeny<Integer> result =
-				super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+		// we must include the internal branches for the sake of consistent branch lengths
+		RootedPhylogeny<Integer> result = super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, true, mode);
 		result.setAllBranchLengthsTo(1.0);
 		return result;
 		}
@@ -43,5 +50,68 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 	public Integer nearestAncestorWithBranchLength(final Integer leafId)
 		{
 		return leafId;
+		}
+
+	public void prepare(Set<Integer> allLabels) throws NoSuchNodeException
+		{
+		extractedTree = extractTreeWithLeafIDs(allLabels, false, true, MutualExclusionResolutionMode.BOTH);
+		extractedTree.setAllBranchLengthsTo(1.0);
+		}
+
+	// PERF would be far better to extract the whole tree in advance
+	@Override
+	public double distanceBetween(final PhylogenyNode<Integer> a, final PhylogenyNode<Integer> b)
+		{
+
+
+		try
+			{
+			/*RootedPhylogeny<Integer> result = super.extractTreeWithLeaves(DSCollectionUtils.setOf(a, b), true,
+			                                                              MutualExclusionResolutionMode.BOTH);
+			result.setAllBranchLengthsTo(1.0);
+
+			return result.distanceBetween(a.getValue(), b.getValue());*/
+			return extractedTree.distanceBetween(a.getValue(), b.getValue());
+			}
+		catch (NoSuchNodeException e)
+			{
+			logger.error(e);
+			throw new Error(e);
+			}
+		}
+
+	@Override
+	public double distanceBetween(final Integer taxIdA, final Integer taxIdB)
+		{
+		try
+			{
+			/*
+			RootedPhylogeny<Integer> result =
+
+					super.extractTreeWithLeafIDs(DSCollectionUtils.setOf(taxIdA, taxIdB), false, true,
+					                             MutualExclusionResolutionMode.BOTH);
+			result.setAllBranchLengthsTo(1.0);
+
+			return result.distanceBetween(taxIdA, taxIdB); */
+			return extractedTree.distanceBetween(taxIdA, taxIdB);
+			}
+		catch (NoSuchNodeException e)
+			{
+			logger.error(e);
+			throw new Error(e);
+			}
+		}
+
+	@Override
+	public Double minDistanceBetween(final PhylogenyNode<Integer> node1, final PhylogenyNode<Integer> node2)
+			throws PhyloUtilsException
+		{
+		return distanceBetween(node1, node2);
+		}
+
+	@Override
+	public double minDistanceBetween(final Integer taxIdA, final Integer taxIdB)
+		{
+		return distanceBetween(taxIdA, taxIdB);
 		}
 	}

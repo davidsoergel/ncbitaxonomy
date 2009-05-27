@@ -38,8 +38,6 @@ import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -88,7 +86,7 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	 * {@inheritDoc}
 	 */
 	@NotNull
-	@Transactional
+	//@Transactional
 	public NcbiTaxonomyNode findById(Integer id)
 		{
 		NcbiTaxonomyNode node = entityManager.find(NcbiTaxonomyNode.class, id);
@@ -128,14 +126,14 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	   return (NcbiTaxonomyNode) (entityManager.createNamedQuery("NcbiTaxonomyNode.findByTaxId")
 			   .setParameter("taxid", taxid).getSingleResult());
 	   }*/
-	@Transactional(propagation = Propagation.SUPPORTS, noRollbackFor = javax.persistence.NoResultException.class)
+//	@Transactional(propagation = Propagation.REQUIRED, noRollbackFor = javax.persistence.NoResultException.class)
 	public List<NcbiTaxonomyNode> findByRank(String rankName)
 		{
 		return (List<NcbiTaxonomyNode>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findByRank")
 				.setParameter("rank", rankName).getResultList());
 		}
 
-	@Transactional(propagation = Propagation.SUPPORTS, noRollbackFor = javax.persistence.NoResultException.class)
+	//	@Transactional(propagation = Propagation.REQUIRED, noRollbackFor = javax.persistence.NoResultException.class)
 	public List<Integer> findIdsByRank(String rankName)
 		{
 		return (List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findIdsByRank")

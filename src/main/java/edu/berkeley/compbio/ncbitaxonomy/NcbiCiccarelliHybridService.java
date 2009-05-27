@@ -499,11 +499,16 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.isDescendant(ancestor, descendant);
 		}
 
-/*	public boolean isDescendant(PhylogenyNode<Integer> ancestor, PhylogenyNode<Integer> descendant)
-			throws PhyloUtilsException
+	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
 		{
-		hybridTree.isDescendant(ancestor, descendant);
-		}*/
+		return hybridTree.selectAncestors(labels, id);
+		}
+
+	/*	public boolean isDescendant(PhylogenyNode<Integer> ancestor, PhylogenyNode<Integer> descendant)
+		   throws PhyloUtilsException
+	   {
+	   hybridTree.isDescendant(ancestor, descendant);
+	   }*/
 
 	public double getGreatestDepthBelow(Integer taxidA) throws NoSuchNodeException
 		{

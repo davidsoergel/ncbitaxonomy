@@ -77,14 +77,11 @@ import java.util.Set;
 @Entity
 @Table(name = "nodes")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({
-		@NamedQuery(
-				name = "NcbiTaxonomyNode.findByRank",
-				query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"),
-		@NamedQuery(
-				name = "NcbiTaxonomyNode.findIdsByRank",
-				query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank")
-})
+@NamedQueries({@NamedQuery(
+		name = "NcbiTaxonomyNode.findByRank",
+		query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
+		name = "NcbiTaxonomyNode.findIdsByRank",
+		query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank")})
 
 // or NONSTRICT_READ_WRITE?
 //@NamedQuery(name="NcbiTaxonomyNode.findByName",query="select n from NcbiTaxonomyNode n WHERE Name = :name"),
@@ -95,7 +92,8 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyName.class);
 
 	//private int taxId;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
+	//LAZY
 	@JoinColumn(name = "parent_tax_id")
 	private NcbiTaxonomyNode parent;
 
@@ -467,7 +465,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional(propagation = Propagation.MANDATORY)
+	//@Transactional(propagation = Propagation.MANDATORY)
 	public List<PhylogenyNode<Integer>> getAncestorPath()
 		{
 		if (ancestorPath == null)
@@ -477,14 +475,31 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return ancestorPath;
 		}
 
-	@Transactional(propagation = Propagation.MANDATORY)
+
+	@Transient
+	private List<Integer> ancestorPathIds;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	//@Transactional(propagation = Propagation.MANDATORY)
+	public List<Integer> getAncestorPathIds()
+		{
+		if (ancestorPathIds == null)
+			{
+			fetchAncestorPathIds();
+			}
+		return ancestorPathIds;
+		}
+
+	//@Transactional(propagation = Propagation.MANDATORY)
 	public void fetchAncestorPath()
 		{
 
 		// because the nodes.parent_id column is notnull, the root node is its own parent.
 		// avoid infinite loop:
 
-		NcbiTaxonomyNode parent = getParent();
+		//NcbiTaxonomyNode parent = getParent();
 		if (parent == null || getId().equals(parent.getId()))
 			{
 			ancestorPath = new LinkedList<PhylogenyNode<Integer>>();  //we're at the root
@@ -494,6 +509,16 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			ancestorPath = new LinkedList<PhylogenyNode<Integer>>(getParent().getAncestorPath());
 			}
 		ancestorPath.add(this);
+		}
+
+	//@Transactional(propagation = Propagation.MANDATORY)
+	public void fetchAncestorPathIds()
+		{
+		ancestorPathIds = new LinkedList<Integer>();
+		for (PhylogenyNode<Integer> node : getAncestorPath())
+			{
+			ancestorPathIds.add(node.getValue());
+			}
 		}
 
 	/**

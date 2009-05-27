@@ -43,7 +43,6 @@ import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.Collection;
@@ -431,7 +430,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	//@Transactional(propagation = Propagation.REQUIRED)
 
 	@NotNull
-	@Transactional
+	//@Transactional
 	public NcbiTaxonomyNode findNode(Integer taxid) throws NoSuchNodeException
 		{
 		try
@@ -534,7 +533,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		}
 
 
-	public Set<Integer> getTaxIdsWithRank(String rank)
+	public Set<Integer> findTaxIdsWithRank(String rank)
 		{
 		/*
 		Set<Integer> result = new HashSet<Integer>();
@@ -549,7 +548,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		return new HashSet<Integer>(ncbiTaxonomyNodeDao.findIdsByRank(rank));
 		}
 
-	public Set<String> getNamesWithRank(String rank)
+	public Set<String> findNamesWithRank(String rank)
 		{
 		Set<String> result = new HashSet<String>();
 		List<NcbiTaxonomyNode> nodes = ncbiTaxonomyNodeDao.findByRank(rank);

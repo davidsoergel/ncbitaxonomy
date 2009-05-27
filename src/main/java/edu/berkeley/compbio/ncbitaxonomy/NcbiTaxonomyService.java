@@ -444,6 +444,19 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * {@inheritDoc}
 	 */
+	public List<Integer> getAncestorPathIds()
+		{
+		// this is the root node
+		List<Integer> result = new LinkedList<Integer>();
+
+		result.add(0, getRoot().getValue());
+
+		return result;
+		}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public Double getLength()
 		{
 		return 0.;
@@ -581,7 +594,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	public Set<Integer> getTaxIdsWithRank(final String rankName)
 		{
-		return ncbiTaxonomyServiceEngine.getTaxIdsWithRank(rankName);
+		return ncbiTaxonomyServiceEngine.findTaxIdsWithRank(rankName);
 		}
 
 	/**
