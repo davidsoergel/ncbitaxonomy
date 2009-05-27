@@ -97,7 +97,7 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 			throw new NoResultException("Could not find taxon: " + id);
 			}
 		// eagerly load the path
-		node.getAncestorPath();
+		//node.getAncestorPath();
 		return node;
 		}
 

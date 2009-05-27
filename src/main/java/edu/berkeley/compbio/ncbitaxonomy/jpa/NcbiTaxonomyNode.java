@@ -58,6 +58,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -459,34 +460,40 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("Iterating the entire NCBI taxonomy is probably a bad idea");
 		}
 
+
+	@Transient
+	private List<PhylogenyNode<Integer>> ancestorPath;
+
 	/**
 	 * {@inheritDoc}
 	 */
-	@Transactional
+	@Transactional(propagation = Propagation.MANDATORY)
 	public List<PhylogenyNode<Integer>> getAncestorPath()
 		{
-		List<PhylogenyNode<Integer>> result = new LinkedList<PhylogenyNode<Integer>>();
-		NcbiTaxonomyNode trav = this;
-
-		while (trav != null)
+		if (ancestorPath == null)
 			{
-			result.add(0, trav);
-
-			// because the nodes.parent_id columnis notnull, the root node is its own parent.
-			// avoid infinite loop:
-
-			NcbiTaxonomyNode parent = trav.getParent();
-			if (parent == null || trav.getId().equals(parent.getId()))
-				{
-				trav = null;
-				}
-			else
-				{
-				trav = parent;
-				}
+			fetchAncestorPath();
 			}
+		return ancestorPath;
+		}
 
-		return result;
+	@Transactional(propagation = Propagation.MANDATORY)
+	public void fetchAncestorPath()
+		{
+
+		// because the nodes.parent_id column is notnull, the root node is its own parent.
+		// avoid infinite loop:
+
+		NcbiTaxonomyNode parent = getParent();
+		if (parent == null || getId().equals(parent.getId()))
+			{
+			ancestorPath = new LinkedList<PhylogenyNode<Integer>>();  //we're at the root
+			}
+		else
+			{
+			ancestorPath = new LinkedList<PhylogenyNode<Integer>>(getParent().getAncestorPath());
+			}
+		ancestorPath.add(this);
 		}
 
 	/**
