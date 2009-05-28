@@ -117,9 +117,9 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	private void readStateIfAvailable()
 		{
 		taxIdByNameRelaxed =
-				CacheManager.getAccumulatingMap(this, "taxIdByNameRelaxed", new HashMap<String, Integer>());
-		taxIdByName = CacheManager.getAccumulatingMap(this, "taxIdByName", new HashMap<String, Integer>());
-		synonyms = CacheManager.getAccumulatingMap(this, "synonyms", new HashMap<Integer, Set<String>>());
+				CacheManager.getAccumulatingMap(this, "taxIdByNameRelaxed"); //, new HashMap<String, Integer>());
+		taxIdByName = CacheManager.getAccumulatingMap(this, "taxIdByName"); //, new HashMap<String, Integer>());
+		synonyms = CacheManager.getAccumulatingMap(this, "synonyms"); //, new HashMap<Integer, Set<String>>());
 /*
 		if (stringNearestKnownAncestorCache == null)
 			{

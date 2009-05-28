@@ -33,6 +33,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.PropertiesUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
@@ -108,6 +109,21 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	private NcbiTaxonomyServiceEngine ncbiTaxonomyServiceEngine;
 
 	// -------------------------- STATIC METHODS --------------------------
+
+	private Map<Integer, List<Integer>> ancestorPathCache;
+
+	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
+		{
+		List<Integer> result = ancestorPathCache.get(id);
+
+		if (result == null)
+			{
+			result = super.getAncestorPathIds(id);
+			ancestorPathCache.put(id, result);
+			}
+		return result;
+		//return getNode(id).getAncestorPathIds();
+		}
 
 	public static NcbiTaxonomyService getInstance()
 		{
@@ -193,6 +209,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 			logger.error("Error", e);
 			throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
 			}
+
+		ancestorPathCache =
+				CacheManager.getAccumulatingMap(this, "ancestorPathCache"); //, new HashMap<Integer, List<Integer>>());
 		}
 
 	/**

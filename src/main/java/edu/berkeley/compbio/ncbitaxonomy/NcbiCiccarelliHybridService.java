@@ -57,6 +57,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -335,12 +336,11 @@ public class NcbiCiccarelliHybridService
 		{
 
 		stringNearestKnownAncestorCache = CacheManager
-				.getAccumulatingMap(this, "stringNearestKnownAncestorCache", new HashMap<String, Integer>());
+				.getAccumulatingMap(this, "stringNearestKnownAncestorCache"); //, new HashMap<String, Integer>());
 		integerNearestKnownAncestorCache = CacheManager
-				.getAccumulatingMap(this, "integerNearestKnownAncestorCache", new HashMap<Integer, Integer>());
-		integerNearestAncestorWithBranchLengthCache = CacheManager
-				.getAccumulatingMap(this, "integerNearestAncestorWithBranchLengthCache",
-				                    new HashMap<Integer, Integer>());
+				.getAccumulatingMap(this, "integerNearestKnownAncestorCache"); //, new HashMap<Integer, Integer>());
+		integerNearestAncestorWithBranchLengthCache = CacheManager.getAccumulatingMap(this,
+		                                                                              "integerNearestAncestorWithBranchLengthCache"); //,new HashMap<Integer, Integer>());
 /*
 		if (stringNearestKnownAncestorCache == null)
 			{
@@ -504,11 +504,16 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.selectAncestors(labels, id);
 		}
 
+	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
+		{
+		return hybridTree.getAncestorPathIds(id);
+		}
+
 	/*	public boolean isDescendant(PhylogenyNode<Integer> ancestor, PhylogenyNode<Integer> descendant)
-		   throws PhyloUtilsException
-	   {
-	   hybridTree.isDescendant(ancestor, descendant);
-	   }*/
+			   throws PhyloUtilsException
+		   {
+		   hybridTree.isDescendant(ancestor, descendant);
+		   }*/
 
 	public double getGreatestDepthBelow(Integer taxidA) throws NoSuchNodeException
 		{

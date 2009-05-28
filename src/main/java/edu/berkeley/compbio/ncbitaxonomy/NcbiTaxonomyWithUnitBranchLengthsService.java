@@ -1,6 +1,9 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.CacheManager;
+import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RequiresPreparationTaxonomyService;
@@ -17,15 +20,68 @@ import java.util.Set;
 public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyService
 		implements TaxonomyService<Integer>, RequiresPreparationTaxonomyService<Integer>
 	{
+	//private NcbiTaxonomyService taxonomyService = NcbiTaxonomyService.getInstance();
+
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyWithUnitBranchLengthsService.class);
 	private RootedPhylogeny<Integer> extractedTree;
 
+	private static NcbiTaxonomyWithUnitBranchLengthsService instance;
+
+	public static NcbiTaxonomyWithUnitBranchLengthsService getInstance()
+		{
+		if (instance == null)
+			{
+			instance = new NcbiTaxonomyWithUnitBranchLengthsService();
+			}
+		return instance;
+		}
+
+	public static NcbiTaxonomyWithUnitBranchLengthsService getInjectedInstance()
+		{
+		return instance;
+		}
+
+	public static void setInjectedInstance(NcbiTaxonomyWithUnitBranchLengthsService instance)
+		{
+		NcbiTaxonomyWithUnitBranchLengthsService.instance = instance;
+		}
+
+	private Double maxDistance = 1000.;
+
+	public double maxDistance()
+		{
+		/*if (maxDistance == null)
+			{
+			maxDistance = 2.0 * getRoot().getGreatestBranchLengthDepthBelow();
+			}*/
+		return maxDistance;
+		}
+
 	// BAD hack
+
+
+	public void prepare(Set<Integer> allLabels) throws NoSuchNodeException
+		{
+		//** the hashcode stuff should be handled within CacheManager
+
+		String idString = toString() + ":" + DSStringUtils.joinSorted(allLabels, ":");
+		//String idHash = String.valueOf(idString.hashCode());
+
+		extractedTree = (RootedPhylogeny<Integer>) CacheManager.get(this, idString);
+		if (extractedTree == null)
+			{
+			extractedTree = extractTreeWithLeafIDs(allLabels, false, true,
+			                                       AbstractRootedPhylogeny.MutualExclusionResolutionMode.BOTH);
+			extractedTree.setAllBranchLengthsTo(1.0);
+			CacheManager.put(this, idString, extractedTree);
+			}
+		}
+
 
 	@Override
 	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
 	                                                       final boolean includeInternalBranches,
-	                                                       MutualExclusionResolutionMode mode)
+	                                                       AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
 		// we must include the internal branches for the sake of consistent branch lengths
@@ -52,11 +108,6 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 		return leafId;
 		}
 
-	public void prepare(Set<Integer> allLabels) throws NoSuchNodeException
-		{
-		extractedTree = extractTreeWithLeafIDs(allLabels, false, true, MutualExclusionResolutionMode.BOTH);
-		extractedTree.setAllBranchLengthsTo(1.0);
-		}
 
 	// PERF would be far better to extract the whole tree in advance
 	@Override
