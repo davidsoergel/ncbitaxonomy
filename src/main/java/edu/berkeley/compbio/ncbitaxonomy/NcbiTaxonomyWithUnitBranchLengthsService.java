@@ -57,7 +57,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 		return maxDistance;
 		}
 
-	// BAD hack
+	// ** this whole class is kind of a hack
 
 
 	public void prepare(Set<Integer> allLabels) throws NoSuchNodeException
