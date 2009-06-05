@@ -625,4 +625,9 @@ public class NcbiCiccarelliHybridService
 		{
 		throw new NotImplementedException();
 		}
+
+	public Set<Integer> getLeafIds()
+		{
+		throw new NotImplementedException();
+		}
 	}

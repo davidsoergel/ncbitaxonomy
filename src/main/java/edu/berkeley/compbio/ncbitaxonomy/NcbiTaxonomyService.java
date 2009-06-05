@@ -818,4 +818,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		{
 		return super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
 		}
+
+	public Set<Integer> getLeafIds()
+		{
+		throw new NotImplementedException();
+		}
 	}
