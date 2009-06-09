@@ -18,8 +18,11 @@ public interface NcbiTaxonomyServiceEngine
 	Integer findTaxidByNameRelaxed(String speciesNameA)
 			throws NoSuchNodeException;//@Transactional(propagation = Propagation.REQUIRED)
 
-	@Nullable
+	@NotNull
 	Integer findTaxidByName(String speciesNameA) throws NoSuchNodeException;
+
+	@NotNull
+	String findScientificName(Integer taxid) throws NoSuchNodeException;
 
 	Set<String> getCachedNamesForId(Integer id);//@Transactional(propagation = Propagation.REQUIRED)
 

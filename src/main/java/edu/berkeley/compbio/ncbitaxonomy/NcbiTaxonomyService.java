@@ -824,4 +824,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		{
 		throw new NotImplementedException();
 		}
+
+	public String getScientificName(final Integer taxid) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyServiceEngine.findScientificName(taxid);
+		}
 	}

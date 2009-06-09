@@ -558,6 +558,12 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 			}
 		return result;
 		}
+
+	@NotNull
+	public String findScientificName(final Integer taxid) throws NoSuchNodeException
+		{
+		return findNode(taxid).getScientificName();
+		}
 	}
 
 
