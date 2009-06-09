@@ -98,6 +98,10 @@ public class NcbiCiccarelliHybridService
 
 	private static NcbiCiccarelliHybridService _instance;//= new NcbiCiccarelliHybridService();
 
+	public Map<Integer, String> getFriendlyLabelMap()
+		{
+		return ncbiTaxonomyService.getFriendlyLabelMap();
+		}
 
 	public boolean isLeaf(Integer leafId) throws NoSuchNodeException
 		{

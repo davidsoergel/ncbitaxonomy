@@ -39,6 +39,9 @@ import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.davidsoergel.stats.ContinuousDistribution1D;
+import com.google.common.base.Function;
+import com.google.common.base.Nullable;
+import com.google.common.collect.MapMaker;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.NodeNamer;
@@ -828,5 +831,23 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	public String getScientificName(final Integer taxid) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceEngine.findScientificName(taxid);
+		}
+
+	public Map<Integer, String> getFriendlyLabelMap()
+		{
+		return new MapMaker().makeComputingMap(new Function<Integer, String>()
+		{
+		public String apply(@Nullable final Integer id)
+			{
+			try
+				{
+				return getScientificName(id);
+				}
+			catch (NoSuchNodeException e)
+				{
+				return id.toString();
+				}
+			}
+		});
 		}
 	}
