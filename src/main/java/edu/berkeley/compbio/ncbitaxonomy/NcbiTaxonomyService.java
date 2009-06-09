@@ -581,7 +581,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 */
 	public Set<Integer> getLeafValues()
 		{
-		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		throw new PhyloUtilsRuntimeException(
+				"Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
 
 	/**
