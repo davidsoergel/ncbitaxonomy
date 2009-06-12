@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
@@ -184,11 +185,14 @@ public class NcbiCiccarelliHybridServiceTest
 	public void ciccarelliTreeIsConvertedToTaxIdTree()
 		{
 		CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
+
+
+		final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
+		final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
 				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false),
-				                                       NcbiTaxonomyService.getInstance(),
-				                                       new HashMultimap<String, Integer>(),
-				                                       new HashMultimap<String, Integer>());
+				                                       NcbiTaxonomyService.getInstance(), nameToIdMap,
+				                                       extraNameToIdMap);
 		System.err.println(ciccarelliIntegerTree);
 		assert ciccarelliIntegerTree.getLeaves().size() > 100;
 		}

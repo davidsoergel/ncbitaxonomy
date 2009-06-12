@@ -37,6 +37,7 @@ import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
@@ -152,9 +153,11 @@ public class NcbiCiccarelliHybridService
 
 			// REVIEW should NCBI taxids be pushed to leaves, or not?
 
+			final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
+			final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
 			ciccarelliIntegerTree = PhylogenyTypeConverter
 					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false), ncbiTaxonomyService,
-					                 new HashMultimap<String, Integer>(), new HashMultimap<String, Integer>());
+					                 nameToIdMap, extraNameToIdMap);
 			CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
 			}
 
