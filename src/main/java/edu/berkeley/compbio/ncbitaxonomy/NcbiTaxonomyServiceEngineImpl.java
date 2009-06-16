@@ -73,6 +73,8 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 
 	private Map<Integer, Set<String>> synonyms = new HashMap<Integer, Set<String>>();
+	private Map<Integer, String> scientificNames = new HashMap<Integer, String>();
+
 
 	// the nearest known ancestor only makes sense for a given rootPhylogeny, but that is passed in anew for each nearestKnownAncestor call.
 	// we could make a Map<RootedPhylogeny, Map<Integer, Integer>>, but that seems like overkill when in practice the rootPhylogeny is
@@ -120,19 +122,20 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 				CacheManager.getAccumulatingMap(this, "taxIdByNameRelaxed"); //, new HashMap<String, Integer>());
 		taxIdByName = CacheManager.getAccumulatingMap(this, "taxIdByName"); //, new HashMap<String, Integer>());
 		synonyms = CacheManager.getAccumulatingMap(this, "synonyms"); //, new HashMap<Integer, Set<String>>());
+		scientificNames = CacheManager.getAccumulatingMap(this, "scientificNames");
 /*
-		if (stringNearestKnownAncestorCache == null)
-			{
-			stringNearestKnownAncestorCache = new HashMap<String, Integer>();
-			}
-		if (integerNearestKnownAncestorCache == null)
-			{
-			integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
-			}
-		if (integerNearestAncestorWithBranchLengthCache == null)
-			{
-			integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
-			}*/
+	 if (stringNearestKnownAncestorCache == null)
+		 {
+		 stringNearestKnownAncestorCache = new HashMap<String, Integer>();
+		 }
+	 if (integerNearestKnownAncestorCache == null)
+		 {
+		 integerNearestKnownAncestorCache = new HashMap<Integer, Integer>();
+		 }
+	 if (integerNearestAncestorWithBranchLengthCache == null)
+		 {
+		 integerNearestAncestorWithBranchLengthCache = new HashMap<Integer, Integer>();
+		 }*/
 		}
 	/*
 	private void readStateIfAvailable()
@@ -562,7 +565,13 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	@NotNull
 	public String findScientificName(final Integer taxid) throws NoSuchNodeException
 		{
-		return findNode(taxid).getScientificName();
+		String result = scientificNames.get(taxid);
+		if (result == null)
+			{
+			result = findNode(taxid).getScientificName();
+			scientificNames.put(taxid, result);
+			}
+		return result;
 		}
 	}
 
