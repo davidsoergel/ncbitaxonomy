@@ -590,7 +590,8 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 */
 	public Double getWeight()
 		{
-		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
+		//throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
+		return null;
 		}
 
 	/**

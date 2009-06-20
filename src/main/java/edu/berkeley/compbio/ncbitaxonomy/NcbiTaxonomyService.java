@@ -113,16 +113,31 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	// -------------------------- STATIC METHODS --------------------------
 
-	private Map<Integer, List<Integer>> ancestorPathCache;
+	private Map<Integer, List<Integer>> ancestorPathIdsCache;
 
 	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
 		{
-		List<Integer> result = ancestorPathCache.get(id);
+		List<Integer> result = ancestorPathIdsCache.get(id);
 
 		if (result == null)
 			{
 			result = super.getAncestorPathIds(id);
-			ancestorPathCache.put(id, result);
+			ancestorPathIdsCache.put(id, result);
+			}
+		return result;
+		//return getNode(id).getAncestorPathIds();
+		}
+
+	private Map<Integer, List<PhylogenyNode<Integer>>> ancestorPathNodesCache;
+
+	public List<PhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+		{
+		List<PhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
+
+		if (result == null)
+			{
+			result = super.getAncestorPathAsBasic(id);
+			ancestorPathNodesCache.put(id, result);
 			}
 		return result;
 		//return getNode(id).getAncestorPathIds();
@@ -213,8 +228,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 			throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
 			}
 
-		ancestorPathCache =
+		ancestorPathIdsCache =
 				CacheManager.getAccumulatingMap(this, "ancestorPathCache"); //, new HashMap<Integer, List<Integer>>());
+		ancestorPathNodesCache = CacheManager
+				.getAccumulatingMap(this, "ancestorPathNodesCache"); //, new HashMap<Integer, List<Integer>>());
 		}
 
 	/**

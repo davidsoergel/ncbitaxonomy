@@ -27,6 +27,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 
 	private static NcbiTaxonomyWithUnitBranchLengthsService instance;
 
+
 	public static NcbiTaxonomyWithUnitBranchLengthsService getInstance()
 		{
 		if (instance == null)
@@ -62,10 +63,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 
 	public void prepare(Set<Integer> allLabels) throws NoSuchNodeException
 		{
-		//** the hashcode stuff should be handled within CacheManager
-
 		String idString = toString() + ":" + DSStringUtils.joinSorted(allLabels, ":");
-		//String idHash = String.valueOf(idString.hashCode());
 
 		extractedTree = (RootedPhylogeny<Integer>) CacheManager.get(this, idString);
 		if (extractedTree == null)

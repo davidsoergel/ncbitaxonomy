@@ -516,6 +516,16 @@ public class NcbiCiccarelliHybridService
 		return hybridTree.getAncestorPathIds(id);
 		}
 
+	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
+		{
+		return hybridTree.getAncestorPath(id);
+		}
+
+	public List<PhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+		{
+		return hybridTree.getAncestorPathAsBasic(id);
+		}
+
 	/*	public boolean isDescendant(PhylogenyNode<Integer> ancestor, PhylogenyNode<Integer> descendant)
 			   throws PhyloUtilsException
 		   {
