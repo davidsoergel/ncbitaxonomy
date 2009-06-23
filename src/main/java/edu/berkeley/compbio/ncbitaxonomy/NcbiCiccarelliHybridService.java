@@ -647,4 +647,12 @@ public class NcbiCiccarelliHybridService
 		{
 		throw new NotImplementedException();
 		}
+
+
+	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
+	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		//return hybridTree.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
+		}
 	}

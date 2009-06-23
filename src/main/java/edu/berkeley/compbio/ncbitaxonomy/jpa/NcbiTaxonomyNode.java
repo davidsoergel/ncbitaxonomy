@@ -33,6 +33,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
+import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.SpringJpaObject;
@@ -692,5 +693,26 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public RootedPhylogeny<Integer> asRootedPhylogeny()
 		{
 		throw new NotImplementedException();
+		}
+
+	/**
+	 * Note this samples from the distribution of leaves weighted by the tree structure, i.e. uniformly _per level_, not
+	 * uniformly from the set of leaves.  Basically, leaves with fewer siblings and cousins are more likely to be chosen.
+	 *
+	 * @return
+	 */
+	public PhylogenyNode<Integer> getRandomLeafBelow()
+		{
+		// iterate, don't recurse, in case the tree is deep
+		PhylogenyNode<Integer> trav = this;
+		List<? extends PhylogenyNode<Integer>> travChildren = trav.getChildren();
+
+		while (!travChildren.isEmpty())
+			{
+			trav = DSCollectionUtils.chooseRandom(travChildren);
+			travChildren = trav.getChildren();
+			}
+
+		return trav;
 		}
 	}
