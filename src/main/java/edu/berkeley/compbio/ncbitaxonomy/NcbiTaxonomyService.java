@@ -113,6 +113,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	// -------------------------- STATIC METHODS --------------------------
 
+	public void setName(final String name)
+		{
+		throw new NotImplementedException();
+		}
+
 	private Map<Integer, List<Integer>> ancestorPathIdsCache;
 
 	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
