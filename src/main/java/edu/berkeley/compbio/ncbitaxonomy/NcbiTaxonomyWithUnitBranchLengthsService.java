@@ -124,7 +124,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 			}
 		catch (NoSuchNodeException e)
 			{
-			logger.error(e);
+			logger.error("Error", e);
 			throw new Error(e);
 			}
 		}
@@ -146,7 +146,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 			}
 		catch (NoSuchNodeException e)
 			{
-			logger.error(e);
+			logger.error("Error", e);
 			throw new Error(e);
 			}
 		}

@@ -97,7 +97,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 			 }
 		 catch (PhyloUtilsException e)
 			 {
-			 logger.error(e);
+			 logger.error("Error", e);
 			 }
 		 }
  */
