@@ -109,6 +109,11 @@ public class NcbiCiccarelliHybridService
 		return ncbiTaxonomyService.isLeaf(leafId);
 		}
 
+	public boolean isKnown(Integer leafId) //throws NoSuchNodeException
+		{
+		return ncbiTaxonomyService.isKnown(leafId);
+		}
+
 	// -------------------------- STATIC METHODS --------------------------
 
 	public static NcbiCiccarelliHybridService getInjectedInstance()

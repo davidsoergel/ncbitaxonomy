@@ -185,6 +185,20 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		return getNode(leafId).isLeaf();
 		}
 
+	public synchronized boolean isKnown(Integer leafId) //throws NoSuchNodeException
+		{
+		try
+			{
+			getNode(leafId);
+			return true;
+			}
+		catch (NoSuchNodeException e)
+			{
+			return false;
+			}
+		}
+
+
 	public NcbiTaxonomyService()
 		{
 		try
@@ -609,6 +623,13 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new PhyloUtilsRuntimeException(
 				"Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
 		}
+
+	public void addNode(PhylogenyNode<Integer> n) throws PhyloUtilsException
+		{
+		throw new PhyloUtilsRuntimeException(
+				"Loading the entire NCBI taxonomy into a Collection is probably a bad idea");
+		}
+
 
 	/**
 	 * Not implemented
