@@ -72,7 +72,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 
-	private Map<Integer, Set<String>> synonyms = new HashMap<Integer, Set<String>>();
+	private Map<Integer, HashSet<String>> synonyms = new HashMap<Integer, HashSet<String>>();
 	private Map<Integer, String> scientificNames = new HashMap<Integer, String>();
 
 
@@ -374,7 +374,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
 		{
 		int taxid = findTaxidByName(s);
-		Set<String> result = synonyms.get(taxid);
+		HashSet<String> result = synonyms.get(taxid);
 		if (result == null)
 			{
 			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));
@@ -386,7 +386,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	public Collection<String> synonymsOfRelaxed(String s) throws NoSuchNodeException
 		{
 		int taxid = findTaxidByNameRelaxed(s);
-		Set<String> result = synonyms.get(taxid);
+		HashSet<String> result = synonyms.get(taxid);
 		if (result == null)
 			{
 			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));
@@ -399,7 +399,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	public Collection<String> synonymsOfParent(String s) throws NoSuchNodeException
 		{
 		int taxid = findParentTaxidByName(s);
-		Set<String> result = synonyms.get(taxid);
+		HashSet<String> result = synonyms.get(taxid);
 		if (result == null)
 			{
 			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));

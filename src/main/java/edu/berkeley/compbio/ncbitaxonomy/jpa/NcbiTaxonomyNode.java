@@ -483,13 +483,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 
 	@Transient
-	private List<Integer> ancestorPathIds;
+	private LinkedList<Integer> ancestorPathIds;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	//@Transactional(propagation = Propagation.MANDATORY)
-	public List<Integer> getAncestorPathIds()
+	public LinkedList<Integer> getAncestorPathIds()
 		{
 		if (ancestorPathIds == null)
 			{

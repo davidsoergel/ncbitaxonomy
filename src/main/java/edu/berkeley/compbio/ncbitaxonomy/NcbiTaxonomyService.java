@@ -63,6 +63,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -118,29 +119,42 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException();
 		}
 
-	private Map<Integer, List<Integer>> ancestorPathIdsCache;
+	private Map<Integer, LinkedList<Integer>> ancestorPathIdsCache;
 
-	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
+	@NotNull
+	@Override
+	public LinkedList<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
 		{
-		List<Integer> result = ancestorPathIdsCache.get(id);
+		LinkedList<Integer> result = ancestorPathIdsCache.get(id);
 
-		if (result == null)
+		if (result == null || result.isEmpty())
 			{
+			if (result.isEmpty())
+				{
+				logger.warn("Cache contained empty ancestorPathIds for " + id);
+				}
 			result = super.getAncestorPathIds(id);
+			assert !result.isEmpty();
 			ancestorPathIdsCache.put(id, result);
 			}
 		return result;
 		//return getNode(id).getAncestorPathIds();
 		}
 
-	private Map<Integer, List<PhylogenyNode<Integer>>> ancestorPathNodesCache;
+	private Map<Integer, ArrayList<PhylogenyNode<Integer>>> ancestorPathNodesCache;
 
-	public List<PhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+	@NotNull
+	@Override
+	public ArrayList<PhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
 		{
-		List<PhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
+		ArrayList<PhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
 
 		if (result == null || result.isEmpty())
 			{
+			if (result.isEmpty())
+				{
+				logger.warn("Cache contained empty ancestorPathAsBasic for " + id);
+				}
 			result = super.getAncestorPathAsBasic(id);
 			assert !result.isEmpty();
 			ancestorPathNodesCache.put(id, result);
@@ -503,10 +517,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Integer> getAncestorPathIds()
+	public LinkedList<Integer> getAncestorPathIds()
 		{
 		// this is the root node
-		List<Integer> result = new LinkedList<Integer>();
+		LinkedList<Integer> result = new LinkedList<Integer>();
 
 		result.add(0, getRoot().getValue());
 
