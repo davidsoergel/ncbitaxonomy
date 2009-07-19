@@ -139,9 +139,10 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		{
 		List<PhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
 
-		if (result == null)
+		if (result == null || result.isEmpty())
 			{
 			result = super.getAncestorPathAsBasic(id);
+			assert !result.isEmpty();
 			ancestorPathNodesCache.put(id, result);
 			}
 		return result;
