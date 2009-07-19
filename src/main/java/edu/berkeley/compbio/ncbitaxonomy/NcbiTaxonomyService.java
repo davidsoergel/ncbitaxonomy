@@ -130,7 +130,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 		if (result == null || result.isEmpty())
 			{
-			if (result.isEmpty())
+			if (result != null && result.isEmpty())
 				{
 				logger.warn("Cache contained empty ancestorPathIds for " + id);
 				}
@@ -152,7 +152,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 		if (result == null || result.isEmpty())
 			{
-			if (result.isEmpty())
+			if (result != null && result.isEmpty())
 				{
 				logger.warn("Cache contained empty ancestorPathAsBasic for " + id);
 				}
