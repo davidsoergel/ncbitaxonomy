@@ -39,6 +39,7 @@ import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.CiccarelliTaxonomyService;
 import edu.berkeley.compbio.phyloutils.HybridRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.IntegerNodeNamer;
@@ -151,8 +152,8 @@ public class NcbiCiccarelliHybridService
 		ciccarelli = CiccarelliTaxonomyService.getInstance();
 		String className = "edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService";
 
-		RootedPhylogeny<Integer> ciccarelliIntegerTree =
-				(RootedPhylogeny<Integer>) CacheManager.get(className + File.separator + "ciccarelliIntegerTree");
+		BasicRootedPhylogeny<Integer> ciccarelliIntegerTree =
+				(BasicRootedPhylogeny<Integer>) CacheManager.get(className + File.separator + "ciccarelliIntegerTree");
 		if (ciccarelliIntegerTree == null)
 			{
 
@@ -382,17 +383,17 @@ public class NcbiCiccarelliHybridService
  */
 
 	@Transactional
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
-	                                                       boolean includeInternalBranches,
-	                                                       AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
+	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
+	                                                            boolean includeInternalBranches,
+	                                                            AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException //, NodeNamer<Integer> namer
 		{
 		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
 		}
 
 	@Transactional
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
-	                                                       boolean includeInternalBranches)
+	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
+	                                                            boolean includeInternalBranches)
 			throws NoSuchNodeException //, NodeNamer<Integer> namer
 		{
 		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);

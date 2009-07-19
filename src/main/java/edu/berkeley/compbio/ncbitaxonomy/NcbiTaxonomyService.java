@@ -43,6 +43,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.NodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
@@ -872,9 +873,9 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	@Override
 	@Transactional
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
-	                                                       boolean includeInternalBranches,
-	                                                       MutualExclusionResolutionMode mode)
+	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
+	                                                            boolean includeInternalBranches,
+	                                                            MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException //, NodeNamer<T> namer
 
 		{

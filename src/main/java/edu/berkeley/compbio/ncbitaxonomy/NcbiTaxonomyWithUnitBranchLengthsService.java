@@ -4,10 +4,10 @@ import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RequiresPreparationTaxonomyService;
-import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import org.apache.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 	//private NcbiTaxonomyService taxonomyService = NcbiTaxonomyService.getInstance();
 
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyWithUnitBranchLengthsService.class);
-	private RootedPhylogeny<Integer> extractedTree;
+	private BasicRootedPhylogeny<Integer> extractedTree;
 
 	private static NcbiTaxonomyWithUnitBranchLengthsService instance;
 
@@ -65,7 +65,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 		{
 		String idString = toString() + ":" + DSStringUtils.joinSorted(allLabels, ":");
 
-		extractedTree = (RootedPhylogeny<Integer>) CacheManager.get(this, idString);
+		extractedTree = (BasicRootedPhylogeny<Integer>) CacheManager.get(this, idString);
 		if (extractedTree == null)
 			{
 			extractedTree = extractTreeWithLeafIDs(allLabels, false, true,
@@ -77,13 +77,13 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 
 
 	@Override
-	public RootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
-	                                                       final boolean includeInternalBranches,
-	                                                       AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
+	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
+	                                                            final boolean includeInternalBranches,
+	                                                            AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
 		// we must include the internal branches for the sake of consistent branch lengths
-		RootedPhylogeny<Integer> result = super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, true, mode);
+		BasicRootedPhylogeny<Integer> result = super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, true, mode);
 		result.setAllBranchLengthsTo(1.0);
 		return result;
 		}
