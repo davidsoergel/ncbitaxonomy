@@ -43,6 +43,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Multiset;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.NodeNamer;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
@@ -142,13 +143,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		//return getNode(id).getAncestorPathIds();
 		}
 
-	private Map<Integer, ArrayList<PhylogenyNode<Integer>>> ancestorPathNodesCache;
+	private Map<Integer, ArrayList<BasicPhylogenyNode<Integer>>> ancestorPathNodesCache;
 
 	@NotNull
 	@Override
-	public ArrayList<PhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+	public ArrayList<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
 		{
-		ArrayList<PhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
+		ArrayList<BasicPhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
+		//** Note these BasicPhylogenyNode entries have null parents!  In our particular use case we never access them anyway, but it's ugly.
 
 		if (result == null || result.isEmpty())
 			{
