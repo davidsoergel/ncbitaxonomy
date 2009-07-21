@@ -61,6 +61,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -483,13 +484,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 
 	@Transient
-	private LinkedList<Integer> ancestorPathIds;
+	private List<Integer> ancestorPathIds;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	//@Transactional(propagation = Propagation.MANDATORY)
-	public LinkedList<Integer> getAncestorPathIds()
+	public List<Integer> getAncestorPathIds()
 		{
 		if (ancestorPathIds == null)
 			{
@@ -515,6 +516,8 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			ancestorPath = new LinkedList<PhylogenyNode<Integer>>(getParent().getAncestorPath());
 			}
 		ancestorPath.add(this);
+
+		ancestorPath = Collections.unmodifiableList(ancestorPath);
 		}
 
 	//@Transactional(propagation = Propagation.MANDATORY)
@@ -525,6 +528,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			{
 			ancestorPathIds.add(node.getValue());
 			}
+		ancestorPathIds = Collections.unmodifiableList(ancestorPathIds);
 		}
 
 	/**

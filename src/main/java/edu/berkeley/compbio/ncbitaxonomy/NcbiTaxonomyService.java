@@ -65,8 +65,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -121,13 +121,13 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException();
 		}
 
-	private Map<Integer, LinkedList<Integer>> ancestorPathIdsCache;
+	private Map<Integer, List<Integer>> ancestorPathIdsCache;
 
 	@NotNull
 	@Override
-	public LinkedList<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
+	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
 		{
-		LinkedList<Integer> result = ancestorPathIdsCache.get(id);
+		List<Integer> result = ancestorPathIdsCache.get(id);
 
 		if (result == null || result.isEmpty())
 			{
@@ -143,13 +143,13 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		//return getNode(id).getAncestorPathIds();
 		}
 
-	private Map<Integer, ArrayList<BasicPhylogenyNode<Integer>>> ancestorPathNodesCache;
+	private Map<Integer, List<BasicPhylogenyNode<Integer>>> ancestorPathNodesCache;
 
 	@NotNull
 	@Override
-	public ArrayList<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
 		{
-		ArrayList<BasicPhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
+		List<BasicPhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
 		//** Note these BasicPhylogenyNode entries have null parents!  In our particular use case we never access them anyway, but it's ugly.
 
 		if (result == null || result.isEmpty())
@@ -265,10 +265,11 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 			throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
 			}
 
-		ancestorPathIdsCache =
-				CacheManager.getAccumulatingMap(this, "ancestorPathCache"); //, new HashMap<Integer, List<Integer>>());
-		ancestorPathNodesCache = CacheManager
-				.getAccumulatingMap(this, "ancestorPathNodesCache"); //, new HashMap<Integer, List<Integer>>());
+		//ancestorPathIdsCache = CacheManager.getAccumulatingMap(this, "ancestorPathCache");
+		ancestorPathIdsCache = CacheManager.getAccumulatingMapAssumeSerializable(this, "ancestorPathCache");
+
+		//ancestorPathNodesCache = CacheManager.getAccumulatingMap(this, "ancestorPathNodesCache");
+		ancestorPathNodesCache = CacheManager.getAccumulatingMapAssumeSerializable(this, "ancestorPathNodesCache");
 		}
 
 	/**
@@ -514,20 +515,20 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 		result.add(0, getRoot());
 
-		return result;
+		return Collections.unmodifiableList(result);
 		}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public LinkedList<Integer> getAncestorPathIds()
+	public List<Integer> getAncestorPathIds()
 		{
 		// this is the root node
-		LinkedList<Integer> result = new LinkedList<Integer>();
+		List<Integer> result = new LinkedList<Integer>();
 
 		result.add(0, getRoot().getValue());
 
-		return result;
+		return Collections.unmodifiableList(result);
 		}
 
 	/**
