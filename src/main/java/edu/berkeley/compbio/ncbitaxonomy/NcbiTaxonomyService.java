@@ -65,6 +65,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.NoResultException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -145,6 +146,8 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 	private Map<Integer, List<BasicPhylogenyNode<Integer>>> ancestorPathNodesCache;
 
+	// PERF not sure caching all the paths like this makes sense, vs. just caching the tree as a whole?
+
 	@NotNull
 	@Override
 	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
@@ -158,7 +161,16 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 				{
 				logger.warn("Cache contained empty ancestorPathAsBasic for " + id);
 				}
-			result = super.getAncestorPathAsBasic(id);
+
+			PhylogenyNode<Integer> node = getNode(id);
+
+			PhylogenyNode<Integer> parent = node.getParent();
+			result = new ArrayList<BasicPhylogenyNode<Integer>>(getAncestorPathAsBasic(parent.getValue()));
+			BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(null, node);
+			result.add(convertedNode);
+
+			result = Collections.unmodifiableList(result);
+
 			assert !result.isEmpty();
 			ancestorPathNodesCache.put(id, result);
 			}
