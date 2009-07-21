@@ -136,7 +136,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 				{
 				logger.warn("Cache contained empty ancestorPathIds for " + id);
 				}
-			result = super.getAncestorPathIds(id);
+
+			PhylogenyNode<Integer> node = getNode(id);
+
+			PhylogenyNode<Integer> parent = node.getParent();
+			result = new ArrayList<Integer>(getAncestorPathIds(parent.getValue()));
+			result.add(id);
+
+			result = Collections.unmodifiableList(result);
+
 			assert !result.isEmpty();
 			ancestorPathIdsCache.put(id, result);
 			}
