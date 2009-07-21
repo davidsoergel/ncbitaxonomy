@@ -139,8 +139,22 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 			PhylogenyNode<Integer> node = getNode(id);
 
-			PhylogenyNode<Integer> parent = node.getParent();
-			result = new ArrayList<Integer>(getAncestorPathIds(parent.getValue()));
+			if (id == 1)
+				{
+				result = new ArrayList<Integer>(1);
+				}
+			else
+				{
+				PhylogenyNode<Integer> parent = node.getParent();
+
+				if (parent == null || parent.equals(node))
+					{
+					throw new NcbiTaxonomyRuntimeException("Node " + id + " has invalid parent: " + parent);
+					}
+
+				result = new ArrayList<Integer>(getAncestorPathIds(parent.getValue()));
+				}
+
 			result.add(id);
 
 			result = Collections.unmodifiableList(result);
@@ -172,8 +186,21 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 			PhylogenyNode<Integer> node = getNode(id);
 
-			PhylogenyNode<Integer> parent = node.getParent();
-			result = new ArrayList<BasicPhylogenyNode<Integer>>(getAncestorPathAsBasic(parent.getValue()));
+			if (id == 1)
+				{
+				result = new ArrayList<BasicPhylogenyNode<Integer>>(1);
+				}
+			else
+				{
+				PhylogenyNode<Integer> parent = node.getParent();
+
+				if (parent == null || parent.equals(node))
+					{
+					throw new NcbiTaxonomyRuntimeException("Node " + id + " has invalid parent: " + parent);
+					}
+
+				result = new ArrayList<BasicPhylogenyNode<Integer>>(getAncestorPathAsBasic(parent.getValue()));
+				}
 			BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(null, node);
 			result.add(convertedNode);
 
