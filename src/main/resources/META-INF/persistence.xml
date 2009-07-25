@@ -36,12 +36,12 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
       http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
              version="1.0">
-
-	<persistence-unit name="ncbiTaxonomy" transaction-type="RESOURCE_LOCAL">
-		<properties>
-			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
-		</properties>
-	</persistence-unit>
-
+  <!--
+  <persistence-unit name="ncbiTaxonomy" transaction-type="RESOURCE_LOCAL">
+    <properties>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
+    </properties>
+  </persistence-unit>
+-->
 </persistence>
 
