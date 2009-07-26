@@ -285,6 +285,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 
 			GenericApplicationContext ctx = new GenericApplicationContext();
 			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
+//			xmlReader.loadBeanDefinitions(new ClassPathResource("springjpautils.xml"));
 			xmlReader.loadBeanDefinitions(new ClassPathResource("ncbitaxonomy.xml"));
 
 			PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
@@ -296,7 +297,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 			// add a shutdown hook for the above context...
 			ctx.registerShutdownHook();
 
-			ncbiTaxonomyServiceEngine = ((NcbiTaxonomyServiceEngine) ctx.getBean("ncbiTaxonomyServiceImpl"));
+			ncbiTaxonomyServiceEngine = ((NcbiTaxonomyServiceEngine) ctx.getBean("ncbiTaxonomyServiceEngineImpl"));
 
 			// we've got what we need, so we can ditch the context already
 			// no, that breaks transactioning

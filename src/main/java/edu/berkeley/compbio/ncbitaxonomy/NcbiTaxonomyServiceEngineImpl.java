@@ -43,6 +43,8 @@ import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import java.util.Collection;
@@ -59,6 +61,7 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
+@Service
 public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	{
 
@@ -66,7 +69,11 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	// ------------------------------ FIELDS ------------------------------
 
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyServiceEngineImpl.class);
+
+	@Autowired
 	private NcbiTaxonomyNameDao ncbiTaxonomyNameDao;
+
+	@Autowired
 	private NcbiTaxonomyNodeDao ncbiTaxonomyNodeDao;
 
 	private Map<String, Integer> taxIdByNameRelaxed = new HashMap<String, Integer>();
@@ -168,7 +175,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
-	public void setNcbiTaxonomyNameDao(NcbiTaxonomyNameDao ncbiTaxonomyNameDao)
+/*	public void setNcbiTaxonomyNameDao(NcbiTaxonomyNameDao ncbiTaxonomyNameDao)
 		{
 		this.ncbiTaxonomyNameDao = ncbiTaxonomyNameDao;
 		}
@@ -177,7 +184,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		{
 		this.ncbiTaxonomyNodeDao = ncbiTaxonomyNodeDao;
 		}
-
+*/
 	// -------------------------- OTHER METHODS --------------------------
 
 	/*	@Transactional(propagation = Propagation.SUPPORTS)

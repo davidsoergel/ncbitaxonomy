@@ -30,48 +30,61 @@
   ~ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-    http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-    http://www.springframework.org/schema/aop
-    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-  <!--       default-autowire="byName">-->
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context=
+    "http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-  <!--<tx:annotation-driven/>-->
+  <!-- <context:spring-configured/> --> <!-- actually we don't need this at all anymore, since nothing is @Configurable -->
 
-  <!--<aop:spring-configured/>-->  <!-- note we do need there to be an AnnotationBeanConfigurerAspect; this one is commented out because it's a singleton and we're already loading it in a different application context. -->
+  <!-- creates CommonAnnotationBeanPostProcessor, which doesn't seem to have singleton issues? -->
+  <context:annotation-config/>
 
-  <!--   <tx:advice id="supportsTxAdvice">
-          <tx:attributes>
-              <tx:method name="*" propagation="SUPPORTS"/>
-          </tx:attributes>
-      </tx:advice>
+  <!-- find all the @Repository and @Service classes, both singletons and prototypes -->
+  <context:component-scan base-package="edu.berkeley.compbio.ncbitaxonomy"/>
 
-      <tx:advice id="requiredTxAdvice">
-          <tx:attributes>
-              <tx:method name="*" propagation="REQUIRED"/>
-          </tx:attributes>
-      </tx:advice>
+  <!-- @Repository-->
+  <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+  <!-- @PersistenceContext -->
+  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
 
-      <tx:advice id="mandatoryTxAdvice">
-          <tx:attributes>
-              <tx:method name="*" propagation="MANDATORY"/>
-          </tx:attributes>
-      </tx:advice>
+  <tx:advice id="supportsTxAdvice">
+    <tx:attributes>
+      <tx:method name="*" propagation="SUPPORTS"/>
+    </tx:attributes>
+  </tx:advice>
 
-      <tx:advice id="noRollbackTxAdvice">
-          <tx:attributes>
-              <tx:method name="*" no-rollback-for="{javax.persistence.NoResultException.class,
+  <tx:advice id="requiredTxAdvice">
+    <tx:attributes>
+      <tx:method name="*" propagation="REQUIRED"/>
+    </tx:attributes>
+  </tx:advice>
+
+
+  <tx:advice id="mandatoryTxAdvice">
+    <tx:attributes>
+      <tx:method name="*" propagation="MANDATORY"/>
+    </tx:attributes>
+  </tx:advice>
+
+  <tx:advice id="noRollbackTxAdvice">
+    <tx:attributes>
+      <tx:method name="*" no-rollback-for="{javax.persistence.NoResultException.class,
                        javax.persistence.EntityNotFoundException.class}" propagation="REQUIRED"/>
-          </tx:attributes>
-      </tx:advice>
-      -->
+    </tx:attributes>
+  </tx:advice>
+
 
   <aop:config>
 
@@ -114,50 +127,50 @@
 
   </aop:config>
 
+
+  <bean id="entityManagerFactory"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="jpaVendorAdapter">
+      <bean
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="false"/>
+        <property name="generateDdl" value="false"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+
+      </bean>
+    </property>
+    <property name="dataSource" ref="dataSource"/>
+    <property name="persistenceUnitName" value="ncbiTaxonomy"/>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="entityManagerFactory"/>
+  </bean>
+
+
   <!--
-    <bean id="entityManagerFactory"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="jpaVendorAdapter">
-            <bean
-                    class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="showSql" value="false"/>
-                <property name="generateDdl" value="false"/>
-                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+      <bean id="ncbiTaxonomyNameDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl"/>
+      <bean id="ncbiTaxonomyNodeDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl"/>
 
-            </bean>
-        </property>
-        <property name="dataSource" ref="dataSource"/>
-        <property name="persistenceUnitName" value="ncbiTaxonomy"/>
-    </bean>
+      <bean id="ncbiTaxonomyServiceImpl" class="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl">
+          <property name="ncbiTaxonomyNameDao" ref="ncbiTaxonomyNameDao"/>
+          <property name="ncbiTaxonomyNodeDao" ref="ncbiTaxonomyNodeDao"/>
+      </bean>-->
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
-
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
-
-    <bean id="ncbiTaxonomyNameDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl"/>
-    <bean id="ncbiTaxonomyNodeDao" class="edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl"/>
-
-    <bean id="ncbiTaxonomyServiceImpl" class="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl">
-        <property name="ncbiTaxonomyNameDao" ref="ncbiTaxonomyNameDao"/>
-        <property name="ncbiTaxonomyNodeDao" ref="ncbiTaxonomyNodeDao"/>
-    </bean>
-
-    <bean id="dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${driver}"/>
-        <property name="url" value="${url}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
-    </bean>
+  <bean id="dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${driver}"/>
+    <property name="url" value="${url}"/>
+    <property name="username" value="${username}"/>
+    <property name="password" value="${password}"/>
+  </bean>
 
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
-        <property name="targetDataSource">
-            <ref local="dataSourceTarget"/>
-        </property>
-    </bean>
--->
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+    <property name="targetDataSource">
+      <ref local="dataSourceTarget"/>
+    </property>
+  </bean>
+
   <!-- workaround bug arising in testing; see http://forum.springframework.org/showthread.php?t=42870&page=2 -->
   <!--	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"
            depends-on="annotationTransactionAspect"/>

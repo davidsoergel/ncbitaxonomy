@@ -55,6 +55,7 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	{
 	// ------------------------------ FIELDS ------------------------------
 
+	@PersistenceContext
 	private EntityManager entityManager;
 
 
@@ -69,12 +70,12 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 		return entityManager;
 		}
 
-	@PersistenceContext
+/*	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager)
 		{
 		this.entityManager = entityManager;
 		}
-
+*/
 	// ------------------------ INTERFACE METHODS ------------------------
 
 

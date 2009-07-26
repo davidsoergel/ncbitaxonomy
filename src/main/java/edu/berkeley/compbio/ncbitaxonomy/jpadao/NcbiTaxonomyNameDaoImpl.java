@@ -64,6 +64,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 
 	// ------------------------------ FIELDS ------------------------------
 
+	@PersistenceContext
 	private EntityManager entityManager;
 
 	private Map<String, NcbiTaxonomyName> names = new HashMap<String, NcbiTaxonomyName>();
@@ -80,12 +81,12 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		return entityManager;
 		}
 
-	@PersistenceContext
+/*	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager)
 		{
 		this.entityManager = entityManager;
 		}
-
+*/
 	// ------------------------ INTERFACE METHODS ------------------------
 
 

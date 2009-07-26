@@ -33,117 +33,153 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>edu.berkeley.compbio</groupId>
-	<artifactId>ncbitaxonomy</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.berkeley.compbio</groupId>
+  <artifactId>ncbitaxonomy</artifactId>
 
-	<name>ncbitaxonomy</name>
-	<version>0.9-SNAPSHOT</version>
-	<url>http://dev.davidsoergel.com/ncbitaxonomy</url>
-	<description>Utility classes for dealing with the NCBI taxonomy.</description>
+  <name>ncbitaxonomy</name>
+  <version>0.9-SNAPSHOT</version>
+  <url>http://dev.davidsoergel.com/ncbitaxonomy</url>
+  <description>Utility classes for dealing with the NCBI taxonomy.</description>
 
-	<parent>
-		<groupId>edu.berkeley.compbio</groupId>
-		<artifactId>basepom</artifactId>
-		<version>0.92</version>
-	</parent>
+  <parent>
+    <groupId>edu.berkeley.compbio</groupId>
+    <artifactId>basepom</artifactId>
+    <version>0.92</version>
+  </parent>
 
-	<inceptionYear>2006</inceptionYear>
+  <inceptionYear>2006</inceptionYear>
 
-	<packaging>jar</packaging>
-
-
-	<issueManagement>
-		<system>Trac</system>
-		<url>http://dev.davidsoergel.com/ncbitaxonomy/</url>
-	</issueManagement>
-
-	<scm>
-		<connection>scm:svn:http://svn.davidsoergel.com/repos/ncbitaxonomy</connection>
-		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-compbio/ncbitaxonomy
-		</developerConnection>
-	</scm>
+  <packaging>jar</packaging>
 
 
-	<distributionManagement>
-		<site>
-			<id>website</id>
-			<url>scpexe://dev.davidsoergel.com/home/build/mavensites/ncbitaxonomy</url>
-		</site>
-	</distributionManagement>
+  <issueManagement>
+    <system>Trac</system>
+    <url>http://dev.davidsoergel.com/ncbitaxonomy/</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:svn:http://svn.davidsoergel.com/repos/ncbitaxonomy</connection>
+    <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-compbio/ncbitaxonomy
+    </developerConnection>
+  </scm>
 
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://dev.davidsoergel.com/artifactory/repo</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>snapshots</id>
-			<url>http://dev.davidsoergel.com/artifactory/repo</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-
-	<!--		<repository>
-		   <id>maven-snapshot-repository</id>
-		   <name>Maven Snapshot Repository</name>
-		   <url>http://people.apache.org/maven-snapshot-repository</url>
-	   </repository>-->
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <url>scpexe://dev.davidsoergel.com/home/build/mavensites/ncbitaxonomy</url>
+    </site>
+  </distributionManagement>
 
 
-	<dependencies>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://dev.davidsoergel.com/artifactory/repo</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>snapshots</id>
+      <url>http://dev.davidsoergel.com/artifactory/repo</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
 
-		<dependency>
-			<groupId>com.davidsoergel</groupId>
-			<artifactId>dsutils</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+  <!--		<repository>
+         <id>maven-snapshot-repository</id>
+         <name>Maven Snapshot Repository</name>
+         <url>http://people.apache.org/maven-snapshot-repository</url>
+       </repository>-->
 
-		<dependency>
-			<groupId>edu.berkeley.compbio</groupId>
-			<artifactId>phyloutils</artifactId>
-			<version>0.9-SNAPSHOT</version>
-		</dependency>
 
-		<dependency>
-			<groupId>com.davidsoergel</groupId>
-			<artifactId>springjpautils</artifactId>
-			<version>0.9-SNAPSHOT</version>
-		</dependency>
+  <dependencies>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-mock</artifactId>
-			<version>2.0.2</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>com.davidsoergel</groupId>
+      <artifactId>dsutils</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
-		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.1</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>edu.berkeley.compbio</groupId>
+      <artifactId>phyloutils</artifactId>
+      <version>0.9-SNAPSHOT</version>
+    </dependency>
 
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.0.4</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>com.davidsoergel</groupId>
+      <artifactId>springjpautils</artifactId>
+      <version>0.9-SNAPSHOT</version>
+    </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.0</version>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-mock</artifactId>
+      <version>2.0.2</version>
+      <scope>test</scope>
+    </dependency>
 
-	</dependencies>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.0.4</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <configuration>
+          <complianceLevel>1.6</complianceLevel>
+          <source>1.6</source>
+          <target>1.6</target>
+          <!-- <XnoInline>true</XnoInline> -->
+          <aspectLibraries>
+            <aspectLibrary>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-aspects</artifactId>
+            </aspectLibrary>
+          </aspectLibraries>
+          <showWeaveInfo>true</showWeaveInfo>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
