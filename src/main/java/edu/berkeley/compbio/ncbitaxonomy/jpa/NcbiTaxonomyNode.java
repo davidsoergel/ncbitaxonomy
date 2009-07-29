@@ -259,6 +259,14 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 	/**
+	 * Not implemented
+	 */
+	public PhylogenyNode<Integer> newChild(Integer payload)
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
+		}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public void setPayload(Integer contents)

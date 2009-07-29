@@ -527,6 +527,14 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
+	public PhylogenyNode<Integer> newChild(Integer payload)
+		{
+		throw new NotImplementedException("The NCBI taxonomy is not editable");
+		}
+
+	/**
+	 * Not implemented
+	 */
 	public void setPayload(Integer taxid)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
