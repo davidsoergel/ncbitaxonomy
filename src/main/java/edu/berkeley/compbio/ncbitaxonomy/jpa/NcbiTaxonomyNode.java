@@ -217,7 +217,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getValue()
+	public Integer getPayload()
 		{
 		return getId();
 		}
@@ -261,7 +261,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setValue(Integer contents)
+	public void setPayload(Integer contents)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -417,7 +417,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 * {@inheritDoc}
 	 */
 	@NotNull
-	public PhylogenyNode<Integer> getChild(Integer id) throws NoSuchNodeException
+	public PhylogenyNode<Integer> getChildWithPayload(Integer id) throws NoSuchNodeException
 		{
 		// We could map the children collection as a Map; but that's some hassle, and since there are generally just 2 children anyway, this is simpler
 
@@ -531,7 +531,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		ancestorPathIds = new LinkedList<Integer>();
 		for (PhylogenyNode<Integer> node : getAncestorPath())
 			{
-			ancestorPathIds.add(node.getValue());
+			ancestorPathIds.add(node.getPayload());
 			}
 		ancestorPathIds = Collections.unmodifiableList(ancestorPathIds);
 		}

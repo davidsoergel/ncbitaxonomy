@@ -482,7 +482,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 				{
 				try
 					{
-					rootPhylogeny.getNode(n.getValue());
+					rootPhylogeny.getNode(n.getPayload());
 
 					// if we got here, we found a node
 					break;
@@ -494,13 +494,13 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 						logger.debug("Node " + n + " not in root tree, trying parent: " + n.getParent());
 						}
 					n = n.getParent();
-					if (n.getValue() == 1)
+					if (n.getPayload() == 1)
 						{					// arrived at root, too bad
 						throw new NoSuchNodeException("Taxon " + leafId + " has no ancestors in provided tree.");
 						}				//ncbiDb.getEntityManager().refresh(n);
 					}
 				}
-			result = n.getValue();
+			result = n.getPayload();
 			nearestKnownAncestorCache.put(leafId, result);
 			}		//return n.getId();
 		return result;
@@ -531,11 +531,11 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 			{
 			if (rankName.equals(n.getRank()))
 				{
-				return n.getValue();
+				return n.getPayload();
 				}
 
 			n = n.getParent();
-			if (n.getValue() == 1)
+			if (n.getPayload() == 1)
 				{					// arrived at root, too bad
 				throw new NoSuchNodeException("Taxon " + leafId + " has no ancestors of rank " + rankName);
 				}				//ncbiDb.getEntityManager().refresh(n);

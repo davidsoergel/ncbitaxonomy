@@ -169,7 +169,7 @@ public class NcbiCiccarelliHybridService
 			}
 
 		// the root must be node 1, regardless of what children have unknown IDs
-		ciccarelliIntegerTree.setValue(new Integer(1));
+		ciccarelliIntegerTree.setPayload(new Integer(1));
 
 		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyService);
 		_instance = new NcbiCiccarelliHybridService();
@@ -227,12 +227,12 @@ public class NcbiCiccarelliHybridService
 				{
 				try
 					{
-					String name = n.getValue();
+					String name = n.getPayload();
 					int id = ncbiTaxonomyService.findTaxidByName(name);
 					}
 				catch (NoSuchNodeException e)
 					{
-					logger.error("Leaf with unknown taxid: " + n.getValue());
+					logger.error("Leaf with unknown taxid: " + n.getPayload());
 					}
 				}
 
@@ -240,7 +240,7 @@ public class NcbiCiccarelliHybridService
 				{
 				try
 					{
-					String name = n.getValue();
+					String name = n.getPayload();
 
 					// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
 					if (name != null && !name.contains("subclade"))
@@ -438,7 +438,7 @@ public class NcbiCiccarelliHybridService
 
 	public double getDepthFromRoot(Integer id2) throws NoSuchNodeException
 		{
-		Integer id1 = hybridTree.getRootPhylogeny().getRoot().getValue();
+		Integer id1 = hybridTree.getRootPhylogeny().getRoot().getPayload();
 		id2 = nearestKnownAncestor(id2);
 		return exactDistanceBetween(id1, id2);
 		//return stringTaxonomyService.minDistanceBetween(intToNodeMap.get(a), intToNodeMap.get(b));

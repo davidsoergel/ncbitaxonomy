@@ -120,7 +120,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyServic
 			result.setAllBranchLengthsTo(1.0);
 
 			return result.distanceBetween(a.getValue(), b.getValue());*/
-			return extractedTree.distanceBetween(a.getValue(), b.getValue());
+			return extractedTree.distanceBetween(a.getPayload(), b.getPayload());
 			}
 		catch (NoSuchNodeException e)
 			{

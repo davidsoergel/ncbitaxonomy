@@ -148,7 +148,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 					throw new NcbiTaxonomyRuntimeException("Node " + id + " has invalid parent: " + parent);
 					}
 
-				result = new ArrayList<Integer>(getAncestorPathIds(parent.getValue()));
+				result = new ArrayList<Integer>(getAncestorPathIds(parent.getPayload()));
 				}
 
 			result.add(id);
@@ -195,7 +195,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 					throw new NcbiTaxonomyRuntimeException("Node " + id + " has invalid parent: " + parent);
 					}
 
-				result = new ArrayList<BasicPhylogenyNode<Integer>>(getAncestorPathAsBasic(parent.getValue()));
+				result = new ArrayList<BasicPhylogenyNode<Integer>>(getAncestorPathAsBasic(parent.getPayload()));
 				}
 			BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(null, node);
 			result.add(convertedNode);
@@ -495,15 +495,15 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	 * {@inheritDoc}
 	 */
 	@NotNull
-	public PhylogenyNode<Integer> getChild(Integer id) throws NoSuchNodeException
+	public PhylogenyNode<Integer> getChildWithPayload(Integer id) throws NoSuchNodeException
 		{
-		return getRoot().getChild(id);
+		return getRoot().getChildWithPayload(id);
 		}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getValue()
+	public Integer getPayload()
 		{
 		return 1;// the root taxid of the ncbi taxonomy.
 		}
@@ -527,7 +527,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public void setValue(Integer taxid)
+	public void setPayload(Integer taxid)
 		{
 		throw new NotImplementedException("The NCBI taxonomy is not editable");
 		}
@@ -570,7 +570,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		// this is the root node
 		List<Integer> result = new LinkedList<Integer>();
 
-		result.add(0, getRoot().getValue());
+		result.add(0, getRoot().getPayload());
 
 		return Collections.unmodifiableList(result);
 		}
