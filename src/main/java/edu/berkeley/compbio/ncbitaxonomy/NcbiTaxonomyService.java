@@ -573,7 +573,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Integer> getAncestorPathIds()
+	public List<Integer> getAncestorPathPayloads()
 		{
 		// this is the root node
 		List<Integer> result = new LinkedList<Integer>();
