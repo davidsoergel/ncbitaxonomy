@@ -33,14 +33,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="ncbitaxonomy" verbose="1" parallel="false" thread-count="1">
-	<test name="ncbitaxonomy" junit="false">
-		<!--<packages>
-			<package name="edu.berkeley.compbio.phyloutils"/>
-		</packages>-->
-		<classes>
-			<class name="edu.berkeley.compbio.phyloutils.HybridRootedPhylogenyTest"/>
-			<class name="edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridServiceTest"/>
-			<class name="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceTest"/>
-		</classes>
-	</test>
+  <test name="ncbitaxonomy" junit="false">
+    <!--<packages>
+    <package name="edu.berkeley.compbio.phyloutils"/>
+  </packages>-->
+    <classes>
+      <class name="edu.berkeley.compbio.phyloutils.HybridRootedPhylogenyTest"/>
+      <class name="edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridServiceTest"/>
+      <class name="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyPhylogenyTest"/>
+    </classes>
+  </test>
 </suite>

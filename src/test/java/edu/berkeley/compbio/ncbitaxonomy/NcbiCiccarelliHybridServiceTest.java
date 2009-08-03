@@ -191,7 +191,7 @@ public class NcbiCiccarelliHybridServiceTest
 		final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
 				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false),
-				                                       NcbiTaxonomyService.getInstance(), nameToIdMap,
+				                                       NcbiTaxonomyPhylogeny.getInstance(), nameToIdMap,
 				                                       extraNameToIdMap);
 		System.err.println(ciccarelliIntegerTree);
 		assert ciccarelliIntegerTree.getLeaves().size() > 100;

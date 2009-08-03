@@ -50,6 +50,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.SerializableRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
@@ -105,13 +106,13 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
+public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		implements TaxonomyService<Integer>, TaxonomySynonymService //extends Singleton<PhyloUtilsService>
 	{
-	private static final Logger logger = Logger.getLogger(NcbiTaxonomyService.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyPhylogeny.class);
 	// ------------------------------ FIELDS ------------------------------
 
-	private static NcbiTaxonomyService instance;// = new NcbiTaxonomyService();
+	private static NcbiTaxonomyPhylogeny instance;// = new NcbiTaxonomyService();
 
 	private NcbiTaxonomyServiceEngine ncbiTaxonomyServiceEngine;
 
@@ -209,32 +210,33 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		//return getNode(id).getAncestorPathIds();
 		}
 
-	public static NcbiTaxonomyService getInstance()
+	public static NcbiTaxonomyPhylogeny getInstance()
 		{
 		if (instance == null)
 			{
-			instance = new NcbiTaxonomyService();
+			instance = new NcbiTaxonomyPhylogeny();
 			}
 		return instance;
 		}
 
-	public static NcbiTaxonomyService getInjectedInstance()
+	public static NcbiTaxonomyPhylogeny getInjectedInstance()
 		{
 		return instance;
 		}
 
-	public static void setInjectedInstance(NcbiTaxonomyService instance)
+	public static void setInjectedInstance(NcbiTaxonomyPhylogeny instance)
 		{
-		NcbiTaxonomyService.instance = instance;
+		NcbiTaxonomyPhylogeny.instance = instance;
 		}
 
 
-	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
+	public SerializableRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 		{
 		throw new NotImplementedException();
 		}
 
-	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold, Integer exceptDescendantsOf)
+	public SerializableRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold,
+	                                                             Integer exceptDescendantsOf)
 			throws NoSuchNodeException, TreeException
 		{
 		throw new NotImplementedException();
@@ -260,7 +262,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		}
 
 
-	public NcbiTaxonomyService()
+	public NcbiTaxonomyPhylogeny()
 		{
 		try
 			{
@@ -910,7 +912,7 @@ public class NcbiTaxonomyService extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException();
 		}*/
 
-	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
+	public SerializableRootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
 			throws NoSuchNodeException
 		{
 		throw new NotImplementedException();

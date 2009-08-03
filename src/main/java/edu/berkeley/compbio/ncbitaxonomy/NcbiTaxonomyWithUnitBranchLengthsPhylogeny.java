@@ -17,34 +17,34 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyWithUnitBranchLengthsService extends NcbiTaxonomyService
+public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhylogeny
 		implements TaxonomyService<Integer>, RequiresPreparationTaxonomyService<Integer>
 	{
 	//private NcbiTaxonomyService taxonomyService = NcbiTaxonomyService.getInstance();
 
-	private static final Logger logger = Logger.getLogger(NcbiTaxonomyWithUnitBranchLengthsService.class);
+	private static final Logger logger = Logger.getLogger(NcbiTaxonomyWithUnitBranchLengthsPhylogeny.class);
 	private BasicRootedPhylogeny<Integer> extractedTree;
 
-	private static NcbiTaxonomyWithUnitBranchLengthsService instance;
+	private static NcbiTaxonomyWithUnitBranchLengthsPhylogeny instance;
 
 
-	public static NcbiTaxonomyWithUnitBranchLengthsService getInstance()
+	public static NcbiTaxonomyWithUnitBranchLengthsPhylogeny getInstance()
 		{
 		if (instance == null)
 			{
-			instance = new NcbiTaxonomyWithUnitBranchLengthsService();
+			instance = new NcbiTaxonomyWithUnitBranchLengthsPhylogeny();
 			}
 		return instance;
 		}
 
-	public static NcbiTaxonomyWithUnitBranchLengthsService getInjectedInstance()
+	public static NcbiTaxonomyWithUnitBranchLengthsPhylogeny getInjectedInstance()
 		{
 		return instance;
 		}
 
-	public static void setInjectedInstance(NcbiTaxonomyWithUnitBranchLengthsService instance)
+	public static void setInjectedInstance(NcbiTaxonomyWithUnitBranchLengthsPhylogeny instance)
 		{
-		NcbiTaxonomyWithUnitBranchLengthsService.instance = instance;
+		NcbiTaxonomyWithUnitBranchLengthsPhylogeny.instance = instance;
 		}
 
 	private Double maxDistance = 1000.;

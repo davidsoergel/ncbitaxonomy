@@ -85,7 +85,7 @@ public class NcbiCiccarelliHybridService
 	{
 	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridService.class);
 
-	private static NcbiTaxonomyService ncbiTaxonomyService;// = NcbiTaxonomyService.getInstance();
+	private static NcbiTaxonomyPhylogeny ncbiTaxonomyPhylogeny;// = NcbiTaxonomyService.getInstance();
 	private static CiccarelliTaxonomyService ciccarelli;// = CiccarelliUtils.getInstance();
 
 	private static HybridRootedPhylogeny<Integer> hybridTree;
@@ -103,17 +103,17 @@ public class NcbiCiccarelliHybridService
 
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
-		return ncbiTaxonomyService.getFriendlyLabelMap();
+		return ncbiTaxonomyPhylogeny.getFriendlyLabelMap();
 		}
 
 	public boolean isLeaf(Integer leafId) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyService.isLeaf(leafId);
+		return ncbiTaxonomyPhylogeny.isLeaf(leafId);
 		}
 
 	public boolean isKnown(Integer leafId) //throws NoSuchNodeException
 		{
-		return ncbiTaxonomyService.isKnown(leafId);
+		return ncbiTaxonomyPhylogeny.isKnown(leafId);
 		}
 
 	// -------------------------- STATIC METHODS --------------------------
@@ -149,7 +149,7 @@ public class NcbiCiccarelliHybridService
 
 	public static void makeInstance()
 		{
-		ncbiTaxonomyService = NcbiTaxonomyService.getInstance();
+		ncbiTaxonomyPhylogeny = NcbiTaxonomyPhylogeny.getInstance();
 		ciccarelli = CiccarelliTaxonomyService.getInstance();
 		String className = "edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService";
 
@@ -163,7 +163,7 @@ public class NcbiCiccarelliHybridService
 			final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
 			final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
 			ciccarelliIntegerTree = PhylogenyTypeConverter
-					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false), ncbiTaxonomyService,
+					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false), ncbiTaxonomyPhylogeny,
 					                 nameToIdMap, extraNameToIdMap);
 			CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
 			}
@@ -171,7 +171,7 @@ public class NcbiCiccarelliHybridService
 		// the root must be node 1, regardless of what children have unknown IDs
 		ciccarelliIntegerTree.setPayload(new Integer(1));
 
-		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyService);
+		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyPhylogeny);
 		_instance = new NcbiCiccarelliHybridService();
 		//_instance.saveState();
 		}
@@ -228,7 +228,7 @@ public class NcbiCiccarelliHybridService
 				try
 					{
 					String name = n.getPayload();
-					int id = ncbiTaxonomyService.findTaxidByName(name);
+					int id = ncbiTaxonomyPhylogeny.findTaxidByName(name);
 					}
 				catch (NoSuchNodeException e)
 					{
@@ -245,7 +245,7 @@ public class NcbiCiccarelliHybridService
 					// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
 					if (name != null && !name.contains("subclade"))
 						{
-						int id = ncbiTaxonomyService.findTaxidByName(name);
+						int id = ncbiTaxonomyPhylogeny.findTaxidByName(name);
 						ciccarelliNames.put(id, name);
 						}
 					}
@@ -318,7 +318,7 @@ public class NcbiCiccarelliHybridService
 		Integer result = stringNearestKnownAncestorCache.get(name);
 		if (result == null)
 			{
-			result = hybridTree.nearestKnownAncestor(ncbiTaxonomyService.findTaxidByNameRelaxed(name));
+			result = hybridTree.nearestKnownAncestor(ncbiTaxonomyPhylogeny.findTaxidByNameRelaxed(name));
 			stringNearestKnownAncestorCache.put(name, result);
 			}
 		return result;
@@ -466,17 +466,17 @@ public class NcbiCiccarelliHybridService
 
 	public Integer findTaxidByName(String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyService.findTaxidByName(name);
+		return ncbiTaxonomyPhylogeny.findTaxidByName(name);
 		}
 
 	public Integer findTaxidByNameRelaxed(String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomyService.findTaxidByNameRelaxed(name);
+		return ncbiTaxonomyPhylogeny.findTaxidByNameRelaxed(name);
 		}
 
 	public Set<String> getCachedNamesForId(Integer id)
 		{
-		return ncbiTaxonomyService.getCachedNamesForId(id);
+		return ncbiTaxonomyPhylogeny.getCachedNamesForId(id);
 		}
 
 

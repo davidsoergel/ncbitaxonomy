@@ -49,7 +49,7 @@ import org.testng.annotations.Test;
  * @version $Id$
  */
 
-public class NcbiTaxonomyServiceTest
+public class NcbiTaxonomyPhylogenyTest
 		//extends ContractTestAware<NcbiTaxonomyService>
 		//implements TestInstanceFactory<NcbiTaxonomyService>
 	{
@@ -58,7 +58,7 @@ public class NcbiTaxonomyServiceTest
 	public void findTaxonByNameWorks() throws NcbiTaxonomyException, NoSuchNodeException
 		{
 		//assert ncbiTaxonomyNameDao.findByName("Myxococcus xanthus").getTaxon().getTaxId() == 34;
-		assert NcbiTaxonomyService.getInstance().findTaxidByName("Myxococcus xanthus") == 34;
+		assert NcbiTaxonomyPhylogeny.getInstance().findTaxidByName("Myxococcus xanthus") == 34;
 		}
 
 
