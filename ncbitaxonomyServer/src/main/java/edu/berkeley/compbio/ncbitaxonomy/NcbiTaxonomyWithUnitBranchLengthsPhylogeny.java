@@ -8,8 +8,8 @@ import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RequiresPreparationTaxonomyService;
-import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
@@ -17,6 +17,7 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
+@Service
 public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhylogeny
 		implements RequiresPreparationTaxonomyService<Integer> // TaxonomyService<Integer>,
 	{
