@@ -4,6 +4,7 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.server;
 
+import edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridServiceImpl;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyDbContextFactory;
 import org.apache.log4j.Logger;
 import org.mortbay.jetty.Server;
@@ -13,10 +14,7 @@ import org.mortbay.jetty.security.HashUserRealm;
 import org.mortbay.jetty.security.SecurityHandler;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 
 
 /**
@@ -80,10 +78,12 @@ public class NcbiTaxonomyServer
 			ServletHolder servletHolder = new ServletHolder((NcbiTaxonomyServlet) ctx.getBean("ncbiTaxonomyServlet"));
 			context.addServlet(servletHolder, "/ncbitaxonomy");
 
-			ServletHolder servletHolder2 = new ServletHolder((NcbiTaxonomyWithUnitBranchLengthsServlet) ctx.getBean("ncbiTaxonomyWithUnitBranchLengthsServlet"));
+			ServletHolder servletHolder2 = new ServletHolder(
+					(NcbiTaxonomyWithUnitBranchLengthsServlet) ctx.getBean("ncbiTaxonomyWithUnitBranchLengthsServlet"));
 			context.addServlet(servletHolder2, "/ncbitaxonomyWithUnitBranchLengths");
 
-			ServletHolder servletHolder3 = new ServletHolder((NcbiCiccarelliHybridServlet) ctx.getBean("ncbiCiccarelliHybridServlet"));
+			ServletHolder servletHolder3 =
+					new ServletHolder((NcbiCiccarelliHybridServiceImpl) ctx.getBean("ncbiCiccarelliHybridServlet"));
 			context.addServlet(servletHolder3, "/ncbiCiccarelliHybrid");
 
 			context.addHandler(sh);

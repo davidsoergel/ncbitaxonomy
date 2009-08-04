@@ -39,7 +39,7 @@
   </packages>-->
     <classes>
       <class name="edu.berkeley.compbio.phyloutils.HybridRootedPhylogenyTest"/>
-      <class name="edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridServiceTest"/>
+      <class name="edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridServiceImplTest"/>
       <class name="edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyPhylogenyTest"/>
     </classes>
   </test>

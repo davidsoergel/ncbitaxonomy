@@ -17,7 +17,7 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-@Service("ncbiTaxonomyWithUnitBranchLengthsPhylogeny")
+@Service(value = "ncbiTaxonomyWithUnitBranchLengthsPhylogeny")
 public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhylogeny
 		implements RequiresPreparationTaxonomyService<Integer> // TaxonomyService<Integer>,
 	{

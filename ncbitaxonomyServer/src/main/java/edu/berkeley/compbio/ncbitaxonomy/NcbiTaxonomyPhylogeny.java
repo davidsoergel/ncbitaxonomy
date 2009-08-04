@@ -99,7 +99,7 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-@Service("ncbiTaxonomyPhylogeny")
+@Service(value = "ncbiTaxonomyPhylogeny")
 public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		implements TaxonomyService<Integer>, TaxonomySynonymService //extends Singleton<PhyloUtilsService> //,
 	{

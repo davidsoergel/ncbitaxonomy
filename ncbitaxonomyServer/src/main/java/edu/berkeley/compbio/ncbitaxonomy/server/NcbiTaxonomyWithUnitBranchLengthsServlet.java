@@ -12,6 +12,7 @@ import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Set;
 public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet implements NcbiTaxonomyService
 	{
 	@Autowired
+	@Qualifier("ncbiTaxonomyWithUnitBranchLengthsPhylogeny")
 	NcbiTaxonomyWithUnitBranchLengthsPhylogeny ncbiTaxonomyWithUnitBranchLengthsPhylogeny;
 
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,

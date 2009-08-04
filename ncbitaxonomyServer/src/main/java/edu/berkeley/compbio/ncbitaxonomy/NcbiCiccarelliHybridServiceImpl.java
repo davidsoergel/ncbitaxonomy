@@ -30,16 +30,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.berkeley.compbio.ncbitaxonomy.server;
+package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.caucho.hessian.server.HessianServlet;
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyPhylogeny;
 import edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
@@ -51,14 +49,17 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.SerializableRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMerger;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
@@ -83,15 +84,19 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiCiccarelliHybridServlet extends HessianServlet
+@Service
+public class NcbiCiccarelliHybridServiceImpl
 		implements NcbiCiccarelliHybridService //TaxonMergingPhylogeny<Integer> //, RootedPhylogeny<Integer>
 	{
-	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridServlet.class);
+	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridServiceImpl.class);
 
-	private static NcbiTaxonomyPhylogeny ncbiTaxonomyPhylogeny;// = NcbiTaxonomyService.getInstance();
-	private static CiccarelliTaxonomyService ciccarelli;// = CiccarelliUtils.getInstance();
+	@Autowired
+	@Qualifier("ncbiTaxonomyPhylogeny")
+	private NcbiTaxonomyPhylogeny ncbiTaxonomyPhylogeny;// = NcbiTaxonomyService.getInstance();
 
-	private static HybridRootedPhylogeny<Integer> hybridTree;
+	private CiccarelliTaxonomyService ciccarelli = CiccarelliTaxonomyService.getInstance();
+
+	private HybridRootedPhylogeny<Integer> hybridTree = null;
 
 	/*	static
 	   {
@@ -102,7 +107,8 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet
 	private Map<Integer, String> ciccarelliNames = new HashMap<Integer, String>();
 
 
-	private static NcbiCiccarelliHybridServlet _instance;//= new NcbiCiccarelliHybridService();
+	private static NcbiCiccarelliHybridServiceImpl _instance;
+//= new NcbiCiccarelliHybridService();  // only used for testing
 
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
@@ -121,23 +127,25 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet
 
 	// -------------------------- STATIC METHODS --------------------------
 
-	public static NcbiCiccarelliHybridServlet getInjectedInstance()
-		{
-		return getInstance();
-		}
+	/*	public static NcbiCiccarelliHybridServlet getInjectedInstance()
+		 {
+		 return getInstance();
+		 }
 
-	public static void setInjectedInstance(NcbiCiccarelliHybridServlet o)
-		{
-		throw new Error("Impossible");
-		}
+	 public static void setInjectedInstance(NcbiCiccarelliHybridServlet o)
+		 {
+		 throw new Error("Impossible");
+		 }
+ */
 
-	public static NcbiCiccarelliHybridServlet getInstance()
+	public static NcbiCiccarelliHybridServiceImpl getInstance()
 		{
 		if (_instance == null)
 			{
+			_instance = new NcbiCiccarelliHybridServiceImpl();
 			//	if (!loadCachedInstance)
 			//		{
-			makeInstance();
+			//makeInstance();
 			//		storeCachedInstance();
 			//		}
 			}
@@ -145,38 +153,89 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet
 		return _instance;
 		}
 
+
 //	private static String cacheFilename = "/ncbitaxonomy.ciccarellihybrid.cache";
 
 
 	//@Transactional
 
-	public static void makeInstance()
+	public void init()
 		{
-		ncbiTaxonomyPhylogeny = NcbiTaxonomyPhylogeny.getInstance();
-		ciccarelli = CiccarelliTaxonomyService.getInstance();
-		String className = "edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService";
+		buildHybrid();
+		}
 
-		BasicRootedPhylogeny<Integer> ciccarelliIntegerTree =
-				(BasicRootedPhylogeny<Integer>) CacheManager.get(className + File.separator + "ciccarelliIntegerTree");
-		if (ciccarelliIntegerTree == null)
+	@PostConstruct
+	public void buildHybrid()
+		{
+		if (hybridTree == null)
 			{
+			//ncbiTaxonomyPhylogeny = NcbiTaxonomyPhylogeny.getInstance();
+			//ciccarelli = CiccarelliTaxonomyService.getInstance();
+			String className = "edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService";
 
-			// REVIEW should NCBI taxids be pushed to leaves, or not?
+			BasicRootedPhylogeny<Integer> ciccarelliIntegerTree = (BasicRootedPhylogeny<Integer>) CacheManager
+					.get(className + File.separator + "ciccarelliIntegerTree");
+			if (ciccarelliIntegerTree == null)
+				{
 
-			final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
-			final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
-			ciccarelliIntegerTree = PhylogenyTypeConverter
-					.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false), ncbiTaxonomyPhylogeny,
-					                 nameToIdMap, extraNameToIdMap);
-			CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
+				// REVIEW should NCBI taxids be pushed to leaves, or not?
+
+				final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
+				final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
+				ciccarelliIntegerTree = PhylogenyTypeConverter
+						.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false),
+						                 ncbiTaxonomyPhylogeny, nameToIdMap, extraNameToIdMap);
+				CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
+				}
+
+			// the root must be node 1, regardless of what children have unknown IDs
+			ciccarelliIntegerTree.setPayload(new Integer(1));
+
+			hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyPhylogeny);
+			//	_instance = new NcbiCiccarelliHybridServlet();
+			//_instance.saveState();
 			}
 
-		// the root must be node 1, regardless of what children have unknown IDs
-		ciccarelliIntegerTree.setPayload(new Integer(1));
 
-		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyPhylogeny);
-		_instance = new NcbiCiccarelliHybridServlet();
-		//_instance.saveState();
+		try
+			{
+			for (PhylogenyNode<String> n : ciccarelli.getTree().getLeaves())
+				{
+				try
+					{
+					String name = n.getPayload();
+					int id = ncbiTaxonomyPhylogeny.findTaxidByName(name);
+					}
+				catch (NoSuchNodeException e)
+					{
+					logger.error("Leaf with unknown taxid: " + n.getPayload());
+					}
+				}
+
+			for (PhylogenyNode<String> n : ciccarelli.getTree().getUniqueIdToNodeMap().values())
+				{
+				try
+					{
+					String name = n.getPayload();
+
+					// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
+					if (name != null && !name.contains("subclade"))
+						{
+						int id = ncbiTaxonomyPhylogeny.findTaxidByName(name);
+						ciccarelliNames.put(id, name);
+						}
+					}
+				catch (NoSuchNodeException e)
+					{
+					// too bad, ignore that one; probably an internal node anyway
+					}
+				}
+			}
+		catch (Throwable e)
+			{
+			logger.error("Error", e);
+			}
+		readStateIfAvailable();
 		}
 /*
 	public static void main(String[] argv)
@@ -222,47 +281,9 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet
 
 	// we have to maintain the mapping from species names used in the Ciccarelli tree to NCBI ids
 
-	public NcbiCiccarelliHybridServlet()
+	public NcbiCiccarelliHybridServiceImpl()
 		{
-		try
-			{
-			for (PhylogenyNode<String> n : ciccarelli.getTree().getLeaves())
-				{
-				try
-					{
-					String name = n.getPayload();
-					int id = ncbiTaxonomyPhylogeny.findTaxidByName(name);
-					}
-				catch (NoSuchNodeException e)
-					{
-					logger.error("Leaf with unknown taxid: " + n.getPayload());
-					}
-				}
 
-			for (PhylogenyNode<String> n : ciccarelli.getTree().getUniqueIdToNodeMap().values())
-				{
-				try
-					{
-					String name = n.getPayload();
-
-					// names like "Vibrio subclade" would be relaxed to "Vibrio", which would be wrong; ignore these
-					if (name != null && !name.contains("subclade"))
-						{
-						int id = ncbiTaxonomyPhylogeny.findTaxidByName(name);
-						ciccarelliNames.put(id, name);
-						}
-					}
-				catch (NoSuchNodeException e)
-					{
-					// too bad, ignore that one; probably an internal node anyway
-					}
-				}
-			}
-		catch (Throwable e)
-			{
-			logger.error("Error", e);
-			}
-		readStateIfAvailable();
 		}
 
 
@@ -279,7 +300,8 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet
 		return getRandomSubtree(numTaxa, null, exceptDescendantsOf);
 		}
 
-	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold, Integer exceptDescendantsOf)
+	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold,
+	                                                      Integer exceptDescendantsOf)
 			throws TreeException, NoSuchNodeException
 		{
 		Set<Integer> mergedIds;
