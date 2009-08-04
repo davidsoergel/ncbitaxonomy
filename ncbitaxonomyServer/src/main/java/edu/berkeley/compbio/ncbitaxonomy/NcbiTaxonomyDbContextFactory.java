@@ -1,7 +1,7 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.PropertiesUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -10,8 +10,8 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -24,12 +24,13 @@ public class NcbiTaxonomyDbContextFactory extends GenericApplicationContext
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyDbContextFactory.class);
 
 
-
 	public static ApplicationContext makeNcbiTaxonomyDbContext(String dbName) throws IOException
 
 		{
 		File propsFile = PropertiesUtils
 				.findPropertiesFile("NCBI_TAXONOMY_PROPERTIES", ".ncbitaxonomy", "ncbi_taxonomy.properties");
+		EnvironmentUtils.init(propsFile);
+
 		logger.debug("Using properties file: " + propsFile);
 		Properties p = new Properties();
 		FileInputStream is = null;
