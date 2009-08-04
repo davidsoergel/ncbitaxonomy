@@ -89,7 +89,7 @@
   <aop:config>
 
     <aop:advisor
-      pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridService.extractTreeWithLeafIDs(..))"
+      pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.server.NcbiCiccarelliHybridServlet.extractTreeWithLeafIDs(..))"
       advice-ref="requiredTxAdvice"/>
 
     <!--	<aop:advisor

@@ -30,14 +30,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package edu.berkeley.compbio.ncbitaxonomy;
+package edu.berkeley.compbio.ncbitaxonomy.server;
 
+import com.caucho.hessian.server.HessianServlet;
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyPhylogeny;
+import edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
@@ -48,8 +51,8 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhylogenyTypeConverter;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.SerializableRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonMerger;
-import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
@@ -80,10 +83,10 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiCiccarelliHybridService
-		implements TaxonomyService<Integer> //TaxonMergingPhylogeny<Integer> //, RootedPhylogeny<Integer>
+public class NcbiCiccarelliHybridServlet extends HessianServlet
+		implements NcbiCiccarelliHybridService //TaxonMergingPhylogeny<Integer> //, RootedPhylogeny<Integer>
 	{
-	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridService.class);
+	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridServlet.class);
 
 	private static NcbiTaxonomyPhylogeny ncbiTaxonomyPhylogeny;// = NcbiTaxonomyService.getInstance();
 	private static CiccarelliTaxonomyService ciccarelli;// = CiccarelliUtils.getInstance();
@@ -99,7 +102,7 @@ public class NcbiCiccarelliHybridService
 	private Map<Integer, String> ciccarelliNames = new HashMap<Integer, String>();
 
 
-	private static NcbiCiccarelliHybridService _instance;//= new NcbiCiccarelliHybridService();
+	private static NcbiCiccarelliHybridServlet _instance;//= new NcbiCiccarelliHybridService();
 
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
@@ -118,17 +121,17 @@ public class NcbiCiccarelliHybridService
 
 	// -------------------------- STATIC METHODS --------------------------
 
-	public static NcbiCiccarelliHybridService getInjectedInstance()
+	public static NcbiCiccarelliHybridServlet getInjectedInstance()
 		{
 		return getInstance();
 		}
 
-	public static void setInjectedInstance(NcbiCiccarelliHybridService o)
+	public static void setInjectedInstance(NcbiCiccarelliHybridServlet o)
 		{
 		throw new Error("Impossible");
 		}
 
-	public static NcbiCiccarelliHybridService getInstance()
+	public static NcbiCiccarelliHybridServlet getInstance()
 		{
 		if (_instance == null)
 			{
@@ -172,7 +175,7 @@ public class NcbiCiccarelliHybridService
 		ciccarelliIntegerTree.setPayload(new Integer(1));
 
 		hybridTree = new HybridRootedPhylogeny<Integer>(ciccarelliIntegerTree, ncbiTaxonomyPhylogeny);
-		_instance = new NcbiCiccarelliHybridService();
+		_instance = new NcbiCiccarelliHybridServlet();
 		//_instance.saveState();
 		}
 /*
@@ -219,7 +222,7 @@ public class NcbiCiccarelliHybridService
 
 	// we have to maintain the mapping from species names used in the Ciccarelli tree to NCBI ids
 
-	public NcbiCiccarelliHybridService()
+	public NcbiCiccarelliHybridServlet()
 		{
 		try
 			{
@@ -263,7 +266,7 @@ public class NcbiCiccarelliHybridService
 		}
 
 
-	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
+	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 			throws NoSuchNodeException, TreeException
 		{
 		return getRandomSubtree(numTaxa, mergeThreshold, null);
@@ -276,7 +279,7 @@ public class NcbiCiccarelliHybridService
 		return getRandomSubtree(numTaxa, null, exceptDescendantsOf);
 		}
 
-	public RootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold, Integer exceptDescendantsOf)
+	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold, Integer exceptDescendantsOf)
 			throws TreeException, NoSuchNodeException
 		{
 		Set<Integer> mergedIds;
@@ -613,7 +616,7 @@ public class NcbiCiccarelliHybridService
 		}
 */
 
-	public RootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
+	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
 			throws NoSuchNodeException
 		{
 		throw new NotImplementedException();

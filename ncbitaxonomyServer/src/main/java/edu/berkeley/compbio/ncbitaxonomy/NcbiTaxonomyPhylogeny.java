@@ -34,7 +34,6 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
-import com.davidsoergel.dsutils.PropertiesUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
@@ -50,6 +49,7 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.SerializablePhylogenyNode;
 import edu.berkeley.compbio.phyloutils.SerializableRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
@@ -57,15 +57,11 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,7 +69,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -106,14 +101,16 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
+@Service
 public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
-		implements TaxonomyService<Integer>, TaxonomySynonymService //extends Singleton<PhyloUtilsService>
+		implements TaxonomyService<Integer>, TaxonomySynonymService //extends Singleton<PhyloUtilsService> //,
 	{
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyPhylogeny.class);
 	// ------------------------------ FIELDS ------------------------------
 
 	private static NcbiTaxonomyPhylogeny instance;// = new NcbiTaxonomyService();
 
+	@Autowired
 	private NcbiTaxonomyServiceEngine ncbiTaxonomyServiceEngine;
 
 	// -------------------------- STATIC METHODS --------------------------
@@ -230,12 +227,12 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		}
 
 
-	public SerializableRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
+	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold)
 		{
 		throw new NotImplementedException();
 		}
 
-	public SerializableRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold,
+	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold,
 	                                                             Integer exceptDescendantsOf)
 			throws NoSuchNodeException, TreeException
 		{
@@ -264,53 +261,22 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 
 	public NcbiTaxonomyPhylogeny()
 		{
-		try
-			{
-			File propsFile = PropertiesUtils
-					.findPropertiesFile("NCBI_TAXONOMY_PROPERTIES", ".ncbitaxonomy", "ncbi_taxonomy.properties");
-			logger.debug("Using properties file: " + propsFile);
-			Properties p = new Properties();
-			FileInputStream is = null;
-			try
-				{
-				is = new FileInputStream(propsFile);
-				p.load(is);
-				}
-			finally
-				{
-				is.close();
-				}
-			String dbName = (String) p.get("default");
-
-			Map<String, Properties> databases = PropertiesUtils.splitPeriodDelimitedProperties(p);
+		/*	try
+			  {
 
 
-			GenericApplicationContext ctx = new GenericApplicationContext();
-			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
-//			xmlReader.loadBeanDefinitions(new ClassPathResource("springjpautils.xml"));
-			xmlReader.loadBeanDefinitions(new ClassPathResource("ncbitaxonomy.xml"));
+			  ncbiTaxonomyServiceEngine = ((NcbiTaxonomyServiceEngine) ctx.getBean("ncbiTaxonomyServiceEngineImpl"));
 
-			PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-			cfg.setProperties(databases.get(dbName));
-			ctx.addBeanFactoryPostProcessor(cfg);
-
-			ctx.refresh();
-
-			// add a shutdown hook for the above context...
-			ctx.registerShutdownHook();
-
-			ncbiTaxonomyServiceEngine = ((NcbiTaxonomyServiceEngine) ctx.getBean("ncbiTaxonomyServiceEngineImpl"));
-
-			// we've got what we need, so we can ditch the context already
-			// no, that breaks transactioning
-			//ctx.close();
-			}
-		catch (Exception e)
-			{
-			logger.error("Error", e);
-			throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
-			}
-
+			  // we've got what we need, so we can ditch the context already
+			  // no, that breaks transactioning
+			  //ctx.close();
+			  }
+		  catch (Exception e)
+			  {
+			  logger.error("Error", e);
+			  throw new RuntimeException("Could not load database properties for NCBI taxonomy", e);
+			  }
+  */
 		//ancestorPathIdsCache = CacheManager.getAccumulatingMap(this, "ancestorPathCache");
 		ancestorPathIdsCache = CacheManager.getAccumulatingMapAssumeSerializable(this, "ancestorPathCache");
 
@@ -912,7 +878,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		throw new NotImplementedException();
 		}*/
 
-	public SerializableRootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
+	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(Set<Integer> matchingIds, String name)
 			throws NoSuchNodeException
 		{
 		throw new NotImplementedException();

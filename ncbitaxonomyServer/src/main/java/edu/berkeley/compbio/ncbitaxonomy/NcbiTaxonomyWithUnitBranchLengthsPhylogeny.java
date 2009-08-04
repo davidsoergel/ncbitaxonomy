@@ -18,7 +18,7 @@ import java.util.Set;
  * @version $Id$
  */
 public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhylogeny
-		implements TaxonomyService<Integer>, RequiresPreparationTaxonomyService<Integer>
+		implements RequiresPreparationTaxonomyService<Integer> // TaxonomyService<Integer>,
 	{
 	//private NcbiTaxonomyService taxonomyService = NcbiTaxonomyService.getInstance();
 
