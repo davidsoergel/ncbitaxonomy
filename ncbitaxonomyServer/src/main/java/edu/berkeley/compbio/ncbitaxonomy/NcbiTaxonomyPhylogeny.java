@@ -49,8 +49,6 @@ import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsRuntimeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.SerializablePhylogenyNode;
-import edu.berkeley.compbio.phyloutils.SerializableRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
@@ -101,7 +99,7 @@ import java.util.Set;
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-@Service
+@Service("ncbiTaxonomyPhylogeny")
 public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		implements TaxonomyService<Integer>, TaxonomySynonymService //extends Singleton<PhyloUtilsService> //,
 	{
@@ -233,7 +231,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(int numTaxa, Double mergeThreshold,
-	                                                             Integer exceptDescendantsOf)
+	                                                      Integer exceptDescendantsOf)
 			throws NoSuchNodeException, TreeException
 		{
 		throw new NotImplementedException();
