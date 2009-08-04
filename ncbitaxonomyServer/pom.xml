@@ -142,7 +142,40 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>edu.berkeley.compbio.ncbitaxonomy.server.JandyServer</mainClass>
+              <packageName>edu.berkeley.compbio.jandy</packageName>
+              <addClasspath>true</addClasspath>
+              <addExtensions>false</addExtensions>
+              <!-- was true before -->
+              <classpathPrefix>./lib/</classpathPrefix>
+            </manifest>
+          </archive>
+          <forceCreation>true</forceCreation>
+          <!--<includes><include>src/main/resources/*</include></includes>-->
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptor>src/main/assembly/assembly.xml</descriptor>
+        </configuration>
+      </plugin>
     </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
   </build>
+
 
 </project>

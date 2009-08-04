@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#$ -S /bin/sh
+#$ -M soergel@berkeley.edu
+#$ -m beas
+#$ -l h_vmem=1800M
+
+source ~/ncbitaxonomy/ncbitaxonomy-config
+
+java -ea -Xmx256M -Dlog4j.configuration=file:///$LOG4J_PROPERTIES -jar target/ncbitaxonomy-0.9-SNAPSHOT-distribution.dir/ncbitaxonomy-0.9-SNAPSHOT/ncbitaxonomy-0.9-SNAPSHOT.jar $* 2>&1

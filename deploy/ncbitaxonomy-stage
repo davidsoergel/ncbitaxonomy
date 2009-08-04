@@ -1,0 +1,9 @@
+#!/bin/sh
+
+source ncbitaxonomy-config
+
+#mkdir -p $CODE_SOURCE
+
+$MAVEN clean
+$MAVEN -U jar:jar
+$MAVEN -U assembly:directory

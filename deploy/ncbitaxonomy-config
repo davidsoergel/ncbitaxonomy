@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Brenner Lab
+
+export JAVA_HOME=/usr/java/latest
+export JDK_HOME=$JAVA_HOME
+export MAVEN=/h/soergel/bin/mvn
+
+export NCBITAXONOMY_HOME=$HOME/ncbitaxonomy
+
+export LOG4J_PROPERTIES=$NCBITAXONOMY_HOME/src/main/resources/log4j.properties
