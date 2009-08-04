@@ -26,159 +26,161 @@ import java.util.Set;
 public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet implements NcbiTaxonomyService
 	{
 	@Autowired
-	NcbiTaxonomyWithUnitBranchLengthsPhylogeny thePhylogeny;
+	NcbiTaxonomyWithUnitBranchLengthsPhylogeny ncbiTaxonomyWithUnitBranchLengthsPhylogeny;
 
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
 	                                                            final boolean includeInternalBranches,
 	                                                            final AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
-		return thePhylogeny.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny
+				.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
 		}
 
 	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(final Set<Integer> matchingIds, final String name)
 			throws NoSuchNodeException
 		{
-		return thePhylogeny.findCompactSubtreeWithIds(matchingIds, name);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.findCompactSubtreeWithIds(matchingIds, name);
 		}
 
 	public Set<Integer> findMatchingIds(final String name) throws NoSuchNodeException
 		{
-		return thePhylogeny.findMatchingIds(name);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.findMatchingIds(name);
 		}
 
 	public Set<Integer> findMatchingIdsRelaxed(final String name) throws NoSuchNodeException
 		{
-		return thePhylogeny.findMatchingIdsRelaxed(name);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.findMatchingIdsRelaxed(name);
 		}
 
 
 	public Set<Integer> getTaxIdsWithRank(final String rankName)
 		{
-		return thePhylogeny.getTaxIdsWithRank(rankName);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getTaxIdsWithRank(rankName);
 		}
 
 	public String getScientificName(final Integer taxid) throws NoSuchNodeException
 		{
-		return thePhylogeny.getScientificName(taxid);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getScientificName(taxid);
 		}
 
 	public Integer findTaxidByName(final String name) throws NoSuchNodeException
 		{
-		return thePhylogeny.findTaxidByName(name);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.findTaxidByName(name);
 		}
 
 	public Integer findTaxidByNameRelaxed(final String name) throws NoSuchNodeException
 		{
-		return thePhylogeny.findTaxidByNameRelaxed(name);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.findTaxidByNameRelaxed(name);
 		}
 
 	public List<PhylogenyNode<Integer>> getAncestorPath()
 		{
-		return thePhylogeny.getAncestorPath();
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getAncestorPath();
 		}
 
 
 	@NotNull
 	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
 		{
-		return thePhylogeny.getAncestorPathAsBasic(id);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getAncestorPathAsBasic(id);
 		}
 
 	@NotNull
 	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
 		{
-		return thePhylogeny.getAncestorPathIds(id);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getAncestorPathIds(id);
 		}
 
 
 	public Set<String> getCachedNamesForId(final Integer id)
 		{
-		return thePhylogeny.getCachedNamesForId(id);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getCachedNamesForId(id);
 		}
 
 
 	public double getDepthFromRoot(final Integer b) throws NoSuchNodeException
 		{
-		return thePhylogeny.getDepthFromRoot(b);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getDepthFromRoot(b);
 		}
 
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
-		return thePhylogeny.getFriendlyLabelMap();
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getFriendlyLabelMap();
 		}
 
 
 	public double getGreatestDepthBelow(final Integer a)
 		{
-		return thePhylogeny.getGreatestDepthBelow(a);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getGreatestDepthBelow(a);
 		}
 
 
 	public Set<Integer> getLeafIds()
 		{
-		return thePhylogeny.getLeafIds();
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getLeafIds();
 		}
 
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold)
 		{
-		return thePhylogeny.getRandomSubtree(numTaxa, mergeThreshold);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getRandomSubtree(numTaxa, mergeThreshold);
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold,
 	                                                      final Integer exceptDescendantsOf)
 			throws NoSuchNodeException, TreeException
 		{
-		return thePhylogeny.getRandomSubtree(numTaxa, mergeThreshold, exceptDescendantsOf);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny
+				.getRandomSubtree(numTaxa, mergeThreshold, exceptDescendantsOf);
 		}
 
 	public String getRelaxedName(final String name)
 		{
-		return thePhylogeny.getRelaxedName(name);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getRelaxedName(name);
 		}
 
 
 	public boolean isKnown(final Integer leafId)
 		{
-		return thePhylogeny.isKnown(leafId);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.isKnown(leafId);
 		}
 
 
 	public boolean isLeaf(final Integer leafId) throws NoSuchNodeException
 		{
-		return thePhylogeny.isLeaf(leafId);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.isLeaf(leafId);
 		}
 
 
 	public double maxDistance()
 		{
-		return thePhylogeny.maxDistance();
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.maxDistance();
 		}
 
 
 	public double minDistanceBetween(final Integer taxIdA, final Integer taxIdB)
 		{
-		return thePhylogeny.minDistanceBetween(taxIdA, taxIdB);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.minDistanceBetween(taxIdA, taxIdB);
 		}
 
 
 	public Integer nearestAncestorWithBranchLength(final Integer leafId)
 		{
-		return thePhylogeny.nearestAncestorWithBranchLength(leafId);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.nearestAncestorWithBranchLength(leafId);
 		}
 
 
 	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
 		{
-		thePhylogeny.setSynonymService(taxonomySynonymService);
+		ncbiTaxonomyWithUnitBranchLengthsPhylogeny.setSynonymService(taxonomySynonymService);
 		}
 
 
 	@Override
 	public String toString()
 		{
-		return thePhylogeny.toString();
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.toString();
 		}
 
 
@@ -187,31 +189,33 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 	                                                            final boolean includeInternalBranches)
 			throws NoSuchNodeException
 		{
-		return thePhylogeny.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny
+				.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}
 
 
 	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
 		{
-		return thePhylogeny.getAncestorPath(id);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.getAncestorPath(id);
 		}
 
 
 	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
 	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException
 		{
-		return thePhylogeny.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny
+				.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
 		}
 
 
 	public boolean isDescendant(final Integer ancestor, final Integer descendant)
 		{
-		return thePhylogeny.isDescendant(ancestor, descendant);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.isDescendant(ancestor, descendant);
 		}
 
 
 	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
 		{
-		return thePhylogeny.selectAncestors(labels, id);
+		return ncbiTaxonomyWithUnitBranchLengthsPhylogeny.selectAncestors(labels, id);
 		}
 	}
