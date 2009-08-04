@@ -9,7 +9,6 @@ import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
-import edu.berkeley.compbio.phyloutils.SerializableRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +29,15 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 	NcbiTaxonomyWithUnitBranchLengthsPhylogeny thePhylogeny;
 
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
-	                                                         final boolean includeInternalBranches,
-	                                                         final AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
+	                                                            final boolean includeInternalBranches,
+	                                                            final AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
 		return thePhylogeny.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
 		}
 
-	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(final Set<Integer> matchingIds,
-	                                                                      final String name) throws NoSuchNodeException
+	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(final Set<Integer> matchingIds, final String name)
+			throws NoSuchNodeException
 		{
 		return thePhylogeny.findCompactSubtreeWithIds(matchingIds, name);
 		}
@@ -54,6 +53,15 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
+	public Set<Integer> getTaxIdsWithRank(final String rankName)
+		{
+		return thePhylogeny.getTaxIdsWithRank(rankName);
+		}
+
+	public String getScientificName(final Integer taxid) throws NoSuchNodeException
+		{
+		return thePhylogeny.getScientificName(taxid);
+		}
 
 	public Integer findTaxidByName(final String name) throws NoSuchNodeException
 		{
@@ -84,7 +92,6 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
-
 	public Set<String> getCachedNamesForId(final Integer id)
 		{
 		return thePhylogeny.getCachedNamesForId(id);
@@ -100,7 +107,6 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		{
 		return thePhylogeny.getFriendlyLabelMap();
 		}
-
 
 
 	public double getGreatestDepthBelow(final Integer a)
@@ -121,7 +127,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold,
-	                                                             final Integer exceptDescendantsOf)
+	                                                      final Integer exceptDescendantsOf)
 			throws NoSuchNodeException, TreeException
 		{
 		return thePhylogeny.getRandomSubtree(numTaxa, mergeThreshold, exceptDescendantsOf);
@@ -131,7 +137,6 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		{
 		return thePhylogeny.getRelaxedName(name);
 		}
-
 
 
 	public boolean isKnown(final Integer leafId)
@@ -152,12 +157,10 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
-
 	public double minDistanceBetween(final Integer taxIdA, final Integer taxIdB)
 		{
 		return thePhylogeny.minDistanceBetween(taxIdA, taxIdB);
 		}
-
 
 
 	public Integer nearestAncestorWithBranchLength(final Integer leafId)
@@ -166,12 +169,10 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
-
 	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
 		{
 		thePhylogeny.setSynonymService(taxonomySynonymService);
 		}
-
 
 
 	@Override
@@ -181,15 +182,13 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
-
 	@NotNull
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
-	                                                         final boolean includeInternalBranches)
+	                                                            final boolean includeInternalBranches)
 			throws NoSuchNodeException
 		{
 		return thePhylogeny.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}
-
 
 
 	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
@@ -198,14 +197,11 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
-
 	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
-	                                            final double maxDesiredTreeDistance)
-			throws NoSuchNodeException
+	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException
 		{
 		return thePhylogeny.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
 		}
-
 
 
 	public boolean isDescendant(final Integer ancestor, final Integer descendant)
@@ -214,11 +210,8 @@ public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet imp
 		}
 
 
-
 	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
 		{
 		return thePhylogeny.selectAncestors(labels, id);
 		}
-
-
 	}
