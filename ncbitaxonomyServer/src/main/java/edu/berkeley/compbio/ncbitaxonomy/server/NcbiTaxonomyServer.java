@@ -4,7 +4,6 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.server;
 
-import edu.berkeley.compbio.ncbitaxonomy.NcbiCiccarelliHybridServiceImpl;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyDbContextFactory;
 import org.apache.log4j.Logger;
 import org.mortbay.jetty.Server;
@@ -83,7 +82,7 @@ public class NcbiTaxonomyServer
 			context.addServlet(servletHolder2, "/ncbitaxonomyWithUnitBranchLengths");
 
 			ServletHolder servletHolder3 =
-					new ServletHolder((NcbiCiccarelliHybridServiceImpl) ctx.getBean("ncbiCiccarelliHybridServlet"));
+					new ServletHolder((NcbiCiccarelliHybridServlet) ctx.getBean("ncbiCiccarelliHybridServlet"));
 			context.addServlet(servletHolder3, "/ncbiCiccarelliHybrid");
 
 			context.addHandler(sh);
