@@ -75,11 +75,11 @@ public class NcbiTaxonomyServer
 			Context context = new Context(server, "/", Context.SESSIONS);
 
 			ServletHolder servletHolder = new ServletHolder((NcbiTaxonomyServlet) ctx.getBean("ncbiTaxonomyServlet"));
-			context.addServlet(servletHolder, "/ncbitaxonomy");
+			context.addServlet(servletHolder, "/ncbiTaxonomy");
 
 			ServletHolder servletHolder2 = new ServletHolder(
 					(NcbiTaxonomyWithUnitBranchLengthsServlet) ctx.getBean("ncbiTaxonomyWithUnitBranchLengthsServlet"));
-			context.addServlet(servletHolder2, "/ncbitaxonomyWithUnitBranchLengths");
+			context.addServlet(servletHolder2, "/ncbiTaxonomyWithUnitBranchLengths");
 
 			ServletHolder servletHolder3 =
 					new ServletHolder((NcbiCiccarelliHybridServlet) ctx.getBean("ncbiCiccarelliHybridServlet"));

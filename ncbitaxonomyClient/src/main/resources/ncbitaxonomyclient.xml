@@ -50,5 +50,28 @@
 
   <context:component-scan base-package="edu.berkeley.compbio.ncbitaxonomy"/>
 
+  <bean id="ncbiTaxonomyService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+    <property name="serviceUrl" value="${serviceUrl}/ncbiTaxonomy"/>
+    <property name="serviceInterface" value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyService"/>
+    <property name="username" value="${serviceUser}"/>
+    <property name="password" value="${servicePass}"/>
+  </bean>
+
+  <bean id="ncbiTaxonomyWithUnitBranchLengthsService"
+        class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+    <property name="serviceUrl" value="${serviceUrl}/ncbiTaxonomyWithUnitBranchLengths"/>
+    <property name="serviceInterface"
+              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsService"/>
+    <property name="username" value="${serviceUser}"/>
+    <property name="password" value="${servicePass}"/>
+  </bean>
+
+  <bean id="ncbiCiccarelliHybridService"
+        class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+    <property name="serviceUrl" value="${serviceUrl}/ncbiCiccarelliHybrid"/>
+    <property name="serviceInterface" value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService"/>
+    <property name="username" value="${serviceUser}"/>
+    <property name="password" value="${servicePass}"/>
+  </bean>
 
 </beans>
