@@ -49,7 +49,7 @@ public class NcbiTaxonomyServicesContextFactory
 
 		GenericApplicationContext ctx = new GenericApplicationContext();
 		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
-		xmlReader.loadBeanDefinitions(new ClassPathResource("ncbitaxonomyservices.xml"));
+		xmlReader.loadBeanDefinitions(new ClassPathResource("ncbitaxonomyclient.xml"));
 
 		PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
 		Properties properties = databases.get(dbName);

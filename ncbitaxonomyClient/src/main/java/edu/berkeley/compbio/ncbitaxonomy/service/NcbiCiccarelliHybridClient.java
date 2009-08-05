@@ -17,41 +17,38 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Presents the Hessian proxy as a class requiring no configuration, for useas a Jandy plugin.  Just delegates
- * everything through.
- *
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyClient implements NcbiTaxonomyService
+public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 	{
-	private static final Logger logger = Logger.getLogger(NcbiTaxonomyClient.class);
+	private static final Logger logger = Logger.getLogger(NcbiCiccarelliHybridClient.class);
 
-	private NcbiTaxonomyService ncbiTaxonomy;
+	private NcbiCiccarelliHybridService ncbiCiccarelliHybrid;
 
-	private static NcbiTaxonomyClient instance;
+	private static NcbiCiccarelliHybridClient instance;
 
 
-	public static NcbiTaxonomyClient getInstance()
+	public static NcbiCiccarelliHybridClient getInstance()
 		{
 		if (instance == null)
 			{
-			instance = new NcbiTaxonomyClient();
+			instance = new NcbiCiccarelliHybridClient();
 			}
 		return instance;
 		}
 
-	public static NcbiTaxonomyClient getInjectedInstance()
+	public static NcbiCiccarelliHybridClient getInjectedInstance()
 		{
 		return instance;
 		}
 
-	public static void setInjectedInstance(NcbiTaxonomyClient instance)
+	public static void setInjectedInstance(NcbiCiccarelliHybridClient instance)
 		{
-		NcbiTaxonomyClient.instance = instance;
+		NcbiCiccarelliHybridClient.instance = instance;
 		}
 
-	public NcbiTaxonomyClient()
+	public NcbiCiccarelliHybridClient()
 		{
 		ApplicationContext ctx = null;
 		try
@@ -64,117 +61,117 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 			throw new Error(e);
 			}
 
-		ncbiTaxonomy = (NcbiTaxonomyService) ctx.getBean("ncbiTaxonomyService");
+		ncbiCiccarelliHybrid = (NcbiCiccarelliHybridService) ctx.getBean("ncbiCiccarelliHybridService");
 		}
 
-	public String getScientificName(final Integer from) throws NoSuchNodeException
+	public Integer nearestKnownAncestor(final Integer taxidA) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getScientificName(from);
+		return ncbiCiccarelliHybrid.nearestKnownAncestor(taxidA);
 		}
 
-	public Set<Integer> getTaxIdsWithRank(final String rank)
+	public double exactDistanceBetween(final Integer taxidA, final Integer taxidB) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getTaxIdsWithRank(rank);
+		return ncbiCiccarelliHybrid.exactDistanceBetween(taxidA, taxidB);
 		}
 
 	public boolean isDescendant(final Integer ancestor, final Integer descendant) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.isDescendant(ancestor, descendant);
+		return ncbiCiccarelliHybrid.isDescendant(ancestor, descendant);
 		}
 
 	public double minDistanceBetween(final Integer name1, final Integer name2) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.minDistanceBetween(name1, name2);
+		return ncbiCiccarelliHybrid.minDistanceBetween(name1, name2);
 		}
 
 	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
 		{
-		ncbiTaxonomy.setSynonymService(taxonomySynonymService);
+		ncbiCiccarelliHybrid.setSynonymService(taxonomySynonymService);
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold)
 			throws NoSuchNodeException, TreeException
 		{
-		return ncbiTaxonomy.getRandomSubtree(numTaxa, mergeThreshold);
+		return ncbiCiccarelliHybrid.getRandomSubtree(numTaxa, mergeThreshold);
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold,
 	                                                      final Integer exceptDescendantsOf)
 			throws NoSuchNodeException, TreeException
 		{
-		return ncbiTaxonomy.getRandomSubtree(numTaxa, mergeThreshold, exceptDescendantsOf);
+		return ncbiCiccarelliHybrid.getRandomSubtree(numTaxa, mergeThreshold, exceptDescendantsOf);
 		}
 
 	public boolean isLeaf(final Integer leafId) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.isLeaf(leafId);
+		return ncbiCiccarelliHybrid.isLeaf(leafId);
 		}
 
 	public double getDepthFromRoot(final Integer taxid) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getDepthFromRoot(taxid);
+		return ncbiCiccarelliHybrid.getDepthFromRoot(taxid);
 		}
 
 	public double getGreatestDepthBelow(final Integer taxid) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getGreatestDepthBelow(taxid);
+		return ncbiCiccarelliHybrid.getGreatestDepthBelow(taxid);
 		}
 
 	public double maxDistance()
 		{
-		return ncbiTaxonomy.maxDistance();
+		return ncbiCiccarelliHybrid.maxDistance();
 		}
 
 	public String getRelaxedName(final String name)
 		{
-		return ncbiTaxonomy.getRelaxedName(name);
+		return ncbiCiccarelliHybrid.getRelaxedName(name);
 		}
 
 	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(final Set<Integer> matchingIds, final String name)
 			throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.findCompactSubtreeWithIds(matchingIds, name);
+		return ncbiCiccarelliHybrid.findCompactSubtreeWithIds(matchingIds, name);
 		}
 
 	public Set<Integer> findMatchingIds(final String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.findMatchingIds(name);
+		return ncbiCiccarelliHybrid.findMatchingIds(name);
 		}
 
 	public Set<Integer> findMatchingIdsRelaxed(final String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.findMatchingIdsRelaxed(name);
+		return ncbiCiccarelliHybrid.findMatchingIdsRelaxed(name);
 		}
 
 	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
 		{
-		return ncbiTaxonomy.selectAncestors(labels, id);
+		return ncbiCiccarelliHybrid.selectAncestors(labels, id);
 		}
 
 	public Set<Integer> getLeafIds()
 		{
-		return ncbiTaxonomy.getLeafIds();
+		return ncbiCiccarelliHybrid.getLeafIds();
 		}
 
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
-		return ncbiTaxonomy.getFriendlyLabelMap();
+		return ncbiCiccarelliHybrid.getFriendlyLabelMap();
 		}
 
 	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
 	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
+		return ncbiCiccarelliHybrid.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
 		}
 
 	public boolean isKnown(final Integer value)
 		{
-		return ncbiTaxonomy.isKnown(value);
+		return ncbiCiccarelliHybrid.isKnown(value);
 		}
 
 	public Integer nearestAncestorWithBranchLength(final Integer id) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.nearestAncestorWithBranchLength(id);
+		return ncbiCiccarelliHybrid.nearestAncestorWithBranchLength(id);
 		}
 
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
@@ -182,46 +179,46 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 	                                                            final AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+		return ncbiCiccarelliHybrid.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
 		}
 
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
 	                                                            final boolean includeInternalBranches)
 			throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
+		return ncbiCiccarelliHybrid.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
 		}
 
 	@NotNull
 	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getAncestorPathIds(id);
+		return ncbiCiccarelliHybrid.getAncestorPathIds(id);
 		}
 
 	@NotNull
 	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getAncestorPathAsBasic(id);
+		return ncbiCiccarelliHybrid.getAncestorPathAsBasic(id);
 		}
 
 	@NotNull
 	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.getAncestorPath(id);
+		return ncbiCiccarelliHybrid.getAncestorPath(id);
 		}
 
 	public Integer findTaxidByName(final String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.findTaxidByName(name);
+		return ncbiCiccarelliHybrid.findTaxidByName(name);
 		}
 
 	public Integer findTaxidByNameRelaxed(final String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.findTaxidByNameRelaxed(name);
+		return ncbiCiccarelliHybrid.findTaxidByNameRelaxed(name);
 		}
 
 	public Set<String> getCachedNamesForId(final Integer id)
 		{
-		return ncbiTaxonomy.getCachedNamesForId(id);
+		return ncbiCiccarelliHybrid.getCachedNamesForId(id);
 		}
 	}
