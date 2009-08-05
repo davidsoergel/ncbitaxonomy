@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +32,20 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 
 	private static NcbiTaxonomyClient instance;
 
+	public Collection<String> synonymsOf(final String name) throws NoSuchNodeException
+		{
+		return ncbiTaxonomy.synonymsOf(name);
+		}
+
+	public Collection<String> synonymsOfParent(final String name) throws NoSuchNodeException
+		{
+		return ncbiTaxonomy.synonymsOfParent(name);
+		}
+
+	public Collection<String> synonymsOfRelaxed(final String name) throws NoSuchNodeException
+		{
+		return ncbiTaxonomy.synonymsOfRelaxed(name);
+		}
 
 	public static NcbiTaxonomyClient getInstance()
 		{

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +37,21 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 			throws NoSuchNodeException
 		{
 		return ncbiTaxonomyPhylogeny.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+		}
+
+	public Collection<String> synonymsOf(final String s) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyPhylogeny.synonymsOf(s);
+		}
+
+	public Collection<String> synonymsOfParent(final String s) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyPhylogeny.synonymsOfParent(s);
+		}
+
+	public Collection<String> synonymsOfRelaxed(final String s) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyPhylogeny.synonymsOfRelaxed(s);
 		}
 
 	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(final Set<Integer> matchingIds, final String name)
