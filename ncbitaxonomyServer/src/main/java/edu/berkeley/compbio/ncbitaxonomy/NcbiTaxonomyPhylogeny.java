@@ -485,11 +485,11 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public PhylogenyNode<Integer> newChild()
-		{
-		throw new NotImplementedException("The NCBI taxonomy is not editable");
-		}
-
+	/*	public PhylogenyNode<Integer> newChild()
+		 {
+		 throw new NotImplementedException("The NCBI taxonomy is not editable");
+		 }
+ */
 	/**
 	 * Not implemented
 	 */

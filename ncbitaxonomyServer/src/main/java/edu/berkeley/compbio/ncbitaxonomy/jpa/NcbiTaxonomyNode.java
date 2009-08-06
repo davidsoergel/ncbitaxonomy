@@ -253,11 +253,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
-	public NcbiTaxonomyNode newChild()
-		{
-		throw new NotImplementedException("The NCBI taxonomy is not editable");
-		}
-
+	/*	public NcbiTaxonomyNode newChild()
+		 {
+		 throw new NotImplementedException("The NCBI taxonomy is not editable");
+		 }
+ */
 	/**
 	 * Not implemented
 	 */
