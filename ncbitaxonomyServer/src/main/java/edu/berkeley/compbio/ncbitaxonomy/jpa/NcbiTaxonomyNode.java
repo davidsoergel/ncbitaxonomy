@@ -689,6 +689,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		throw new NotImplementedException("Loading the entire NCBI taxonomy into a String is probably a bad idea");
 		}
 
+	public int countDescendantsIncludingThis()
+		{
+		//return 0;
+		throw new NotImplementedException("Counting subtrees in  the entire NCBI taxonomy is probably a bad idea");
+		}
+
+
 	public String toString()
 		{
 		return getTaxId() + "/" + getScientificName();
