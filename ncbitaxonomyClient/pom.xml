@@ -116,7 +116,7 @@
     </dependency>-->
   </dependencies>
 
-  <build>
+  <!-- <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -125,7 +125,7 @@
           <complianceLevel>1.6</complianceLevel>
           <source>1.6</source>
           <target>1.6</target>
-          <!-- <XnoInline>true</XnoInline> -->
+
           <aspectLibraries>
             <aspectLibrary>
               <groupId>org.springframework</groupId>
@@ -145,5 +145,5 @@
       </plugin>
     </plugins>
   </build>
-
+-->
 </project>
