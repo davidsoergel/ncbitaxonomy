@@ -45,7 +45,7 @@
   <parent>
     <groupId>edu.berkeley.compbio</groupId>
     <artifactId>basepom</artifactId>
-    <version>0.92</version>
+    <version>0.93</version>
   </parent>
 
   <inceptionYear>2006</inceptionYear>
@@ -92,7 +92,7 @@
     </repository>
   </repositories>
 
-<!--
+  <!--
   <reporting>
     <plugins>
       <plugin>
