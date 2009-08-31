@@ -12,6 +12,17 @@
 
   <security-constraint>
     <web-resource-collection>
+      <web-resource-name>Ncbi Taxonomy Services</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ncbitaxonomy</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <!--
+  <security-constraint>
+    <web-resource-collection>
       <web-resource-name>Default</web-resource-name>
       <url-pattern>/</url-pattern>
     </web-resource-collection>
@@ -31,7 +42,7 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Ncbi Taxonomy Services</web-resource-name>
-      <url-pattern>/ncbiTaxonomyWithBranchLengths</url-pattern>
+      <url-pattern>/ncbiTaxonomyWithUnitBranchLengths</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>ncbitaxonomy</role-name>
@@ -47,7 +58,7 @@
       <role-name>ncbitaxonomy</role-name>
     </auth-constraint>
   </security-constraint>
-
+-->
   <login-config>
     <auth-method>BASIC</auth-method>
     <realm-name>NcbiTaxonomy</realm-name>
