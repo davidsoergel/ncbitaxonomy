@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-  <display-name>Jandy Server</display-name>
+  <display-name>NCBI Taxonomy Server</display-name>
 
   <!-- Security roles referenced by this web application -->
   <security-role>
