@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+
+<beans>
+
+  <bean name="/ncbiTaxonomy" class="org.springframework.remoting.caucho.HessianServiceExporter">
+    <property name="service" ref="ncbiTaxonomyServlet"/>
+    <property name="serviceInterface" value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyService"/>
+  </bean>
+
+  <bean name="/ncbiTaxonomyWithUnitBranchLengths" class="org.springframework.remoting.caucho.HessianServiceExporter">
+    <property name="service" ref="ncbiTaxonomyWithUnitBranchLengthsServlet"/>
+    <property name="serviceInterface"
+              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsService"/>
+  </bean>
+
+  <bean name="/ncbiCiccarelliHybrid" class="org.springframework.remoting.caucho.HessianServiceExporter">
+    <property name="service" ref="ncbiCiccarelliHybridServlet"/>
+    <property name="serviceInterface"
+              value="edu.berkeley.compbio.ncbitaxonomy.service.ncbiCiccarelliHybridService"/>
+  </bean>
+
+</beans>

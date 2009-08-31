@@ -52,6 +52,8 @@
   <!-- find all the @Repository and @Service classes, both singletons and prototypes -->
   <context:component-scan base-package="edu.berkeley.compbio.ncbitaxonomy"/>
 
+  <context:property-placeholder location="file:${user.home}/etc/ncbitaxonomy/db.properties"/>
+
   <!-- @Repository-->
   <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 

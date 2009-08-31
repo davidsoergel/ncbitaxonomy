@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name>Jandy Server</display-name>
+
+  <!-- Security roles referenced by this web application -->
+  <security-role>
+    <description>
+      The role that is required to log in to the application
+    </description>
+    <role-name>ncbitaxonomy</role-name>
+  </security-role>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Default</web-resource-name>
+      <url-pattern>/</url-pattern>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Ncbi Taxonomy Services</web-resource-name>
+      <url-pattern>/ncbiTaxonomy</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ncbitaxonomy</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Ncbi Taxonomy Services</web-resource-name>
+      <url-pattern>/ncbiTaxonomyWithBranchLengths</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ncbitaxonomy</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Ncbi Taxonomy Services</web-resource-name>
+      <url-pattern>/ncbiCiccarelliHybrid</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ncbitaxonomy</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>NcbiTaxonomy</realm-name>
+  </login-config>
+
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:/ncbitaxonomy.xml</param-value>
+    <!--<param-value>/WEB-INF/jandyserver.xml</param-value>-->
+  </context-param>
+
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+
+
+  <!-- <context-param>
+    <param-name>parentContextKey</param-name>
+    <param-value>jandyDb.xml</param-value>
+  </context-param>-->
+
+  <servlet>
+    <servlet-name>remoting</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>remoting</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>
