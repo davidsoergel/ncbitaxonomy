@@ -18,7 +18,7 @@
   <bean name="/ncbiCiccarelliHybrid" class="org.springframework.remoting.caucho.HessianServiceExporter">
     <property name="service" ref="ncbiCiccarelliHybridServlet"/>
     <property name="serviceInterface"
-              value="edu.berkeley.compbio.ncbitaxonomy.service.ncbiCiccarelliHybridService"/>
+              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService"/>
   </bean>
 
 </beans>

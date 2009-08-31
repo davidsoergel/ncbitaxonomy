@@ -4,7 +4,7 @@ import com.caucho.hessian.server.HessianServlet;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyWithUnitBranchLengthsPhylogeny;
-import edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyService;
+import edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsService;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
@@ -25,7 +25,8 @@ import java.util.Set;
  * @version $Id$
  */
 @Service
-public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet implements NcbiTaxonomyService
+public class NcbiTaxonomyWithUnitBranchLengthsServlet extends HessianServlet
+		implements NcbiTaxonomyWithUnitBranchLengthsService //NcbiTaxonomyService
 	{
 	@Autowired
 	@Qualifier("ncbiTaxonomyWithUnitBranchLengthsPhylogeny")
