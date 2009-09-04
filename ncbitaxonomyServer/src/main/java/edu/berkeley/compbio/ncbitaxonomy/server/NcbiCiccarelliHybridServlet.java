@@ -7,7 +7,6 @@ import edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,11 +187,11 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet implements NcbiC
 		}
 
 
-	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
+/*	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
 		{
 		return ncbiCiccarelliHybridServiceImpl.getAncestorPath(id);
 		}
-
+*/
 
 	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
 	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException

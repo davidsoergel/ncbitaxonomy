@@ -1,11 +1,13 @@
 package edu.berkeley.compbio.ncbitaxonomy.service;
 
+import edu.berkeley.compbio.phyloutils.RequiresPreparationTaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomyService;
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public interface NcbiTaxonomyWithUnitBranchLengthsService extends TaxonomyService<Integer>
+public interface NcbiTaxonomyWithUnitBranchLengthsService
+		extends TaxonomyService<Integer>, RequiresPreparationTaxonomyService<Integer>
 	{
 	}

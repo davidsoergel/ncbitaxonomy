@@ -1,13 +1,10 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.CacheManager;
-import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
-import edu.berkeley.compbio.phyloutils.RequiresPreparationTaxonomyService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +16,14 @@ import java.util.Set;
  */
 @Service(value = "ncbiTaxonomyWithUnitBranchLengthsPhylogeny")
 public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhylogeny
-		implements RequiresPreparationTaxonomyService<Integer> // TaxonomyService<Integer>,
+		//	implements RequiresPreparationTaxonomyService<Integer> // TaxonomyService<Integer>,
 	{
 	//private NcbiTaxonomyService taxonomyService = NcbiTaxonomyService.getInstance();
 
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyWithUnitBranchLengthsPhylogeny.class);
+
+	//BAD it is a horrible hack that we store a singleton with run-specific state (in extractedTree, produced by prepare()
+
 	private BasicRootedPhylogeny<Integer> extractedTree;
 
 	private static NcbiTaxonomyWithUnitBranchLengthsPhylogeny instance;
@@ -61,8 +61,8 @@ public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhyl
 
 	// ** this whole class is kind of a hack
 
-
-	public void prepare(Set<Integer> allLabels) throws NoSuchNodeException
+/*
+	public BasicRootedPhylogeny<Integer> prepare(Set<Integer> allLabels) throws NoSuchNodeException
 		{
 		String idString = toString() + ":" + DSStringUtils.joinSorted(allLabels, ":");
 
@@ -74,8 +74,9 @@ public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhyl
 			extractedTree.setAllBranchLengthsTo(1.0);
 			CacheManager.put(this, idString, extractedTree);
 			}
+		return extractedTree;
 		}
-
+*/
 
 	@Override
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,

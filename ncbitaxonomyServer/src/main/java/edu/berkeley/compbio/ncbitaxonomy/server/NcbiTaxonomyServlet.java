@@ -208,11 +208,11 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 		}
 
 
-	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
+/*	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyPhylogeny.getAncestorPath(id);
 		}
-
+*/
 
 	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
 	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException

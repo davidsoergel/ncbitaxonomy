@@ -57,11 +57,11 @@
     <property name="password" value="${servicePass}"/>
   </bean>
 
-  <bean id="ncbiTaxonomyWithUnitBranchLengthsService"
+  <bean id="ncbiTaxonomyWithUnitBranchLengthsExtractor"
         class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
-    <property name="serviceUrl" value="${serviceUrl}/ncbiTaxonomyWithUnitBranchLengths"/>
+    <property name="serviceUrl" value="${serviceUrl}/ncbiTaxonomyWithUnitBranchLengthsExtractor"/>
     <property name="serviceInterface"
-              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsService"/>
+              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsExtractor"/>
     <property name="username" value="${serviceUser}"/>
     <property name="password" value="${servicePass}"/>
   </bean>

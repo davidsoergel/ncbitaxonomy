@@ -5,7 +5,6 @@ import com.davidsoergel.dsutils.tree.TreeException;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -209,12 +208,12 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 		return ncbiCiccarelliHybrid.getAncestorPathAsBasic(id);
 		}
 
-	@NotNull
-	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
-		{
-		return ncbiCiccarelliHybrid.getAncestorPath(id);
-		}
-
+	/*	@NotNull
+	 public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
+		 {
+		 return ncbiCiccarelliHybrid.getAncestorPath(id);
+		 }
+ */
 	public Integer findTaxidByName(final String name) throws NoSuchNodeException
 		{
 		return ncbiCiccarelliHybrid.findTaxidByName(name);

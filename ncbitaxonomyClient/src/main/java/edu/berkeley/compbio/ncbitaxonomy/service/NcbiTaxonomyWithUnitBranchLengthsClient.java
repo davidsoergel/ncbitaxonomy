@@ -1,30 +1,42 @@
 package edu.berkeley.compbio.ncbitaxonomy.service;
 
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
-import com.davidsoergel.dsutils.tree.TreeException;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
+import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
-import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
  * @version $Id$
  */
-public class NcbiTaxonomyWithUnitBranchLengthsClient implements NcbiTaxonomyWithUnitBranchLengthsService
+public class NcbiTaxonomyWithUnitBranchLengthsClient extends NcbiTaxonomyClient
+		implements NcbiTaxonomyWithUnitBranchLengthsService
 	{
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyClient.class);
 
-	private NcbiTaxonomyWithUnitBranchLengthsService ncbiTaxonomyWithUnitBranchLengths;
+	private NcbiTaxonomyWithUnitBranchLengthsExtractor ncbiTaxonomyWithUnitBranchLengthsExtractor;
+
+	private BasicRootedPhylogeny<Integer> extractedTree;
+
+/*	Map<String, BasicRootedPhylogeny<Integer>> extractedTrees;
+
+	protected void readStateIfAvailable()
+		{
+		super.readStateIfAvailable();
+		extractedTrees =
+				CacheManager.getAccumulatingMap(this, "extractedTrees"); //, new HashMap<String, Integer>());
+		}*/
+
+	public void prepare(final Set<Integer> allLabels) throws NoSuchNodeException
+		{
+		extractedTree = ncbiTaxonomyWithUnitBranchLengthsExtractor.prepare(allLabels);
+		}
 
 	private static NcbiTaxonomyWithUnitBranchLengthsClient instance;
 
@@ -63,166 +75,92 @@ public class NcbiTaxonomyWithUnitBranchLengthsClient implements NcbiTaxonomyWith
 			throw new Error(e);
 			}
 
-		ncbiTaxonomyWithUnitBranchLengths =
-				(NcbiTaxonomyWithUnitBranchLengthsService) ctx.getBean("ncbiTaxonomyWithUnitBranchLengthsService");
+		ncbiTaxonomyWithUnitBranchLengthsExtractor =
+				(NcbiTaxonomyWithUnitBranchLengthsExtractor) ctx.getBean("ncbiTaxonomyWithUnitBranchLengthsExtractor");
 		}
 
-	public boolean isDescendant(final Integer ancestor, final Integer descendant) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.isDescendant(ancestor, descendant);
-		}
-
-	public double minDistanceBetween(final Integer name1, final Integer name2) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.minDistanceBetween(name1, name2);
-		}
-
-	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
-		{
-		if (taxonomySynonymService instanceof NcbiTaxonomyClient)
-			{
-			//ignore
-			}
-		else
-			{
-			logger.warn("Can't use a non-NCBI-taxonomy synonym service");
-			}
-		//	ncbiTaxonomyWithUnitBranchLengths.setSynonymService(taxonomySynonymService);
-		}
-
-	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold)
-			throws NoSuchNodeException, TreeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getRandomSubtree(numTaxa, mergeThreshold);
-		}
-
-	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold,
-	                                                      final Integer exceptDescendantsOf)
-			throws NoSuchNodeException, TreeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getRandomSubtree(numTaxa, mergeThreshold, exceptDescendantsOf);
-		}
-
-	public boolean isLeaf(final Integer leafId) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.isLeaf(leafId);
-		}
-
-	public double getDepthFromRoot(final Integer taxid) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getDepthFromRoot(taxid);
-		}
-
-	public double getGreatestDepthBelow(final Integer taxid) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getGreatestDepthBelow(taxid);
-		}
+	//** hack
+	private Double maxDistance = 1000.;
 
 	public double maxDistance()
 		{
-		return ncbiTaxonomyWithUnitBranchLengths.maxDistance();
+		/*if (maxDistance == null)
+			{
+			maxDistance = 2.0 * getRoot().getGreatestBranchLengthDepthBelow();
+			}*/
+		return maxDistance;
 		}
 
-	public String getRelaxedName(final String name)
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getRelaxedName(name);
-		}
-
-	public BasicRootedPhylogeny<Integer> findCompactSubtreeWithIds(final Set<Integer> matchingIds, final String name)
-			throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.findCompactSubtreeWithIds(matchingIds, name);
-		}
-
-	public Set<Integer> findMatchingIds(final String name) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.findMatchingIds(name);
-		}
-
-	public Set<Integer> findMatchingIdsRelaxed(final String name) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.findMatchingIdsRelaxed(name);
-		}
-
-	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.selectAncestors(labels, id);
-		}
-
-	public Set<Integer> getLeafIds()
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getLeafIds();
-		}
-
-	public Map<Integer, String> getFriendlyLabelMap()
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getFriendlyLabelMap();
-		}
-
-	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
-	                                            final double maxDesiredTreeDistance) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths
-				.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
-		}
-
-	public boolean isKnown(final Integer value)
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.isKnown(value);
-		}
-
-	public Integer nearestAncestorWithBranchLength(final Integer id) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.nearestAncestorWithBranchLength(id);
-		}
-
+	@Override
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
 	                                                            final boolean includeInternalBranches,
-	                                                            final AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
+	                                                            AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException
 		{
-		return ncbiTaxonomyWithUnitBranchLengths
-				.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+		// we must include the internal branches for the sake of consistent branch lengths
+		BasicRootedPhylogeny<Integer> result = super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, true, mode);
+		result.setAllBranchLengthsTo(1.0);
+		return result;
 		}
 
-	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(final Set<Integer> ids, final boolean ignoreAbsentNodes,
-	                                                            final boolean includeInternalBranches)
-			throws NoSuchNodeException
+
+	@Override
+	public Integer nearestAncestorWithBranchLength(final Integer leafId)
 		{
-		return ncbiTaxonomyWithUnitBranchLengths
-				.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
+		return leafId;
 		}
 
-	@NotNull
-	public List<Integer> getAncestorPathIds(final Integer id) throws NoSuchNodeException
+
+	public double distanceBetween(final PhylogenyNode<Integer> a, final PhylogenyNode<Integer> b)
 		{
-		return ncbiTaxonomyWithUnitBranchLengths.getAncestorPathIds(id);
+
+
+		try
+			{
+			/*RootedPhylogeny<Integer> result = super.extractTreeWithLeaves(DSCollectionUtils.setOf(a, b), true,
+			                                                              MutualExclusionResolutionMode.BOTH);
+			result.setAllBranchLengthsTo(1.0);
+
+			return result.distanceBetween(a.getValue(), b.getValue());*/
+			return extractedTree.distanceBetween(a.getPayload(), b.getPayload());
+			}
+		catch (NoSuchNodeException e)
+			{
+			logger.error("Error", e);
+			throw new Error(e);
+			}
 		}
 
-	@NotNull
-	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+	public double distanceBetween(final Integer taxIdA, final Integer taxIdB)
 		{
-		return ncbiTaxonomyWithUnitBranchLengths.getAncestorPathAsBasic(id);
+		try
+			{
+			/*
+			RootedPhylogeny<Integer> result =
+
+					super.extractTreeWithLeafIDs(DSCollectionUtils.setOf(taxIdA, taxIdB), false, true,
+					                             MutualExclusionResolutionMode.BOTH);
+			result.setAllBranchLengthsTo(1.0);
+
+			return result.distanceBetween(taxIdA, taxIdB); */
+			return extractedTree.distanceBetween(taxIdA, taxIdB);
+			}
+		catch (NoSuchNodeException e)
+			{
+			logger.error("Error", e);
+			throw new Error(e);
+			}
 		}
 
-	@NotNull
-	public List<PhylogenyNode<Integer>> getAncestorPath(final Integer id) throws NoSuchNodeException
+	public Double minDistanceBetween(final PhylogenyNode<Integer> node1, final PhylogenyNode<Integer> node2)
+			throws PhyloUtilsException
 		{
-		return ncbiTaxonomyWithUnitBranchLengths.getAncestorPath(id);
+		return distanceBetween(node1, node2);
 		}
 
-	public Integer findTaxidByName(final String name) throws NoSuchNodeException
+	@Override
+	public double minDistanceBetween(final Integer taxIdA, final Integer taxIdB)
 		{
-		return ncbiTaxonomyWithUnitBranchLengths.findTaxidByName(name);
-		}
-
-	public Integer findTaxidByNameRelaxed(final String name) throws NoSuchNodeException
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.findTaxidByNameRelaxed(name);
-		}
-
-	public Set<String> getCachedNamesForId(final Integer id)
-		{
-		return ncbiTaxonomyWithUnitBranchLengths.getCachedNamesForId(id);
+		return distanceBetween(taxIdA, taxIdB);
 		}
 	}

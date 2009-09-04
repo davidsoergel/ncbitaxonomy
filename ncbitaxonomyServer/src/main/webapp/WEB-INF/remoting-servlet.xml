@@ -9,10 +9,11 @@
     <property name="serviceInterface" value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyService"/>
   </bean>
 
-  <bean name="/ncbiTaxonomyWithUnitBranchLengths" class="org.springframework.remoting.caucho.HessianServiceExporter">
-    <property name="service" ref="ncbiTaxonomyWithUnitBranchLengthsServlet"/>
+  <bean name="/ncbiTaxonomyWithUnitBranchLengthsExtractor"
+        class="org.springframework.remoting.caucho.HessianServiceExporter">
+    <property name="service" ref="ncbiTaxonomyWithUnitBranchLengthsExtractorServlet"/>
     <property name="serviceInterface"
-              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsService"/>
+              value="edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsExtractor"/>
   </bean>
 
   <bean name="/ncbiCiccarelliHybrid" class="org.springframework.remoting.caucho.HessianServiceExporter">
