@@ -86,7 +86,15 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 
 	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
 		{
-		ncbiCiccarelliHybrid.setSynonymService(taxonomySynonymService);
+		if (taxonomySynonymService instanceof NcbiTaxonomyClient)
+			{
+			//ignore
+			}
+		else
+			{
+			logger.warn("Can't use a non-NCBI-taxonomy synonym service");
+			}
+		//ncbiCiccarelliHybrid.setSynonymService(taxonomySynonymService);
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold)

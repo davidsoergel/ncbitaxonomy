@@ -79,7 +79,15 @@ public class NcbiTaxonomyWithUnitBranchLengthsClient implements NcbiTaxonomyWith
 
 	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
 		{
-		ncbiTaxonomyWithUnitBranchLengths.setSynonymService(taxonomySynonymService);
+		if (taxonomySynonymService instanceof NcbiTaxonomyClient)
+			{
+			//ignore
+			}
+		else
+			{
+			logger.warn("Can't use a non-NCBI-taxonomy synonym service");
+			}
+		//	ncbiTaxonomyWithUnitBranchLengths.setSynonymService(taxonomySynonymService);
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold)

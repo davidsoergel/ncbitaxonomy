@@ -104,7 +104,15 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 
 	public void setSynonymService(final TaxonomySynonymService taxonomySynonymService)
 		{
-		ncbiTaxonomy.setSynonymService(taxonomySynonymService);
+		if (taxonomySynonymService instanceof NcbiTaxonomyClient)
+			{
+			//ignore
+			}
+		else
+			{
+			logger.warn("Can't use a non-NCBI-taxonomy synonym service");
+			}
+		//	ncbiTaxonomy.setSynonymService(taxonomySynonymService);
 		}
 
 	public BasicRootedPhylogeny<Integer> getRandomSubtree(final int numTaxa, final Double mergeThreshold)
