@@ -1,5 +1,7 @@
 package edu.berkeley.compbio.ncbitaxonomy.service;
 
+import com.davidsoergel.dsutils.CacheManager;
+import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
@@ -24,18 +26,22 @@ public class NcbiTaxonomyWithUnitBranchLengthsClient extends NcbiTaxonomyClient
 
 	private BasicRootedPhylogeny<Integer> extractedTree;
 
-/*	Map<String, BasicRootedPhylogeny<Integer>> extractedTrees;
-
-	protected void readStateIfAvailable()
-		{
-		super.readStateIfAvailable();
-		extractedTrees =
-				CacheManager.getAccumulatingMap(this, "extractedTrees"); //, new HashMap<String, Integer>());
-		}*/
 
 	public void prepare(final Set<Integer> allLabels) throws NoSuchNodeException
 		{
-		extractedTree = ncbiTaxonomyWithUnitBranchLengthsExtractor.prepare(allLabels);
+		String idString = DSStringUtils.joinSorted(allLabels, ":");
+
+		extractedTree = (BasicRootedPhylogeny<Integer>) CacheManager.get(this, idString);
+		//RootedPhylogeny<Integer> theTree = cache.get(sfiIDsBigString);
+		if (extractedTree == null)
+			{
+			extractedTree = ncbiTaxonomyWithUnitBranchLengthsExtractor.prepare(allLabels);
+
+			CacheManager.put(this, idString, extractedTree);
+
+			//	cache.put(sfiIDsBigString, theTree);
+			//	saveCache(cache);
+			}
 		}
 
 	private static NcbiTaxonomyWithUnitBranchLengthsClient instance;
