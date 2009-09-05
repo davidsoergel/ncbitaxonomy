@@ -3,6 +3,8 @@ package edu.berkeley.compbio.ncbitaxonomy.service;
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
+import com.google.common.base.Function;
+import com.google.common.collect.MapMaker;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
@@ -10,6 +12,7 @@ import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
@@ -264,7 +267,20 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
-		return ncbiTaxonomy.getFriendlyLabelMap();
+		return new MapMaker().makeComputingMap(new Function<Integer, String>()
+		{
+		public String apply(@Nullable final Integer id)
+			{
+			try
+				{
+				return getScientificName(id);
+				}
+			catch (NoSuchNodeException e)
+				{
+				return id.toString();
+				}
+			}
+		});
 		}
 
 	public Integer getLeafAtApproximateDistance(final Integer aId, final double minDesiredTreeDistance,
