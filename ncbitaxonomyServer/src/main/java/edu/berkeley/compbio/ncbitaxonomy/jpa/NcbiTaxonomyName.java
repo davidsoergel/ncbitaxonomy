@@ -59,20 +59,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "names")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({
-		@NamedQuery(
-				name = "NcbiTaxonomyName.findSynonyms",
-				query = "select n.name from NcbiTaxonomyName n WHERE n.taxon.id = :taxid"),
-		@NamedQuery(
-				name = "NcbiTaxonomyName.findByName",
-				query = "select n from NcbiTaxonomyName n WHERE n.name = :name"),
-		@NamedQuery(
-				name = "NcbiTaxonomyName.findByUniqueName",
-				query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name"),
-		@NamedQuery(
-				name = "NcbiTaxonomyName.findByScientificName",
-				query = "select n from NcbiTaxonomyName n WHERE n.name = :name AND n.nameClass = 'scientific name'")
-})
+@NamedQueries({@NamedQuery(
+		name = "NcbiTaxonomyName.findSynonyms",
+		query = "select n.name from NcbiTaxonomyName n WHERE n.taxon.id = :taxid"), @NamedQuery(
+		name = "NcbiTaxonomyName.findByName",
+		query = "select n from NcbiTaxonomyName n WHERE n.name = :name"), @NamedQuery(
+		name = "NcbiTaxonomyName.findByUniqueName",
+		query = "select n from NcbiTaxonomyName n WHERE n.uniqueName = :name"), @NamedQuery(
+		name = "NcbiTaxonomyName.findByScientificName",
+		query = "select n from NcbiTaxonomyName n WHERE n.name = :name AND n.nameClass = 'scientific name'")})
 
 /*@NamedQuery(
 		name = "NcbiTaxonomyName.findSynonyms",
@@ -148,10 +143,7 @@ public class NcbiTaxonomyName extends SpringJpaObject
 
 	// ------------------------ CANONICAL METHODS ------------------------
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+/*	@Override
 	public boolean equals(Object o)
 		{
 		if (this == o)
@@ -185,9 +177,6 @@ public class NcbiTaxonomyName extends SpringJpaObject
 		return true;
 		}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode()
 		{
@@ -202,6 +191,7 @@ public class NcbiTaxonomyName extends SpringJpaObject
 		result = 31 * result + (nameClass != null ? nameClass.hashCode() : 0);
 		return result;
 		}
+*/
 
 	/**
 	 * {@inheritDoc}

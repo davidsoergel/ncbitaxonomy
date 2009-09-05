@@ -361,9 +361,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	// ** gah why can't equals and hashCode depend only on getId?
 	// If there are ever transient nodes that don't have an ID yet, that'sa problem; but the NCBI taxonomy is read-only so that should never occur
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/*
 	@Override
 	public boolean equals(Object o)
 		{
@@ -379,22 +377,19 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		NcbiTaxonomyNode that = (NcbiTaxonomyNode) o;
 
 		return this.getId().equals(that.getId());
-		/*
-				if (names != null ? !names.equals(that.names) : that.names != null)
-					{
-					return false;
-					}
-				if (parent != null ? !parent.equals(that.parent) : that.parent != null)
-					{
-					return false;
-					}
 
-				return true;*/
+//				if (names != null ? !names.equals(that.names) : that.names != null)
+//					{
+//					return false;
+//					}
+//				if (parent != null ? !parent.equals(that.parent) : that.parent != null)
+//					{
+//					return false;
+//					}
+//
+//				return true;
 		}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	//@Transactional
 	public int hashCode()
@@ -402,14 +397,14 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		int result;
 
 		result = getId();
-		/*
-		result = ((parent != null && !parent.getId().equals(this.getId())) ? parent.hashCode() : 0);
-		result = 31 * result + (names != null ? names.hashCode() : 0);
-*/
+
+	//	result = ((parent != null && !parent.getId().equals(this.getId())) ? parent.hashCode() : 0);
+	//	result = 31 * result + (names != null ? names.hashCode() : 0);
+
 
 		return result;
 		}
-
+*/
 
 	// -------------------------- OTHER METHODS --------------------------
 
