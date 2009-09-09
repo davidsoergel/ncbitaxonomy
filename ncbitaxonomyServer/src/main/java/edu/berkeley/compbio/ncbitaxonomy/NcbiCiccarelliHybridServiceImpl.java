@@ -489,7 +489,7 @@ public class NcbiCiccarelliHybridServiceImpl
 		return exactDistanceBetween(id1, id2);
 		}
 
-	public Integer findTaxidByName(String name) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyPhylogeny.findTaxidByName(name);
 		}

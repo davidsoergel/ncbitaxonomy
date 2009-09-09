@@ -80,7 +80,7 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 		return ncbiTaxonomyPhylogeny.getTaxIdsWithRank(rankName);
 		}
 
-	public Integer findTaxidByName(final String name) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull final String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyPhylogeny.findTaxidByName(name);
 		}

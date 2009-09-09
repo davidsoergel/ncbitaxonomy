@@ -302,7 +302,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	 * @return the taxid for the given name, if found
 	 * @throws NcbiTaxonomyException when the name is not found, or if the name maps to multiple taxids
 	 */
-	public Integer findTaxidByName(String name) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyServiceEngine.findTaxidByName(name);
 		}

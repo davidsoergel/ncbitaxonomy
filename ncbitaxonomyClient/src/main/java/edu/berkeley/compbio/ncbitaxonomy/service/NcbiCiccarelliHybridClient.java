@@ -214,7 +214,7 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 		 return ncbiCiccarelliHybrid.getAncestorPath(id);
 		 }
  */
-	public Integer findTaxidByName(final String name) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull final String name) throws NoSuchNodeException
 		{
 		return ncbiCiccarelliHybrid.findTaxidByName(name);
 		}

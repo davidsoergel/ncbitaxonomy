@@ -283,7 +283,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 
 	//@Transactional(propagation = Propagation.REQUIRED)
 	@Nullable
-	public Integer findTaxidByName(String speciesNameA) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull String speciesNameA) throws NoSuchNodeException
 		{
 		//sometimes the taxid is already in the string
 		try

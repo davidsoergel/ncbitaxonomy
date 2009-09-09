@@ -63,7 +63,7 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet implements NcbiC
 		}
 
 
-	public Integer findTaxidByName(final String name) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull final String name) throws NoSuchNodeException
 		{
 		return ncbiCiccarelliHybridServiceImpl.findTaxidByName(name);
 		}

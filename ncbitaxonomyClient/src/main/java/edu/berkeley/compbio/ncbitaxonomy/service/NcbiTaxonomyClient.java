@@ -393,7 +393,7 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 
 	private Map<String, Integer> taxIdByName = new HashMap<String, Integer>();
 
-	public Integer findTaxidByName(final String speciesNameA) throws NoSuchNodeException
+	public Integer findTaxidByName(@NotNull final String speciesNameA) throws NoSuchNodeException
 		{
 		;
 		Integer taxIdA = taxIdByName.get(speciesNameA);
