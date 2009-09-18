@@ -227,7 +227,7 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 		}
 
 
-	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
+	public Set<Integer> selectAncestors(final Collection<Integer> labels, final Integer id)
 		{
 		return ncbiTaxonomyPhylogeny.selectAncestors(labels, id);
 		}

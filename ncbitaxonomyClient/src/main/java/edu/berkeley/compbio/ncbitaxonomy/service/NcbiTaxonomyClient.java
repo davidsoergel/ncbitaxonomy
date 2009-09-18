@@ -255,7 +255,7 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 		return ncbiTaxonomy.findMatchingIdsRelaxed(name);
 		}
 
-	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
+	public Set<Integer> selectAncestors(final Collection<Integer> labels, final Integer id)
 		{
 		return ncbiTaxonomy.selectAncestors(labels, id);
 		}

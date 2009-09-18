@@ -538,7 +538,7 @@ public class NcbiCiccarelliHybridServiceImpl
 		return hybridTree.isDescendant(ancestor, descendant);
 		}
 
-	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
+	public Set<Integer> selectAncestors(final Collection<Integer> labels, final Integer id)
 		{
 		return hybridTree.selectAncestors(labels, id);
 		}

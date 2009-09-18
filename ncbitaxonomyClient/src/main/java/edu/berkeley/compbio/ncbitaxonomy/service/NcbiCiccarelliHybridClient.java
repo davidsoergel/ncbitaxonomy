@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -150,7 +151,7 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 		return ncbiCiccarelliHybrid.findMatchingIdsRelaxed(name);
 		}
 
-	public Set<Integer> selectAncestors(final Set<Integer> labels, final Integer id)
+	public Set<Integer> selectAncestors(final Collection<Integer> labels, final Integer id)
 		{
 		return ncbiCiccarelliHybrid.selectAncestors(labels, id);
 		}
