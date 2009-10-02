@@ -57,7 +57,7 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 			}
 		catch (IOException e)
 			{
-			logger.error(e);
+			logger.error("Error", e);
 			throw new Error(e);
 			}
 
