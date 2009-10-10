@@ -35,6 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
+import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.dsutils.tree.TreeException;
 import com.davidsoergel.stats.ContinuousDistribution1D;
@@ -534,6 +535,11 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		result.add(0, getRoot());
 
 		return Collections.unmodifiableList(result);
+		}
+
+	public List<? extends HierarchyNode<Integer, PhylogenyNode<Integer>>> getAncestorPath(final boolean includeSelf)
+		{
+		throw new NotImplementedException();
 		}
 
 	/**

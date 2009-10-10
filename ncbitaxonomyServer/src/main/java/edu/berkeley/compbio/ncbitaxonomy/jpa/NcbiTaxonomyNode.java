@@ -35,6 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
+import com.davidsoergel.dsutils.tree.HierarchyNode;
 import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.SpringJpaObject;
 import edu.berkeley.compbio.phyloutils.NodeNamer;
@@ -488,6 +489,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			fetchAncestorPath();
 			}
 		return ancestorPath;
+		}
+
+	public List<? extends HierarchyNode<Integer, PhylogenyNode<Integer>>> getAncestorPath(final boolean includeSelf)
+		{
+		throw new NotImplementedException();
 		}
 
 
