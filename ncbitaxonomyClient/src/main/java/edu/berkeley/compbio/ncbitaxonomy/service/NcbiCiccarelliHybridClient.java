@@ -125,6 +125,11 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 		return ncbiCiccarelliHybrid.getGreatestDepthBelow(taxid);
 		}
 
+	public double getLargestLengthSpan(final Integer taxid) throws NoSuchNodeException
+		{
+		return ncbiCiccarelliHybrid.getLargestLengthSpan(taxid);
+		}
+
 	public double maxDistance()
 		{
 		return ncbiCiccarelliHybrid.maxDistance();

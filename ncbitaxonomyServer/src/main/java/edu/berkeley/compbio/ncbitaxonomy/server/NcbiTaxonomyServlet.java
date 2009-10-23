@@ -131,6 +131,11 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 		return ncbiTaxonomyPhylogeny.getGreatestDepthBelow(a);
 		}
 
+	public double getLargestLengthSpan(final Integer a)
+		{
+		return ncbiTaxonomyPhylogeny.getLargestLengthSpan(a);
+		}
+
 
 	public Set<Integer> getLeafIds()
 		{

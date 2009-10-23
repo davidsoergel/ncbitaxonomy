@@ -110,6 +110,11 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet implements NcbiC
 		return ncbiCiccarelliHybridServiceImpl.getGreatestDepthBelow(a);
 		}
 
+	public double getLargestLengthSpan(final Integer a) throws NoSuchNodeException
+		{
+		return ncbiCiccarelliHybridServiceImpl.getLargestLengthSpan(a);
+		}
+
 
 	public Set<Integer> getLeafIds()
 		{

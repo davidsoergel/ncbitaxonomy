@@ -580,6 +580,23 @@ public class NcbiCiccarelliHybridServiceImpl
 		return ciccarelli.getGreatestDepthBelow(ciccarelliName1);
 		}
 
+
+	public double getLargestLengthSpan(Integer taxidA) throws NoSuchNodeException
+		{
+		// this is tricky because we don't know which name variant the Ciccarelli tree uses
+		// (if loaded from a file in terms of names rather than IDs).
+
+		// we can't let the Ciccarelli tree deal with the String<->id mapping, because it doesn't have access to NcbiTaxonomyService.
+
+		String ciccarelliName1 = ciccarelliNames.get(taxidA);
+		if (ciccarelliName1 == null)
+			{
+			throw new NoSuchNodeException("No such element: " + taxidA);
+			}
+
+		return ciccarelli.getLargestLengthSpan(ciccarelliName1);
+		}
+
 	private Double maxDistance = null;
 
 	public double maxDistance()

@@ -229,6 +229,11 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 		return ncbiTaxonomy.getGreatestDepthBelow(taxid);
 		}
 
+	public double getLargestLengthSpan(final Integer taxid) throws NoSuchNodeException
+		{
+		return ncbiTaxonomy.getLargestLengthSpan(taxid);
+		}
+
 	public double maxDistance()
 		{
 		return ncbiTaxonomy.maxDistance();
