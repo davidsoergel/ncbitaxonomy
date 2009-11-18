@@ -34,8 +34,8 @@ package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
-import com.davidsoergel.dsutils.tree.TreeException;
+import com.davidsoergel.trees.NoSuchNodeException;
+import com.davidsoergel.trees.TreeException;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService;

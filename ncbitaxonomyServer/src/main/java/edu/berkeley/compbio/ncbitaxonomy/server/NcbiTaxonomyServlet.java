@@ -1,8 +1,8 @@
 package edu.berkeley.compbio.ncbitaxonomy.server;
 
 import com.caucho.hessian.server.HessianServlet;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
-import com.davidsoergel.dsutils.tree.TreeException;
+import com.davidsoergel.trees.NoSuchNodeException;
+import com.davidsoergel.trees.TreeException;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyPhylogeny;
 import edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyService;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;

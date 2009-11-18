@@ -1,6 +1,6 @@
 package edu.berkeley.compbio.ncbitaxonomy.service;
 
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import com.davidsoergel.trees.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 
 import java.util.Set;

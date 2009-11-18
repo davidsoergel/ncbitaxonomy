@@ -35,7 +35,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import com.davidsoergel.trees.NoSuchNodeException;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;

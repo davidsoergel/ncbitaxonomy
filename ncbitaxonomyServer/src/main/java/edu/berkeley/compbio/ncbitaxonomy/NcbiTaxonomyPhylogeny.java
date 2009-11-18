@@ -34,11 +34,11 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
-import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
-import com.davidsoergel.dsutils.tree.HierarchyNode;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
-import com.davidsoergel.dsutils.tree.TreeException;
 import com.davidsoergel.stats.ContinuousDistribution1D;
+import com.davidsoergel.trees.DepthFirstTreeIterator;
+import com.davidsoergel.trees.HierarchyNode;
+import com.davidsoergel.trees.NoSuchNodeException;
+import com.davidsoergel.trees.TreeException;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;
 import com.google.common.collect.Multiset;

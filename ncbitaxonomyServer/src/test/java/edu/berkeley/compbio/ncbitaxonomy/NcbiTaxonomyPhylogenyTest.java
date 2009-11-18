@@ -34,7 +34,7 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.EnvironmentUtils;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import com.davidsoergel.trees.NoSuchNodeException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

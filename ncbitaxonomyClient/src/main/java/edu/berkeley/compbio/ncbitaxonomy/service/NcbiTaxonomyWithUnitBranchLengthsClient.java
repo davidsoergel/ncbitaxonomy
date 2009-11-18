@@ -2,7 +2,7 @@ package edu.berkeley.compbio.ncbitaxonomy.service;
 
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.DSStringUtils;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import com.davidsoergel.trees.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;

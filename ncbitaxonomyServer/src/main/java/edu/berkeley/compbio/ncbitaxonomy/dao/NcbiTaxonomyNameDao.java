@@ -33,8 +33,8 @@
 
 package edu.berkeley.compbio.ncbitaxonomy.dao;
 
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.GenericDao;
+import com.davidsoergel.trees.NoSuchNodeException;
 import edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyName;
 
 import java.util.Collection;

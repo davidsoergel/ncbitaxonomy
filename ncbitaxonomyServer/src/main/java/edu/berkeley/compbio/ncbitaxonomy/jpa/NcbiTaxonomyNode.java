@@ -34,10 +34,10 @@
 package edu.berkeley.compbio.ncbitaxonomy.jpa;
 
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
-import com.davidsoergel.dsutils.tree.DepthFirstTreeIterator;
-import com.davidsoergel.dsutils.tree.HierarchyNode;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
 import com.davidsoergel.springjpautils.SpringJpaObject;
+import com.davidsoergel.trees.DepthFirstTreeIterator;
+import com.davidsoergel.trees.HierarchyNode;
+import com.davidsoergel.trees.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.NodeNamer;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;

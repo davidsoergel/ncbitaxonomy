@@ -1,8 +1,8 @@
 package edu.berkeley.compbio.ncbitaxonomy.service;
 
 import com.davidsoergel.dsutils.CacheManager;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
-import com.davidsoergel.dsutils.tree.TreeException;
+import com.davidsoergel.trees.NoSuchNodeException;
+import com.davidsoergel.trees.TreeException;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;

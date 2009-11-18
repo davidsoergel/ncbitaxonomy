@@ -1,6 +1,6 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import com.davidsoergel.trees.NoSuchNodeException;
 import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
 import org.jetbrains.annotations.NotNull;

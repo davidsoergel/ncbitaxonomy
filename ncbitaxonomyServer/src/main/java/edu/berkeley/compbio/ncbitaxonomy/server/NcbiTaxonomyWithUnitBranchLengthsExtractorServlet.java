@@ -3,7 +3,7 @@ package edu.berkeley.compbio.ncbitaxonomy.server;
 import com.caucho.hessian.server.HessianServlet;
 import com.davidsoergel.dsutils.CacheManager;
 import com.davidsoergel.dsutils.DSStringUtils;
-import com.davidsoergel.dsutils.tree.NoSuchNodeException;
+import com.davidsoergel.trees.NoSuchNodeException;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyWithUnitBranchLengthsPhylogeny;
 import edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyWithUnitBranchLengthsExtractor;
 import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
