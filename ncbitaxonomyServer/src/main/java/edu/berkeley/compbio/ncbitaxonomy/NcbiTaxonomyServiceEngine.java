@@ -1,8 +1,8 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.trees.NoSuchNodeException;
-import edu.berkeley.compbio.phyloutils.PhylogenyNode;
-import edu.berkeley.compbio.phyloutils.RootedPhylogeny;
+import com.davidsoergel.trees.PhylogenyNode;
+import com.davidsoergel.trees.RootedPhylogeny;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

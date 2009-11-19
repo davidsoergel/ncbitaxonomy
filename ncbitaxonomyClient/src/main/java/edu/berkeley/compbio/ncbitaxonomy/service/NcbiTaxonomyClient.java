@@ -1,13 +1,13 @@
 package edu.berkeley.compbio.ncbitaxonomy.service;
 
 import com.davidsoergel.dsutils.CacheManager;
+import com.davidsoergel.trees.AbstractRootedPhylogeny;
+import com.davidsoergel.trees.BasicPhylogenyNode;
+import com.davidsoergel.trees.BasicRootedPhylogeny;
 import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.TreeException;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;
-import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.BasicPhylogenyNode;
-import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;

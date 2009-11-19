@@ -1,10 +1,10 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
+import com.davidsoergel.trees.AbstractRootedPhylogeny;
+import com.davidsoergel.trees.BasicRootedPhylogeny;
 import com.davidsoergel.trees.NoSuchNodeException;
-import edu.berkeley.compbio.phyloutils.AbstractRootedPhylogeny;
-import edu.berkeley.compbio.phyloutils.BasicRootedPhylogeny;
+import com.davidsoergel.trees.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
-import edu.berkeley.compbio.phyloutils.PhylogenyNode;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
