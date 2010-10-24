@@ -33,18 +33,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>edu.berkeley.compbio</groupId>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.berkeley.compbio</groupId>
   <artifactId>ncbitaxonomyDeploy</artifactId>
 
   <name>ncbitaxonomyDeploy</name>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.91-SNAPSHOT</version>
   <url>http://dev.davidsoergel.com/ncbitaxonomy</url>
   <description>Utility classes for dealing with the NCBI taxonomy.</description>
 
-	<inceptionYear>2006</inceptionYear>
+  <inceptionYear>2006</inceptionYear>
 
-	<packaging>jar</packaging>
+  <packaging>jar</packaging>
 
   <issueManagement>
     <system>Trac</system>
@@ -58,77 +58,77 @@
   </scm>
 
 
-
-	<distributionManagement>
-		<repository>
-			<id>dev.davidsoergel.com.release</id>
-			<name>David Soergel Release Repository</name>
-			<url>dav:http://dev.davidsoergel.com/artifactory/libs-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>dev.davidsoergel.com.snapshot</id>
-			<name>David Soergel Snapshot Repository</name>
-			<url>dav:http://dev.davidsoergel.com/artifactory/libs-snapshots</url>
-		</snapshotRepository>
-		<site>
-			<id>website</id>
-			<url>scpexe://dev.davidsoergel.com/home/build/mavensites/ncbitaxonomy</url>
-		</site>
-	</distributionManagement>
-
-
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://dev.davidsoergel.com/artifactory/repo</url>
-		</repository>
-	</repositories>
-
-	<dependencies>
-		<dependency>
-			<groupId>edu.berkeley.compbio</groupId>
-			<artifactId>ncbitaxonomyServer</artifactId>
-			<version>0.9-SNAPSHOT</version>
-		</dependency>
+  <distributionManagement>
+    <repository>
+      <id>dev.davidsoergel.com.release</id>
+      <name>David Soergel Release Repository</name>
+      <url>dav:http://dev.davidsoergel.com/artifactory/libs-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>dev.davidsoergel.com.snapshot</id>
+      <name>David Soergel Snapshot Repository</name>
+      <url>dav:http://dev.davidsoergel.com/artifactory/libs-snapshots</url>
+    </snapshotRepository>
+    <site>
+      <id>website</id>
+      <url>scpexe://dev.davidsoergel.com/home/build/mavensites/ncbitaxonomy</url>
+    </site>
+  </distributionManagement>
 
 
-	</dependencies>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>http://dev.davidsoergel.com/artifactory/repo</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>edu.berkeley.compbio</groupId>
+      <artifactId>ncbitaxonomyServer</artifactId>
+      <version>0.91-SNAPSHOT</version>
+    </dependency>
 
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>edu.berkeley.compbio.ncbitaxonomy.server.NcbiTaxonomyServer</mainClass>
-							<packageName>edu.berkeley.compbio.ncbitaxonmy</packageName>
-							<addClasspath>true</addClasspath>
-							<addExtensions>false</addExtensions> <!-- was true before -->
-							<classpathPrefix>./lib/</classpathPrefix>
-						</manifest>
-					</archive>
-					<forceCreation>true</forceCreation>
-					<!--<includes><include>src/main/resources/*</include></includes>-->
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptor>src/main/assembly/assembly.xml</descriptor>
-				</configuration>
-			</plugin>
-		</plugins>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-2</version>
-			</extension>
-		</extensions>
-	</build>
+  </dependencies>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>edu.berkeley.compbio.ncbitaxonomy.server.NcbiTaxonomyServer</mainClass>
+              <packageName>edu.berkeley.compbio.ncbitaxonmy</packageName>
+              <addClasspath>true</addClasspath>
+              <addExtensions>false</addExtensions>
+              <!-- was true before -->
+              <classpathPrefix>./lib/</classpathPrefix>
+            </manifest>
+          </archive>
+          <forceCreation>true</forceCreation>
+          <!--<includes><include>src/main/resources/*</include></includes>-->
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptor>src/main/assembly/assembly.xml</descriptor>
+        </configuration>
+      </plugin>
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
+  </build>
 
 
 </project>
