@@ -38,7 +38,7 @@
   <artifactId>ncbitaxonomy</artifactId>
 
   <name>ncbitaxonomy</name>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.91-SNAPSHOT</version>
   <url>http://dev.davidsoergel.com/ncbitaxonomy</url>
   <description>Utility classes for dealing with the NCBI taxonomy.</description>
 

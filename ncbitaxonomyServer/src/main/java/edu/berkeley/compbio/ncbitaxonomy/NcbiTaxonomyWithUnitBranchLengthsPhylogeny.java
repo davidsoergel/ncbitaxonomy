@@ -5,6 +5,8 @@ import com.davidsoergel.trees.BasicRootedPhylogeny;
 import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.PhylogenyNode;
 import edu.berkeley.compbio.phyloutils.PhyloUtilsException;
+import edu.berkeley.compbio.phyloutils.TaxonomyService;
+import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.Set;
  */
 @Service(value = "ncbiTaxonomyWithUnitBranchLengthsPhylogeny")
 public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhylogeny
+		implements TaxonomyService<Integer>, TaxonomySynonymService
 		//	implements RequiresPreparationTaxonomyService<Integer> // TaxonomyService<Integer>,
 	{
 	//private NcbiTaxonomyService taxonomyService = NcbiTaxonomyService.getInstance();
@@ -110,6 +113,7 @@ public class NcbiTaxonomyWithUnitBranchLengthsPhylogeny extends NcbiTaxonomyPhyl
 
 
 	// PERF would be far better to extract the whole tree in advance
+
 	@Override
 	public double distanceBetween(final PhylogenyNode<Integer> a, final PhylogenyNode<Integer> b)
 		{
