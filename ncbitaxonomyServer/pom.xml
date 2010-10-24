@@ -132,6 +132,12 @@
         <artifactId>aspectj-maven-plugin</artifactId>
         <version>1.3</version>
         <configuration>
+
+          <excludes>
+            <exclude>**/NcbiTaxonomyWithUnitBranchLengthsPhylogeny.java</exclude>
+            <exclude>**/NcbiTaxonomyPhylogeny.java</exclude>
+          </excludes>
+
           <complianceLevel>1.6</complianceLevel>
           <source>1.6</source>
           <target>1.6</target>
