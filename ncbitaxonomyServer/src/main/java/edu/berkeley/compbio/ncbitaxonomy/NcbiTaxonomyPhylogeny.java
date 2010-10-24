@@ -491,6 +491,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		 throw new NotImplementedException("The NCBI taxonomy is not editable");
 		 }
  */
+
 	/**
 	 * Not implemented
 	 */
@@ -789,7 +790,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	 * Not implemented
 	 */
 	@Override
-	public void randomizeLeafWeights(ContinuousDistribution1D dist)
+	public void setLeafWeightsRandom(ContinuousDistribution1D dist)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
