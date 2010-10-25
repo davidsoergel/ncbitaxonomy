@@ -255,7 +255,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 						.createNamedQuery("NcbiTaxonomyName.findByScientificNameWithUniqueTag")
 						.setParameter("name", name).setParameter("tag", "acteria").getSingleResult());
 
-				// there are not yet any database entries where searching for "archaea" wound help
+				// there are not yet any database entries where searching for "archaea" would help
 				// leave off the first letter to be agnostic about capitalization
 				}
 			catch (NonUniqueResultException f)
