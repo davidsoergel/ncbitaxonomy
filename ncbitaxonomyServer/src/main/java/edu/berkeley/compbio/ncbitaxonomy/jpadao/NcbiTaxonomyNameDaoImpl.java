@@ -249,8 +249,25 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 			}
 		catch (NonUniqueResultException e)
 			{
-			logger.warn("Scientific Name is not unique in database: " + name);
-			throw new NcbiTaxonomyRuntimeException("Impossible: scientific name is not unique in database: " + name);
+			try
+				{
+				result = (NcbiTaxonomyName) (entityManager
+						.createNamedQuery("NcbiTaxonomyName.findByScientificNameWithUniqueTag")
+						.setParameter("name", name).setParameter("tag", "acteria").getSingleResult());
+
+				// there are not yet any database entries where searching for "archaea" wound help
+				// leave off the first letter to be agnostic about capitalization
+				}
+			catch (NonUniqueResultException f)
+				{
+				logger.warn("Scientific Name is not unique in database: " + name);
+				throw new NcbiTaxonomyRuntimeException(
+						"Impossible: scientific name is not unique in database: " + name);
+				}
+			catch (NoResultException f)
+				{
+				throw new NoSuchNodeException("Scientific Name not found: " + name);
+				}
 			}
 		catch (NoResultException e)
 			{
