@@ -282,6 +282,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		}
 
 	//@Transactional(propagation = Propagation.REQUIRED)
+
 	@Nullable
 	public Integer findTaxidByName(@NotNull String speciesNameA) throws NoSuchNodeException
 		{
@@ -341,6 +342,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		}
 
 	//@Transactional(propagation = Propagation.REQUIRED)
+
 	@Nullable
 	public Integer findParentTaxidByName(String speciesNameA) throws NoSuchNodeException
 		{
@@ -392,6 +394,8 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 
 	public Collection<String> synonymsOfRelaxed(String s) throws NoSuchNodeException
 		{
+
+		logger.info("NcbiTaxonomyServer synonymsOfRelaxed " + s);
 		int taxid = findTaxidByNameRelaxed(s);
 		HashSet<String> result = synonyms.get(taxid);
 		if (result == null)
@@ -399,6 +403,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 			result = new HashSet<String>(ncbiTaxonomyNameDao.findSynonyms(taxid));
 			synonyms.put(taxid, result);
 			}
+		logger.info("NcbiTaxonomyServer synonymsOfRelaxed " + s + " DONE");
 		return result;
 		//return ncbiTaxonomyNameDao.findSynonymsRelaxed(s);
 		}

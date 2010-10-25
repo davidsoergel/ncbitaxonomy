@@ -79,6 +79,7 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 		 return result;
 		 }
  */
+
 	public Collection<String> synonymsOf(final String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomy.synonymsOf(name);
@@ -91,7 +92,10 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 
 	public Collection<String> synonymsOfRelaxed(final String name) throws NoSuchNodeException
 		{
-		return ncbiTaxonomy.synonymsOfRelaxed(name);
+		logger.info("NcbiTaxonomyClient synonymsOfRelaxed " + name);
+		Collection<String> result = ncbiTaxonomy.synonymsOfRelaxed(name);
+		logger.info("NcbiTaxonomyClient synonymsOfRelaxed " + name + " DONE");
+		return result;
 		}
 
 	public static NcbiTaxonomyClient getInstance()
@@ -153,6 +157,7 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 		 return ncbiTaxonomy.getScientificName(from);
 		 }
  */
+
 	@NotNull
 	public String getScientificName(final Integer taxid) throws NoSuchNodeException
 		{
