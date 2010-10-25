@@ -70,7 +70,7 @@ import javax.persistence.Table;
 		query = "select n from NcbiTaxonomyName n WHERE n.name = :name AND n.nameClass = 'scientific name'"),
                @NamedQuery(
 		               name = "NcbiTaxonomyName.findByScientificNameWithUniqueTag",
-		               query = "select n from NcbiTaxonomyName n WHERE n.name = :name AND n.nameClass = 'scientific name' AND n.uniqueName like \"%:tag%\"")})
+		               query = "select n from NcbiTaxonomyName n WHERE n.name = :name AND n.nameClass = 'scientific name' AND n.uniqueName like '%:tag%'")})
 
 /*@NamedQuery(
 		name = "NcbiTaxonomyName.findSynonyms",
