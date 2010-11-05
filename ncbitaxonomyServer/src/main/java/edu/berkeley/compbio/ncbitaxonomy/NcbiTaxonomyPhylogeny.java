@@ -591,6 +591,14 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
+	public double getLeastBranchLengthDepthBelow()
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	/**
+	 * Not implemented
+	 */
 	public double getGreatestDepthBelow(Integer a)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
@@ -944,5 +952,12 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 				}
 			}
 		});
+		}
+
+	public void collectLeavesBelowAtApproximateDistance(final double minDesiredTreeDistance,
+	                                                    final double maxDesiredTreeDistance,
+	                                                    final Collection<PhylogenyNode<Integer>> result)
+		{
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 	}

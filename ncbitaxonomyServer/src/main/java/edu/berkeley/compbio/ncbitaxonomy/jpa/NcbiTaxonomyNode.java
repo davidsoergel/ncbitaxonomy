@@ -62,6 +62,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -259,6 +260,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		 throw new NotImplementedException("The NCBI taxonomy is not editable");
 		 }
  */
+
 	/**
 	 * Not implemented
 	 */
@@ -514,6 +516,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 	//@Transactional(propagation = Propagation.MANDATORY)
+
 	public void fetchAncestorPath()
 		{
 
@@ -535,6 +538,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 	//@Transactional(propagation = Propagation.MANDATORY)
+
 	public void fetchAncestorPathIds()
 		{
 		ancestorPathIds = new LinkedList<Integer>();
@@ -578,6 +582,16 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	 */
 	//@Nullable
 	public double getGreatestBranchLengthDepthBelow()
+		{
+		//return null;
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	//@Nullable
+	public double getLeastBranchLengthDepthBelow()
 		{
 		//return null;
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
@@ -744,5 +758,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			}
 
 		return trav;
+		}
+
+	public void collectLeavesBelowAtApproximateDistance(final double minDesiredTreeDistance,
+	                                                    final double maxDesiredTreeDistance,
+	                                                    final Collection<PhylogenyNode<Integer>> result)
+		{
+
+		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
 		}
 	}
