@@ -159,16 +159,47 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		//return getNode(id).getAncestorPathIds();
 		}
 
+	private Map<Integer, BasicPhylogenyNode<Integer>> convertedNodes =
+			new MapMaker().makeComputingMap(new Function<Integer, BasicPhylogenyNode<Integer>>()
+			{
+			public BasicPhylogenyNode<Integer> apply(final Integer id)
+				{
+				try
+					{
+					List<Integer> idPath = getAncestorPathIds(id);
+
+					BasicPhylogenyNode<Integer> parent = convertedNodes.get(idPath.get(idPath.size() - 2));
+
+					BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(parent, id);
+
+					return convertedNode;
+					}
+				catch (NoSuchNodeException e)
+					{
+					throw new PhyloUtilsRuntimeException(e);
+					}
+				}
+			});
+
+	@NotNull
+	@Override
+	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
+		{
+		return Collections.unmodifiableList(convertedNodes.get(id).getAncestorPath());
+		}
+/*
 	private Map<Integer, List<BasicPhylogenyNode<Integer>>> ancestorPathNodesCache;
 
 	// PERF not sure caching all the paths like this makes sense, vs. just caching the tree as a whole?
+	// ** a problem is that, this way, the same node in multiple paths is represented by distinct objects
+	// because serializing it and then deserializing it twice makes copies
+	// and the copies don't know that they're the same because BasicPhylogenyNode doesn't have an equals() based on the ID, because it doesn't assume unique IDs.
 
 	@NotNull
 	@Override
 	public List<BasicPhylogenyNode<Integer>> getAncestorPathAsBasic(final Integer id) throws NoSuchNodeException
 		{
 		List<BasicPhylogenyNode<Integer>> result = ancestorPathNodesCache.get(id);
-		//** Note these BasicPhylogenyNode entries have null parents!  In our particular use case we never access them anyway, but it's ugly.
 
 		if (result == null || result.isEmpty())
 			{
@@ -182,6 +213,8 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 			if (id == 1)
 				{
 				result = new ArrayList<BasicPhylogenyNode<Integer>>(1);
+				BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(null, node);
+				result.add(convertedNode);
 				}
 			else
 				{
@@ -193,9 +226,10 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 					}
 
 				result = new ArrayList<BasicPhylogenyNode<Integer>>(getAncestorPathAsBasic(parent.getPayload()));
+				BasicPhylogenyNode<Integer> convertedNode =
+						new BasicPhylogenyNode<Integer>(result.get(result.size() - 1), node);
+				result.add(convertedNode);
 				}
-			BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(null, node);
-			result.add(convertedNode);
 
 			result = Collections.unmodifiableList(result);
 
@@ -205,6 +239,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		return result;
 		//return getNode(id).getAncestorPathIds();
 		}
+*/
 
 	public static NcbiTaxonomyPhylogeny getInstance()
 		{
@@ -280,7 +315,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		ancestorPathIdsCache = CacheManager.getAccumulatingMapAssumeSerializable(this, "ancestorPathCache");
 
 		//ancestorPathNodesCache = CacheManager.getAccumulatingMap(this, "ancestorPathNodesCache");
-		ancestorPathNodesCache = CacheManager.getAccumulatingMapAssumeSerializable(this, "ancestorPathNodesCache");
+		//ancestorPathNodesCache = CacheManager.getAccumulatingMapAssumeSerializable(this, "ancestorPathNodesCache");
 		}
 
 	/**
