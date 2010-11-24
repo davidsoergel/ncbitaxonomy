@@ -175,6 +175,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 						}
 
 					BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(parent, id);
+					convertedNode.setWeight(1.0);
 
 					return convertedNode;
 					}
