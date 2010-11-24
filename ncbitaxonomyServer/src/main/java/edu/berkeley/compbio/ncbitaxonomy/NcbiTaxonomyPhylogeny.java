@@ -171,7 +171,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 					BasicPhylogenyNode<Integer> parent = null;
 					if (idPath.size() > 1)
 						{
-						convertedNodes.get(idPath.get(idPath.size() - 2));
+						parent = convertedNodes.get(idPath.get(idPath.size() - 2));
 						}
 
 					BasicPhylogenyNode<Integer> convertedNode = new BasicPhylogenyNode<Integer>(parent, id);
