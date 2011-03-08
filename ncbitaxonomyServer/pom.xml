@@ -121,7 +121,7 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
-      <version>1.6.7</version>
+      <version>1.6.10</version>
     </dependency>
   </dependencies>
 
@@ -138,7 +138,7 @@
             <exclude>**/NcbiTaxonomyPhylogeny.java</exclude>
           </excludes>
 
-          <complianceLevel>1.6</complianceLevel>
+          <!--  <complianceLevel>1.6</complianceLevel> -->
           <source>1.6</source>
           <target>1.6</target>
           <!-- <XnoInline>true</XnoInline> -->
