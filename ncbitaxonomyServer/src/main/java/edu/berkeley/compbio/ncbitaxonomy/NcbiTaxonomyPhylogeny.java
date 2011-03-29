@@ -915,7 +915,8 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 
 	public RootedPhylogeny<Integer> getTree()
 		{
-		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Tree is probably a bad idea");
+		//throw new NotImplementedException("Loading the entire NCBI taxonomy into a Tree is probably a bad idea");
+		return basePhylogeny;
 		}
 
 	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws NoSuchNodeException
