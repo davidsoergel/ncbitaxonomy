@@ -6,6 +6,7 @@ import com.davidsoergel.trees.RootedPhylogeny;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Set;
@@ -50,5 +51,5 @@ public interface NcbiTaxonomyServiceEngine
 
 	Set<String> findNamesWithRank(String rank);
 
-	void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb);
+	void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb) throws IOException;
 	}

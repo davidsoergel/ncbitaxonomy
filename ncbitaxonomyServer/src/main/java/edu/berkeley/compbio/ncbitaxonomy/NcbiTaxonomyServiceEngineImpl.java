@@ -49,9 +49,11 @@ import org.springframework.stereotype.Service;
 import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -466,16 +468,54 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 
 	// @Transactional
 	public void toNewick(final Writer out, final String prefix, final String tab, final int minClusterSize,
-	                     final double minLabelProb)
+	                     final double minLabelProb) throws IOException
 		{
-		try
+
+		NcbiTaxonomyNode root = ncbiTaxonomyNodeDao.findById(1);
+
+		// stupid hack because the root is its own child
+
+		List<NcbiTaxonomyNode> rootChildren = new ArrayList<NcbiTaxonomyNode>(root.getChildren());
+
+		rootChildren.remove(root);
+
+
+		//cut & paste
+
+		// (children)name:length
+
+		if (prefix != null)
 			{
-			ncbiTaxonomyNodeDao.findById(1).toNewick(out, prefix, tab, minClusterSize, minLabelProb);
+			out.write(prefix);
 			}
-		catch (IOException e)
+
+		assert !rootChildren.isEmpty();
+
+		String childPrefix = prefix == null ? null : prefix + tab;
+		out.write("(");
+		Iterator<NcbiTaxonomyNode> i = rootChildren.iterator();
+		while (i.hasNext())
 			{
-			logger.error("Error", e);
+			i.next().toNewick(out, childPrefix, tab, minClusterSize, minLabelProb);
+			//sb.append(i.next());
+			if (i.hasNext())
+				{
+				out.write(",");
+				}
 			}
+		if (prefix != null)
+			{
+			out.write(prefix);
+			}
+		out.write(")");
+		if (prefix != null)
+			{
+			out.write(prefix);
+			}
+
+		//String n = value.toString();
+		//n = n.replaceAll(" ", "_");
+		out.write("1");
 		}
 
 	/**
