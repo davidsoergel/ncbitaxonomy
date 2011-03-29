@@ -47,6 +47,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -459,6 +461,20 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		catch (NoResultException e)
 			{
 			throw new NoSuchNodeException(e);
+			}
+		}
+
+	// @Transactional
+	public void toNewick(final Writer out, final String prefix, final String tab, final int minClusterSize,
+	                     final double minLabelProb)
+		{
+		try
+			{
+			ncbiTaxonomyNodeDao.findById(1).toNewick(out, prefix, tab, minClusterSize, minLabelProb);
+			}
+		catch (IOException e)
+			{
+			logger.error("Error", e);
 			}
 		}
 

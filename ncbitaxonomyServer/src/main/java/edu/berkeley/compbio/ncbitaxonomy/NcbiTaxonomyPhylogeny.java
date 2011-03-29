@@ -706,12 +706,11 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		//return getTree().depthFirstIterator();
 		}
 
-	@Transactional
 	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
 			throws IOException
 		{
 		//throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
-		getRoot().toNewick(out, prefix, tab, minClusterSize, minLabelProb);
+		ncbiTaxonomyServiceEngine.toNewick(out, prefix, tab, minClusterSize, minLabelProb);
 		}
 
 	public void writeSynonyms(Writer out)

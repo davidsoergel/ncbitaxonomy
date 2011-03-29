@@ -6,6 +6,7 @@ import com.davidsoergel.trees.RootedPhylogeny;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Set;
 
@@ -48,4 +49,6 @@ public interface NcbiTaxonomyServiceEngine
 	Set<Integer> findTaxIdsWithRank(String rank);
 
 	Set<String> findNamesWithRank(String rank);
+
+	void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb);
 	}

@@ -105,6 +105,8 @@
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.find*(..))"
                  advice-ref="requiredTxAdvice"/>
 
+    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.toNewick(..))"
+                 advice-ref="requiredTxAdvice"/>
     <!--       <aop:advisor
                     pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByName(..))"
                     advice-ref="noRollbackTxAdvice"/>
