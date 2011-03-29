@@ -73,6 +73,12 @@
     </tx:attributes>
   </tx:advice>
 
+  <tx:advice id="nestedTxAdvice">
+    <tx:attributes>
+      <tx:method name="*" propagation="NESTED"/>
+    </tx:attributes>
+  </tx:advice>
+
 
   <tx:advice id="mandatoryTxAdvice">
     <tx:attributes>
@@ -105,6 +111,11 @@
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.find*(..))"
                  advice-ref="requiredTxAdvice"/>
 
+    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.toNewick(..))"
+                 advice-ref="requiredTxAdvice"/>
+
+    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.toNewick(..))"
+                 advice-ref="nestedTxAdvice"/>
 
     <!--       <aop:advisor
                     pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByName(..))"
@@ -128,8 +139,6 @@
       pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.findById(..))"
       advice-ref="supportsTxAdvice"/>
 
-    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getChildrenCopy(..))"
-                 advice-ref="requiredTxAdvice"/>
   </aop:config>
 
 
