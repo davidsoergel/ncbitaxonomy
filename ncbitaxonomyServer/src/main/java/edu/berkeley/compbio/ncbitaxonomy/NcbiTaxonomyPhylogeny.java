@@ -710,7 +710,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 			throws IOException
 		{
 		//throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
-		getTree().toNewick(out, prefix, tab, minClusterSize, minLabelProb);
+		getRoot().toNewick(out, prefix, tab, minClusterSize, minLabelProb);
 		}
 
 	public void writeSynonyms(Writer out)
@@ -915,8 +915,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 
 	public RootedPhylogeny<Integer> getTree()
 		{
-		//throw new NotImplementedException("Loading the entire NCBI taxonomy into a Tree is probably a bad idea");
-		return basePhylogeny;
+		throw new NotImplementedException("Loading the entire NCBI taxonomy into a Tree is probably a bad idea");
 		}
 
 	public PhylogenyNode<Integer> nearestAncestorWithBranchLength() throws NoSuchNodeException
