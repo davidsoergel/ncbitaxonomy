@@ -85,10 +85,10 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 		return ncbiTaxonomy.synonymsOf(name);
 		}
 
-	public Collection<String> synonymsOfParent(final String name) throws NoSuchNodeException
+/*	public Collection<String> synonymsOfParent(final String name) throws NoSuchNodeException
 		{
 		return ncbiTaxonomy.synonymsOfParent(name);
-		}
+		}*/
 
 	public Collection<String> synonymsOfRelaxed(final String name) throws NoSuchNodeException
 		{

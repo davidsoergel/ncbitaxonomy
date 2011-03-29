@@ -61,6 +61,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -729,9 +731,54 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		}
 
 
-	public void toNewick(StringBuffer sb, String prefix, String tab, int minClusterSize, double minLabelProb)
+	// cut & paste, too bad
+	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
+			throws IOException
 		{
-		throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
+		// (children)name:length
+
+		if (prefix != null)
+			{
+			out.write(prefix);
+			}
+
+		if (!children.isEmpty())
+			{
+			String childPrefix = prefix == null ? null : prefix + tab;
+			out.write("(");
+			Iterator<NcbiTaxonomyNode> i = children.iterator();
+			while (i.hasNext())
+				{
+				i.next().toNewick(out, childPrefix, tab, minClusterSize, minLabelProb);
+				//sb.append(i.next());
+				if (i.hasNext())
+					{
+					out.write(",");
+					}
+				}
+			if (prefix != null)
+				{
+				out.write(prefix);
+				}
+			out.write(")");
+			if (prefix != null)
+				{
+				out.write(prefix);
+				}
+			}
+		//String n = value.toString();
+		//n = n.replaceAll(" ", "_");
+		out.write(getId());
+		/*if (length != null) // && length != 0)
+			{
+			out.write(String.format(":%.5f", length));
+			}
+		if (bootstrap != null) // && bootstrap != 0)
+			{
+			out.write("[");
+			out.write(bootstrap.toString());
+			out.write("]");
+			}*/
 		}
 
 	public RootedPhylogeny<Integer> asRootedPhylogeny()

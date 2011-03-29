@@ -29,6 +29,8 @@ public interface NcbiTaxonomyServiceEngine
 	@Nullable
 	Integer findParentTaxidByName(String speciesNameA) throws NoSuchNodeException;
 
+	Collection<String> synonymsOfIdNoCache(int taxid) throws NoSuchNodeException;
+
 	Collection<String> synonymsOf(String s) throws NoSuchNodeException;
 
 	Collection<String> synonymsOfRelaxed(String s) throws NoSuchNodeException;

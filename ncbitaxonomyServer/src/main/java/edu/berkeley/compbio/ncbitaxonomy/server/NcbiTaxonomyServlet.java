@@ -44,10 +44,10 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 		return ncbiTaxonomyPhylogeny.synonymsOf(s);
 		}
 
-	public Collection<String> synonymsOfParent(final String s) throws NoSuchNodeException
+/*	public Collection<String> synonymsOfParent(final String s) throws NoSuchNodeException
 		{
 		return ncbiTaxonomyPhylogeny.synonymsOfParent(s);
-		}
+		}*/
 
 	public Collection<String> synonymsOfRelaxed(final String s) throws NoSuchNodeException
 		{

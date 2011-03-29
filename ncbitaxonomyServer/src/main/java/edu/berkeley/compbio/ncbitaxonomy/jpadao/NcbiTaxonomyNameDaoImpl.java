@@ -138,7 +138,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		try
 			{
 			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByName")
-					.setParameter("name", name).getSingleResult());
+					                             .setParameter("name", name).getSingleResult());
 			assert result != null;
 			names.put(name, result);
 			return result;
@@ -167,7 +167,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 	public Collection<String> findSynonyms(Integer taxid)
 		{
 		List<String> result = (List<String>) (entityManager.createNamedQuery("NcbiTaxonomyName.findSynonyms")
-				.setParameter("taxid", taxid).getResultList());
+				                                      .setParameter("taxid", taxid).getResultList());
 		return result;
 		}
 	/*public Collection<String> findSynonyms(String name)
@@ -209,7 +209,7 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		try
 			{
 			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByUniqueName")
-					.setParameter("name", name).getSingleResult());
+					                             .setParameter("name", name).getSingleResult());
 			}
 		catch (NonUniqueResultException e)
 			{
@@ -245,15 +245,15 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		try
 			{
 			result = (NcbiTaxonomyName) (entityManager.createNamedQuery("NcbiTaxonomyName.findByScientificName")
-					.setParameter("name", name).getSingleResult());
+					                             .setParameter("name", name).getSingleResult());
 			}
 		catch (NonUniqueResultException e)
 			{
 			try
 				{
-				result = (NcbiTaxonomyName) (entityManager
-						.createNamedQuery("NcbiTaxonomyName.findByScientificNameWithUniqueTag")
-						.setParameter("name", name).setParameter("tag", "%acteria%").getSingleResult());
+				result = (NcbiTaxonomyName) (entityManager.createNamedQuery(
+						"NcbiTaxonomyName.findByScientificNameWithUniqueTag").setParameter("name", name)
+						                             .setParameter("tag", "%acteria%").getSingleResult());
 
 				// there are not yet any database entries where searching for "archaea" would help
 				// leave off the first letter to be agnostic about capitalization
@@ -280,7 +280,9 @@ public class NcbiTaxonomyNameDaoImpl extends GenericDaoImpl<NcbiTaxonomyName> im
 		}
 
 	/**
-	 * {@inheritDoc}
+	 * Relaxation is the successive truncation of space-delimited suffixes, which may be overly specific strain IDs and
+	 * such.  This is done only on the query; the reference names are not munged.  However, there are reference names
+	 * available at each taxonomic level already. {@inheritDoc}
 	 */
 	//@Transactional(propagation = Propagation.MANDATORY)
 	@NotNull

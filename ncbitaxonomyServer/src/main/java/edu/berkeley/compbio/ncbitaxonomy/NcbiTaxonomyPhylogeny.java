@@ -34,6 +34,7 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
+import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.davidsoergel.trees.AbstractRootedPhylogeny;
 import com.davidsoergel.trees.BasicPhylogenyNode;
@@ -61,6 +62,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -77,17 +80,17 @@ import java.util.Set;
  * <p/>
  * <pre>
  * default = orchid_test
- * <p/>
+ *
  * localhost_test.driver = com.mysql.jdbc.Driver
  * localhost_test.url = jdbc:mysql://localhost/ncbi_tx_test
  * localhost_test.username = ncbi_tx_test
  * localhost_test.password = xxxxxx
- * <p/>
+ *
  * orchid_test.driver = com.mysql.jdbc.Driver
  * orchid_test.url = jdbc:mysql://orchid.berkeley.edu/ncbi_tx_test
  * orchid_test.username = ncbi_tx_test
  * orchid_test.password = xxxxxx
- * <p/>
+ *
  * </pre>
  * <p/>
  * Many methods required by the RootedPhylogeny interface are not appropriate for this purpose and hence throw
@@ -285,17 +288,17 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		}
 
 	public synchronized boolean isKnown(Integer leafId) //throws NoSuchNodeException
+	{
+	try
 		{
-		try
-			{
-			getNode(leafId);
-			return true;
-			}
-		catch (NoSuchNodeException e)
-			{
-			return false;
-			}
+		getNode(leafId);
+		return true;
 		}
+	catch (NoSuchNodeException e)
+		{
+		return false;
+		}
+	}
 
 
 	public NcbiTaxonomyPhylogeny()
@@ -700,12 +703,39 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	public DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> phylogenyIterator()
 		{
 		throw new NotImplementedException("Iterating over the entire NCBI taxonomy is probably a bad idea");
+		//return getTree().depthFirstIterator();
 		}
 
-	public void toNewick(StringBuffer sb, String prefix, String tab, int minClusterSize, double minLabelProb)
+	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
+			throws IOException
 		{
-		throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
+		//throw new NotImplementedException("Printing the entire NCBI taxonomy is probably a bad idea");
+		getTree().toNewick(out, prefix, tab, minClusterSize, minLabelProb);
 		}
+
+	public void writeSynonyms(Writer out)
+		{
+		DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> i = getTree().depthFirstIterator();
+		while (i.hasNext())
+			{
+			PhylogenyNode<Integer> n = i.next();
+			Integer id = n.getPayload();
+			try
+				{
+				Collection<String> synonyms = ncbiTaxonomyServiceEngine.synonymsOfIdNoCache(id);
+				out.append(id.toString()).append("\t").append(DSStringUtils.join(synonyms, "\t")).append("\n");
+				}
+			catch (NoSuchNodeException e)
+				{
+				logger.error("Error", e);
+				}
+			catch (IOException e)
+				{
+				logger.error("Error", e);
+				}
+			}
+		}
+
 
 	/**
 	 * Not implemented
@@ -962,9 +992,9 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	                                                            MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException //, NodeNamer<T> namer
 
-		{
-		return super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
-		}
+	{
+	return super.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+	}
 
 	public Set<Integer> getLeafIds()
 		{

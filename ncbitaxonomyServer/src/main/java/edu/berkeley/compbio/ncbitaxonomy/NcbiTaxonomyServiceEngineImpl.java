@@ -379,6 +379,10 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		return taxIdA;
 		}
 
+	public Collection<String> synonymsOfIdNoCache(int taxid) throws NoSuchNodeException
+		{
+		return ncbiTaxonomyNameDao.findSynonyms(taxid);
+		}
 
 	public Collection<String> synonymsOf(String s) throws NoSuchNodeException
 		{

@@ -3,7 +3,6 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.PropertiesUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -24,7 +23,8 @@ public class NcbiTaxonomyDbContextFactory extends GenericApplicationContext
 	private static final Logger logger = Logger.getLogger(NcbiTaxonomyDbContextFactory.class);
 
 
-	public static ApplicationContext makeNcbiTaxonomyDbContext(String dbName) throws IOException
+	public static ApplicationContext makeNcbiTaxonomyDbContext() //String dbName)
+			throws IOException
 
 		{
 		File propsFile = PropertiesUtils
@@ -53,9 +53,9 @@ public class NcbiTaxonomyDbContextFactory extends GenericApplicationContext
 //			xmlReader.loadBeanDefinitions(new ClassPathResource("springjpautils.xml"));
 		xmlReader.loadBeanDefinitions(new ClassPathResource("ncbitaxonomy.xml"));
 
-		PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-		cfg.setProperties(databases.get(dbName));
-		ctx.addBeanFactoryPostProcessor(cfg);
+		//PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
+		//cfg.setProperties(databases.get(dbName));
+		//ctx.addBeanFactoryPostProcessor(cfg);
 
 		ctx.refresh();
 
