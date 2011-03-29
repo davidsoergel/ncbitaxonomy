@@ -1,18 +1,12 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
-import com.davidsoergel.dsutils.EnvironmentUtils;
-import com.davidsoergel.dsutils.PropertiesUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
@@ -27,6 +21,7 @@ public class NcbiTaxonomyDbContextFactory extends GenericApplicationContext
 			throws IOException
 
 		{
+		/*
 		File propsFile = PropertiesUtils
 				.findPropertiesFile("NCBI_TAXONOMY_PROPERTIES", ".ncbitaxonomy", "ncbi_taxonomy.properties");
 		EnvironmentUtils.init(propsFile);
@@ -47,7 +42,7 @@ public class NcbiTaxonomyDbContextFactory extends GenericApplicationContext
 
 		Map<String, Properties> databases = PropertiesUtils.splitPeriodDelimitedProperties(p);
 
-
+*/
 		GenericApplicationContext ctx = new GenericApplicationContext();
 		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
 //			xmlReader.loadBeanDefinitions(new ClassPathResource("springjpautils.xml"));
