@@ -732,6 +732,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 
 	// cut & paste, too bad
+	@Transactional(propagation = Propagation.MANDATORY)
 	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
 			throws IOException
 		{

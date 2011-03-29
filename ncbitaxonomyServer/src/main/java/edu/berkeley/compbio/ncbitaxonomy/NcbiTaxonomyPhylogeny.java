@@ -706,6 +706,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		//return getTree().depthFirstIterator();
 		}
 
+	@Transactional
 	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
 			throws IOException
 		{
