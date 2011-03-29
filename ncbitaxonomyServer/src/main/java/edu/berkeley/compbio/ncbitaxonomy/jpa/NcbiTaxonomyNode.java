@@ -743,11 +743,11 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			out.write(prefix);
 			}
 
-		if (!children.isEmpty())
+		if (!getChildren().isEmpty())
 			{
 			String childPrefix = prefix == null ? null : prefix + tab;
 			out.write("(");
-			Iterator<NcbiTaxonomyNode> i = children.iterator();
+			Iterator<NcbiTaxonomyNode> i = getChildren().iterator();
 			while (i.hasNext())
 				{
 				i.next().toNewick(out, childPrefix, tab, minClusterSize, minLabelProb);
