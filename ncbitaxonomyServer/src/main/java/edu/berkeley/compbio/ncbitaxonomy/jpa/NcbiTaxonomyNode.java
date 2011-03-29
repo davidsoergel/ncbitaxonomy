@@ -421,6 +421,12 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return children;
 		}
 
+
+	public List<NcbiTaxonomyNode> getChildrenCopy()
+		{
+		return new ArrayList<NcbiTaxonomyNode>(children);
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -732,7 +738,6 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 
 
 	// cut & paste, too bad
-	@Transactional(propagation = Propagation.MANDATORY)
 	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
 			throws IOException
 		{
@@ -743,11 +748,13 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			out.write(prefix);
 			}
 
-		if (!getChildren().isEmpty())
+
+		List<NcbiTaxonomyNode> childrenCopy = getChildrenCopy();
+		if (!childrenCopy.isEmpty())
 			{
 			String childPrefix = prefix == null ? null : prefix + tab;
 			out.write("(");
-			Iterator<NcbiTaxonomyNode> i = getChildren().iterator();
+			Iterator<NcbiTaxonomyNode> i = childrenCopy.iterator();
 			while (i.hasNext())
 				{
 				i.next().toNewick(out, childPrefix, tab, minClusterSize, minLabelProb);

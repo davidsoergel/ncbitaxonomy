@@ -128,7 +128,7 @@
       pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.findById(..))"
       advice-ref="supportsTxAdvice"/>
 
-    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getChildren(..))"
+    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getChildrenCopy(..))"
                  advice-ref="requiredTxAdvice"/>
   </aop:config>
 

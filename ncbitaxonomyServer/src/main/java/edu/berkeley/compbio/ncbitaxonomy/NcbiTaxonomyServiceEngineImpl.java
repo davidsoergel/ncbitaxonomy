@@ -475,7 +475,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 
 		// stupid hack because the root is its own child
 
-		List<NcbiTaxonomyNode> rootChildren = new ArrayList<NcbiTaxonomyNode>(root.getChildren());
+		List<NcbiTaxonomyNode> rootChildren = new ArrayList<NcbiTaxonomyNode>(root.getChildrenCopy());
 
 		rootChildren.remove(root);
 
