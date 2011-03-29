@@ -769,7 +769,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 			}
 		//String n = value.toString();
 		//n = n.replaceAll(" ", "_");
-		out.write(getId());
+		out.write(getId().toString());
 		/*if (length != null) // && length != 0)
 			{
 			out.write(String.format(":%.5f", length));
