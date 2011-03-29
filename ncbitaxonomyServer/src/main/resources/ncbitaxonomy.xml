@@ -73,9 +73,9 @@
     </tx:attributes>
   </tx:advice>
 
-  <tx:advice id="nestedTxAdvice">
+  <tx:advice id="requiresnewTxAdvice">
     <tx:attributes>
-      <tx:method name="*" propagation="NESTED"/>
+      <tx:method name="*" propagation="REQUIRES_NEW"/>
     </tx:attributes>
   </tx:advice>
 
@@ -115,7 +115,7 @@
                  advice-ref="requiredTxAdvice"/>
 
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.toNewick(..))"
-                 advice-ref="nestedTxAdvice"/>
+                 advice-ref="requiresnewTxAdvice"/>
 
     <!--       <aop:advisor
                     pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNameDaoImpl.findByName(..))"
