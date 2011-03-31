@@ -3,6 +3,7 @@ package edu.berkeley.compbio.ncbitaxonomy;
 import org.springframework.context.ApplicationContext;
 
 import java.io.FileWriter;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:dev@davidsoergel.com">David Soergel</a>
@@ -10,6 +11,8 @@ import java.io.FileWriter;
  */
 public class Exporter
 	{
+	static String[] ranks = {"phylum", "class", "order", "family", "genus", "species"};
+
 	public static void main(String[] argv)
 		{
 		try
@@ -17,13 +20,24 @@ public class Exporter
 			ApplicationContext ctx = NcbiTaxonomyDbContextFactory.makeNcbiTaxonomyDbContext();
 			NcbiTaxonomyPhylogeny ncbi = (NcbiTaxonomyPhylogeny) ctx.getBean("ncbiTaxonomyPhylogeny");
 
-			FileWriter treeWriter = new FileWriter("ncbi.newick");
+			FileWriter treeWriter = new FileWriter("tree.newick");
 			ncbi.toNewick(treeWriter, "", "", 0, 0);
 			treeWriter.close();
 
-			FileWriter synonymWriter = new FileWriter("ncbi.newick");
+			FileWriter synonymWriter = new FileWriter("synonyms");
 			ncbi.writeSynonyms(synonymWriter);
 			synonymWriter.close();
+
+			for (String rank : ranks)
+				{
+				FileWriter rankWriter = new FileWriter(rank);
+				Set<Integer> ids = ncbi.getTaxIdsWithRank(rank);
+				for (Integer id : ids)
+					{
+					rankWriter.append(id.toString()).append("\n");
+					}
+				rankWriter.close();
+				}
 			}
 		catch (Throwable e)
 			{

@@ -49,7 +49,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -470,53 +469,55 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	public void toNewick(final Writer out, final String prefix, final String tab, final int minClusterSize,
 	                     final double minLabelProb) throws IOException
 		{
+		toNewick(1, out, prefix, tab, minClusterSize, minLabelProb);
+		}
 
-		NcbiTaxonomyNode root = ncbiTaxonomyNodeDao.findById(1);
+	// @Transactional
+	private void toNewick(int id, final Writer out, final String prefix, final String tab, final int minClusterSize,
+	                      final double minLabelProb) throws IOException
+		{
+		NcbiTaxonomyNode node = ncbiTaxonomyNodeDao.findById(id);
+
+		List<Integer> childIds = node.getChildIds();
 
 		// stupid hack because the root is its own child
-
-		List<NcbiTaxonomyNode> rootChildren = new ArrayList<NcbiTaxonomyNode>(root.getChildrenCopy());
-
-		rootChildren.remove(root);
-
-
-		//cut & paste
-
-		// (children)name:length
+		childIds.remove(1);
 
 		if (prefix != null)
 			{
 			out.write(prefix);
 			}
 
-		assert !rootChildren.isEmpty();
-
-		String childPrefix = prefix == null ? null : prefix + tab;
-		out.write("(");
-		Iterator<NcbiTaxonomyNode> i = rootChildren.iterator();
-		while (i.hasNext())
+		if (!childIds.isEmpty())
 			{
-			i.next().toNewick(out, childPrefix, tab, minClusterSize, minLabelProb);
-			//sb.append(i.next());
-			if (i.hasNext())
+
+			String childPrefix = prefix == null ? null : prefix + tab;
+			out.write("(");
+			Iterator<Integer> i = childIds.iterator();
+			while (i.hasNext())
 				{
-				out.write(",");
+				toNewick(i.next(), out, childPrefix, tab, minClusterSize, minLabelProb);
+				//sb.append(i.next());
+				if (i.hasNext())
+					{
+					out.write(",");
+					}
+				}
+			if (prefix != null)
+				{
+				out.write(prefix);
+				}
+			out.write(")");
+			if (prefix != null)
+				{
+				out.write(prefix);
 				}
 			}
-		if (prefix != null)
-			{
-			out.write(prefix);
-			}
-		out.write(")");
-		if (prefix != null)
-			{
-			out.write(prefix);
-			}
-
 		//String n = value.toString();
 		//n = n.replaceAll(" ", "_");
-		out.write("1");
+		out.write("" + id);
 		}
+
 
 	/**
 	 * Search up the NCBI taxonomy until a node is encountered that is a leaf in the Ciccarelli taxonomy

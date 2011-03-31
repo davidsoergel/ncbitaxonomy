@@ -41,12 +41,14 @@ import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.NodeNamer;
 import com.davidsoergel.trees.PhylogenyNode;
 import com.davidsoergel.trees.RootedPhylogeny;
+import edu.berkeley.compbio.ncbitaxonomy.dao.NcbiTaxonomyNodeDao;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +96,9 @@ import java.util.Set;
 public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<Integer>
 	{
 	// ------------------------------ FIELDS ------------------------------
+	@Autowired
+	@Transient
+	private NcbiTaxonomyNodeDao ncbiTaxonomyNodeDao;
 
 	public void setName(final String name)
 		{
@@ -421,10 +426,20 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return children;
 		}
 
-
-	public List<NcbiTaxonomyNode> getChildrenCopy()
+	/**
+	 * Need this to do recursive calls without running out of memory, by starting a new transaction for each query.  Slow,
+	 * but works.
+	 *
+	 * @return
+	 */
+	public List<Integer> getChildIds()
 		{
-		return new ArrayList<NcbiTaxonomyNode>(children);
+		List<Integer> result = new ArrayList<Integer>();
+		for (NcbiTaxonomyNode child : children)
+			{
+			result.add(child.getPayload());
+			}
+		return result;
 		}
 
 	/**
@@ -741,52 +756,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	public void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb)
 			throws IOException
 		{
-		// (children)name:length
-
-		if (prefix != null)
-			{
-			out.write(prefix);
-			}
-
-
-		List<NcbiTaxonomyNode> childrenCopy = getChildrenCopy();
-		if (!childrenCopy.isEmpty())
-			{
-			String childPrefix = prefix == null ? null : prefix + tab;
-			out.write("(");
-			Iterator<NcbiTaxonomyNode> i = childrenCopy.iterator();
-			while (i.hasNext())
-				{
-				i.next().toNewick(out, childPrefix, tab, minClusterSize, minLabelProb);
-				//sb.append(i.next());
-				if (i.hasNext())
-					{
-					out.write(",");
-					}
-				}
-			if (prefix != null)
-				{
-				out.write(prefix);
-				}
-			out.write(")");
-			if (prefix != null)
-				{
-				out.write(prefix);
-				}
-			}
-		//String n = value.toString();
-		//n = n.replaceAll(" ", "_");
-		out.write(getId().toString());
-		/*if (length != null) // && length != 0)
-			{
-			out.write(String.format(":%.5f", length));
-			}
-		if (bootstrap != null) // && bootstrap != 0)
-			{
-			out.write("[");
-			out.write(bootstrap.toString());
-			out.write("]");
-			}*/
+		throw new NotImplementedException();
 		}
 
 	public RootedPhylogeny<Integer> asRootedPhylogeny()

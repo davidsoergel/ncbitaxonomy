@@ -722,8 +722,14 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 			Integer id = n.getPayload();
 			try
 				{
+				out.append(id.toString()).append("\t");
+
+				String scientificName = ncbiTaxonomyServiceEngine.findScientificName(id);
+				out.append(scientificName).append("\t");
+
 				Collection<String> synonyms = ncbiTaxonomyServiceEngine.synonymsOfIdNoCache(id);
-				out.append(id.toString()).append("\t").append(DSStringUtils.join(synonyms, "\t")).append("\n");
+				synonyms.remove(scientificName);
+				out.append(DSStringUtils.join(synonyms, "\t")).append("\n");
 				}
 			catch (NoSuchNodeException e)
 				{
