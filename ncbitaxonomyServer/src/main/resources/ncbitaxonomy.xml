@@ -110,8 +110,10 @@
 
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.find*(..))"
                  advice-ref="requiredTxAdvice"/>
-    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getChildIds(..))"
+
+    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.getChildIds(..))"
                  advice-ref="requiredTxAdvice"/>
+
     <!-- <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.toNewick(..))"
                      advice-ref="requiredTxAdvice"/>
 

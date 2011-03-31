@@ -426,21 +426,6 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		return children;
 		}
 
-	/**
-	 * Need this to do recursive calls without running out of memory, by starting a new transaction for each query.  Slow,
-	 * but works.
-	 *
-	 * @return
-	 */
-	public List<Integer> getChildIds()
-		{
-		List<Integer> result = new ArrayList<Integer>();
-		for (NcbiTaxonomyNode child : children)
-			{
-			result.add(child.getPayload());
-			}
-		return result;
-		}
 
 	/**
 	 * {@inheritDoc}
