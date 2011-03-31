@@ -125,8 +125,13 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 */
 	public List<Integer> findChildIds(Integer id)
 		{
-		return (List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findChildIds").setParameter("id", id)
-				                        .getResultList());
+		List<Integer> result =
+				(List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findChildIds").setParameter("id", id)
+						                 .getResultList());
+
+		// stupid hack because the root is its own child
+		result.remove(new Integer(1));
+		return result;
 		}
 
 	/**
