@@ -481,7 +481,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		List<Integer> childIds = ncbiTaxonomyNodeDao.findChildIds(id);
 
 		// stupid hack because the root is its own child
-		childIds.remove(1);
+		childIds.remove(new Integer(1));
 
 		if (prefix != null)
 			{
