@@ -111,9 +111,6 @@
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.find*(..))"
                  advice-ref="requiredTxAdvice"/>
 
-    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.getChildIds(..))"
-                 advice-ref="requiredTxAdvice"/>
-
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getChildren(..))"
                  advice-ref="mandatoryTxAdvice"/>
 
@@ -143,6 +140,10 @@
 
     <aop:advisor
       pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.findById(..))"
+      advice-ref="supportsTxAdvice"/>
+
+    <aop:advisor
+      pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpadao.NcbiTaxonomyNodeDaoImpl.findChildIds(..))"
       advice-ref="supportsTxAdvice"/>
 
   </aop:config>

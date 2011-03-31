@@ -89,7 +89,9 @@ import java.util.Set;
 		name = "NcbiTaxonomyNode.findByRank",
 		query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
 		name = "NcbiTaxonomyNode.findIdsByRank",
-		query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank")})
+		query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
+		name = "NcbiTaxonomyNode.findChildIds",
+		query = "select n.id from NcbiTaxonomyNode n WHERE parent_tax_id = :id")})
 
 // or NONSTRICT_READ_WRITE?
 //@NamedQuery(name="NcbiTaxonomyNode.findByName",query="select n from NcbiTaxonomyNode n WHERE Name = :name"),

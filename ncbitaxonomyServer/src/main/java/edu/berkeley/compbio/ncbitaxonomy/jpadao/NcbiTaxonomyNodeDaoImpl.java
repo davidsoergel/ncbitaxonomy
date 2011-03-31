@@ -100,6 +100,35 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 		return node;
 		}
 
+
+	/**
+	 * Need this to do recursive calls without running out of memory, by starting a new transaction for each query.  Slow,
+	 * but works.
+	 *
+	 * @return
+	 */
+/*	public List<Integer> findChildIds(Integer id)
+		{
+		NcbiTaxonomyNode node = entityManager.find(NcbiTaxonomyNode.class, id);
+		if (node == null)
+			{
+			throw new NoResultException("Could not find taxon: " + id);
+			}
+
+		List<Integer> result = new ArrayList<Integer>();
+		for (NcbiTaxonomyNode child : node.getChildren())
+			{
+			result.add(child.getPayload());
+			}
+		return result;
+		}
+*/
+	public List<Integer> findChildIds(Integer id)
+		{
+		return (List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findChildIds").setParameter("id", id)
+				                        .getResultList());
+		}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -131,13 +160,13 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 	public List<NcbiTaxonomyNode> findByRank(String rankName)
 		{
 		return (List<NcbiTaxonomyNode>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findByRank")
-				.setParameter("rank", rankName).getResultList());
+				                                 .setParameter("rank", rankName).getResultList());
 		}
 
 	//	@Transactional(propagation = Propagation.REQUIRED, noRollbackFor = javax.persistence.NoResultException.class)
 	public List<Integer> findIdsByRank(String rankName)
 		{
 		return (List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findIdsByRank")
-				.setParameter("rank", rankName).getResultList());
+				                        .setParameter("rank", rankName).getResultList());
 		}
 	}

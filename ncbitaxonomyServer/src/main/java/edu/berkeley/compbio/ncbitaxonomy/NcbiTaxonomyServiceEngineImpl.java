@@ -49,7 +49,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -466,23 +465,6 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 			}
 		}
 
-	/**
-	 * Need this to do recursive calls without running out of memory, by starting a new transaction for each query.  Slow,
-	 * but works.
-	 *
-	 * @return
-	 */
-	public List<Integer> getChildIds(Integer id)
-		{
-		NcbiTaxonomyNode node = ncbiTaxonomyNodeDao.findById(id);
-
-		List<Integer> result = new ArrayList<Integer>();
-		for (NcbiTaxonomyNode child : node.getChildren())
-			{
-			result.add(child.getPayload());
-			}
-		return result;
-		}
 
 	// @Transactional
 	public void toNewick(final Writer out, final String prefix, final String tab, final int minClusterSize,
@@ -496,7 +478,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	                      final double minLabelProb) throws IOException
 		{
 
-		List<Integer> childIds = getChildIds(id);
+		List<Integer> childIds = ncbiTaxonomyNodeDao.findChildIds(id);
 
 		// stupid hack because the root is its own child
 		childIds.remove(1);
