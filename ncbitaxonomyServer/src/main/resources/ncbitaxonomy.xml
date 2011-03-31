@@ -114,6 +114,9 @@
     <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.getChildIds(..))"
                  advice-ref="requiredTxAdvice"/>
 
+    <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.jpa.NcbiTaxonomyNode.getChildren(..))"
+                 advice-ref="mandatoryTxAdvice"/>
+
     <!-- <aop:advisor pointcut="execution(* edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyServiceEngineImpl.toNewick(..))"
                      advice-ref="requiredTxAdvice"/>
 
