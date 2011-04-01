@@ -90,6 +90,8 @@ import java.util.Set;
 		query = "select n from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
 		name = "NcbiTaxonomyNode.findIdsByRank",
 		query = "select n.id from NcbiTaxonomyNode n WHERE rank = :rank"), @NamedQuery(
+		name = "NcbiTaxonomyNode.findAllIds",
+		query = "select n.id from NcbiTaxonomyNode n"), @NamedQuery(
 		name = "NcbiTaxonomyNode.findChildIds",
 		query = "select n.id from NcbiTaxonomyNode n WHERE parent_tax_id = :id")})
 

@@ -174,4 +174,9 @@ public class NcbiTaxonomyNodeDaoImpl extends GenericDaoImpl<NcbiTaxonomyNode> im
 		return (List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findIdsByRank")
 				                        .setParameter("rank", rankName).getResultList());
 		}
+
+	public List<Integer> findAllIds()
+		{
+		return (List<Integer>) (entityManager.createNamedQuery("NcbiTaxonomyNode.findAllIds").getResultList());
+		}
 	}

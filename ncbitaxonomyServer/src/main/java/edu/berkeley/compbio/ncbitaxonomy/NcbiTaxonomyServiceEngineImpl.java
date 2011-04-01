@@ -34,6 +34,7 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
+import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.PhylogenyNode;
 import com.davidsoergel.trees.RootedPhylogeny;
@@ -516,6 +517,36 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 		out.write("" + id);
 		}
 
+	public void writeSynonyms(final Writer out)
+		{
+		//DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> i = getTree().depthFirstIterator();
+		Iterator<Integer> i = ncbiTaxonomyNodeDao.findAllIds().iterator(); //
+		while (i.hasNext())
+			{
+			//PhylogenyNode<Integer> n = i.next();
+			//Integer id = n.getPayload();
+			Integer id = i.next();
+			try
+				{
+				out.append(id.toString()).append("\t");
+
+				String scientificName = findScientificName(id);
+				out.append(scientificName).append("\t");
+
+				Collection<String> synonyms = synonymsOfIdNoCache(id);
+				synonyms.remove(scientificName);
+				out.append(DSStringUtils.join(synonyms, "\t")).append("\n");
+				}
+			catch (NoSuchNodeException e)
+				{
+				logger.error("Error", e);
+				}
+			catch (IOException e)
+				{
+				logger.error("Error", e);
+				}
+			}
+		}
 
 	/**
 	 * Search up the NCBI taxonomy until a node is encountered that is a leaf in the Ciccarelli taxonomy

@@ -57,4 +57,6 @@ public interface NcbiTaxonomyNodeDao extends GenericDao<NcbiTaxonomyNode, Intege
 	List<NcbiTaxonomyNode> findByRank(String rankName);
 
 	Collection<Integer> findIdsByRank(String rankName);
+
+	Collection<Integer> findAllIds();
 	}

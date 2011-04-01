@@ -34,7 +34,6 @@
 package edu.berkeley.compbio.ncbitaxonomy;
 
 import com.davidsoergel.dsutils.CacheManager;
-import com.davidsoergel.dsutils.DSStringUtils;
 import com.davidsoergel.stats.ContinuousDistribution1D;
 import com.davidsoergel.trees.AbstractRootedPhylogeny;
 import com.davidsoergel.trees.BasicPhylogenyNode;
@@ -715,31 +714,8 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 
 	public void writeSynonyms(Writer out)
 		{
-		DepthFirstTreeIterator<Integer, PhylogenyNode<Integer>> i = getTree().depthFirstIterator();
-		while (i.hasNext())
-			{
-			PhylogenyNode<Integer> n = i.next();
-			Integer id = n.getPayload();
-			try
-				{
-				out.append(id.toString()).append("\t");
 
-				String scientificName = ncbiTaxonomyServiceEngine.findScientificName(id);
-				out.append(scientificName).append("\t");
-
-				Collection<String> synonyms = ncbiTaxonomyServiceEngine.synonymsOfIdNoCache(id);
-				synonyms.remove(scientificName);
-				out.append(DSStringUtils.join(synonyms, "\t")).append("\n");
-				}
-			catch (NoSuchNodeException e)
-				{
-				logger.error("Error", e);
-				}
-			catch (IOException e)
-				{
-				logger.error("Error", e);
-				}
-			}
+		ncbiTaxonomyServiceEngine.writeSynonyms(out);
 		}
 
 

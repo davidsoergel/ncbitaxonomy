@@ -52,4 +52,6 @@ public interface NcbiTaxonomyServiceEngine
 	Set<String> findNamesWithRank(String rank);
 
 	void toNewick(Writer out, String prefix, String tab, int minClusterSize, double minLabelProb) throws IOException;
+
+	void writeSynonyms(Writer out);
 	}
