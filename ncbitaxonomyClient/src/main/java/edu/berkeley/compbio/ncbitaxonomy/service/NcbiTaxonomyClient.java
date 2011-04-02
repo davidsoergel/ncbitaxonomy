@@ -444,4 +444,9 @@ public class NcbiTaxonomyClient implements NcbiTaxonomyService
 		{
 		return ncbiTaxonomy.getCachedNamesForId(id);
 		}
+
+	public Collection<String> getAllNamesForIds(final Set<Integer> ids)
+		{
+		throw new NotImplementedException();
+		}
 	}

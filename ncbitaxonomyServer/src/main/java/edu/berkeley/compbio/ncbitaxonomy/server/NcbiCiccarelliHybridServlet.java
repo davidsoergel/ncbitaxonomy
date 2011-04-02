@@ -8,6 +8,7 @@ import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.TreeException;
 import edu.berkeley.compbio.ncbitaxonomy.service.NcbiCiccarelliHybridService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
+import org.apache.commons.lang.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -216,5 +217,15 @@ public class NcbiCiccarelliHybridServlet extends HessianServlet implements NcbiC
 	public Set<Integer> selectAncestors(final Collection<Integer> labels, final Integer id)
 		{
 		return ncbiCiccarelliHybridServiceImpl.selectAncestors(labels, id);
+		}
+
+	public String getScientificName(final Integer taxid) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public Collection<String> getAllNamesForIds(final Set<Integer> ids)
+		{
+		throw new NotImplementedException();
 		}
 	}

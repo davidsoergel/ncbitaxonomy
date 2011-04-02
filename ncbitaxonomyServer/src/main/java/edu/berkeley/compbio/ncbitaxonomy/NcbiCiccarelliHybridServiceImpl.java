@@ -121,9 +121,9 @@ public class NcbiCiccarelliHybridServiceImpl
 		}
 
 	public boolean isKnown(Integer leafId) //throws NoSuchNodeException
-		{
-		return ncbiTaxonomyPhylogeny.isKnown(leafId);
-		}
+	{
+	return ncbiTaxonomyPhylogeny.isKnown(leafId);
+	}
 
 	// -------------------------- STATIC METHODS --------------------------
 
@@ -413,17 +413,17 @@ public class NcbiCiccarelliHybridServiceImpl
 	                                                            boolean includeInternalBranches,
 	                                                            AbstractRootedPhylogeny.MutualExclusionResolutionMode mode)
 			throws NoSuchNodeException //, NodeNamer<Integer> namer
-		{
-		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
-		}
+	{
+	return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches, mode);
+	}
 
 	@Transactional
 	public BasicRootedPhylogeny<Integer> extractTreeWithLeafIDs(Set<Integer> ids, boolean ignoreAbsentNodes,
 	                                                            boolean includeInternalBranches)
 			throws NoSuchNodeException //, NodeNamer<Integer> namer
-		{
-		return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
-		}
+	{
+	return hybridTree.extractTreeWithLeafIDs(ids, ignoreAbsentNodes, includeInternalBranches);
+	}
 	/*
 	public void flushCaches()
 		{
@@ -703,5 +703,15 @@ public class NcbiCiccarelliHybridServiceImpl
 		{
 		throw new NotImplementedException();
 		//return hybridTree.getLeafAtApproximateDistance(aId, minDesiredTreeDistance, maxDesiredTreeDistance);
+		}
+
+	public String getScientificName(final Integer taxid) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
+		}
+
+	public Collection<String> getAllNamesForIds(final Set<Integer> ids)
+		{
+		throw new NotImplementedException();
 		}
 	}

@@ -988,6 +988,11 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 		return ncbiTaxonomyServiceEngine.findScientificName(taxid);
 		}
 
+	public Collection<String> getAllNamesForIds(final Set<Integer> ids)
+		{
+		throw new NotImplementedException();
+		}
+
 	public Map<Integer, String> getFriendlyLabelMap()
 		{
 		return new MapMaker().makeComputingMap(new Function<Integer, String>()

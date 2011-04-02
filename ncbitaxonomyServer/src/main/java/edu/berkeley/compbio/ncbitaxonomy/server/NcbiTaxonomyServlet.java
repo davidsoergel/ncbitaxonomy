@@ -10,6 +10,7 @@ import com.davidsoergel.trees.TreeException;
 import edu.berkeley.compbio.ncbitaxonomy.NcbiTaxonomyPhylogeny;
 import edu.berkeley.compbio.ncbitaxonomy.service.NcbiTaxonomyService;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
+import org.apache.commons.lang.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -235,5 +236,10 @@ public class NcbiTaxonomyServlet extends HessianServlet implements NcbiTaxonomyS
 	public Set<Integer> selectAncestors(final Collection<Integer> labels, final Integer id)
 		{
 		return ncbiTaxonomyPhylogeny.selectAncestors(labels, id);
+		}
+
+	public Collection<String> getAllNamesForIds(final Set<Integer> ids)
+		{
+		throw new NotImplementedException();
 		}
 	}

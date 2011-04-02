@@ -6,6 +6,7 @@ import com.davidsoergel.trees.BasicRootedPhylogeny;
 import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.TreeException;
 import edu.berkeley.compbio.phyloutils.TaxonomySynonymService;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContext;
@@ -233,5 +234,16 @@ public class NcbiCiccarelliHybridClient implements NcbiCiccarelliHybridService
 	public Set<String> getCachedNamesForId(final Integer id)
 		{
 		return ncbiCiccarelliHybrid.getCachedNamesForId(id);
+		}
+
+
+	public Collection<String> getAllNamesForIds(final Set<Integer> ids)
+		{
+		throw new NotImplementedException();
+		}
+
+	public String getScientificName(final Integer taxid) throws NoSuchNodeException
+		{
+		throw new NotImplementedException();
 		}
 	}
