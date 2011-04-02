@@ -37,7 +37,7 @@ import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.trees.AbstractRootedPhylogeny;
 import com.davidsoergel.trees.BasicPhylogenyNode;
 import com.davidsoergel.trees.BasicRootedPhylogeny;
-import com.davidsoergel.trees.IntegerNodeNamer;
+import com.davidsoergel.trees.IntegerGeneratingNodeNamer;
 import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.PhylogenyNode;
 import com.davidsoergel.trees.RootedPhylogeny;
@@ -183,7 +183,7 @@ public class NcbiCiccarelliHybridServiceImpl
 				final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
 				final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
 				ciccarelliIntegerTree = PhylogenyTypeConverter
-						.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false),
+						.convertToIDTree(ciccarelli.getTree(), new IntegerGeneratingNodeNamer(10000000, false),
 						                 ncbiTaxonomyPhylogeny, nameToIdMap, extraNameToIdMap);
 				CacheManager.put(className + File.separator + "ciccarelliIntegerTree", ciccarelliIntegerTree);
 				}

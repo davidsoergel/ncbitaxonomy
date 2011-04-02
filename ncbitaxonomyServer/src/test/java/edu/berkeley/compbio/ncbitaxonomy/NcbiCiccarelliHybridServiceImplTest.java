@@ -36,7 +36,7 @@ import com.davidsoergel.dsutils.EnvironmentUtils;
 import com.davidsoergel.dsutils.collections.DSCollectionUtils;
 import com.davidsoergel.dsutils.math.MathUtils;
 import com.davidsoergel.trees.AbstractRootedPhylogeny;
-import com.davidsoergel.trees.IntegerNodeNamer;
+import com.davidsoergel.trees.IntegerGeneratingNodeNamer;
 import com.davidsoergel.trees.NoSuchNodeException;
 import com.davidsoergel.trees.RootedPhylogeny;
 import com.google.common.collect.HashMultimap;
@@ -63,7 +63,7 @@ public class NcbiCiccarelliHybridServiceImplTest
 	public void nearestKnownAncestorStringWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridServiceImpl.getInstance()
-				.nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961") == 666;//243277)
+				       .nearestKnownAncestor("Vibrio cholerae O1 biovar eltor str. N16961") == 666;//243277)
 		}
 
 
@@ -102,7 +102,7 @@ public class NcbiCiccarelliHybridServiceImplTest
 	public void minDistanceBetweenWorks() throws PhyloUtilsException, NoSuchNodeException
 		{
 		assert NcbiCiccarelliHybridServiceImpl.getInstance()
-				.minDistanceBetween("Vibrio cholerae O1 biovar eltor str. N16961", "Vibrio cholerae") == 0;
+				       .minDistanceBetween("Vibrio cholerae O1 biovar eltor str. N16961", "Vibrio cholerae") == 0;
 		}
 
 	@Test
@@ -117,8 +117,8 @@ public class NcbiCiccarelliHybridServiceImplTest
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
 		assert result.getUniqueIdToNodeMap().size() == 7;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
-		                                    NcbiCiccarelliHybridServiceImpl.getInstance().exactDistanceBetween(5794,
-		                                                                                                       317));
+		                                    NcbiCiccarelliHybridServiceImpl.getInstance()
+				                                    .exactDistanceBetween(5794, 317));
 		}
 
 	@Test(expectedExceptions = PhyloUtilsRuntimeException.class)
@@ -135,8 +135,8 @@ public class NcbiCiccarelliHybridServiceImplTest
 		assert DSCollectionUtils.isEqualCollection(result.getLeafValues(), leafIds);
 		assert result.getUniqueIdToNodeMap().size() == 7;
 		assert MathUtils.equalWithinFPError(result.distanceBetween(5794, 317),
-		                                    NcbiCiccarelliHybridServiceImpl.getInstance().exactDistanceBetween(5794,
-		                                                                                                       317));
+		                                    NcbiCiccarelliHybridServiceImpl.getInstance()
+				                                    .exactDistanceBetween(5794, 317));
 		}
 
 	@Test
@@ -153,8 +153,8 @@ public class NcbiCiccarelliHybridServiceImplTest
 		assert result.getUniqueIdToNodeMap().size() == 7;
 
 		assert MathUtils.equalWithinFPError(result.distanceBetween(422676, 199202),
-		                                    NcbiCiccarelliHybridServiceImpl.getInstance().exactDistanceBetween(5794,
-		                                                                                                       317));
+		                                    NcbiCiccarelliHybridServiceImpl.getInstance()
+				                                    .exactDistanceBetween(5794, 317));
 		}
 
 /*	@Test
@@ -172,7 +172,7 @@ public class NcbiCiccarelliHybridServiceImplTest
 		assert NcbiCiccarelliHybridServiceImpl.getInstance().findTaxidByName("Vibrio cholerae") == 666;
 
 		assert NcbiCiccarelliHybridServiceImpl.getInstance()
-				.findTaxidByName("Vibrio cholerae O1 biovar eltor str. N16961") == 243277;
+				       .findTaxidByName("Vibrio cholerae O1 biovar eltor str. N16961") == 243277;
 
 		assert NcbiCiccarelliHybridServiceImpl.getInstance().findTaxidByName("Herpes simplex virus (type 1 / strain F)")
 		       == 10304;
@@ -193,9 +193,9 @@ public class NcbiCiccarelliHybridServiceImplTest
 		final Multimap<String, Integer> nameToIdMap = HashMultimap.create();
 		final Multimap<String, Integer> extraNameToIdMap = HashMultimap.create();
 		RootedPhylogeny<Integer> ciccarelliIntegerTree = //NcbiCiccarelliHybridService.getInstance().
-				PhylogenyTypeConverter.convertToIDTree(ciccarelli.getTree(), new IntegerNodeNamer(10000000, false),
-				                                       NcbiTaxonomyPhylogeny.getInstance(), nameToIdMap,
-				                                       extraNameToIdMap);
+				PhylogenyTypeConverter
+						.convertToIDTree(ciccarelli.getTree(), new IntegerGeneratingNodeNamer(10000000, false),
+						                 NcbiTaxonomyPhylogeny.getInstance(), nameToIdMap, extraNameToIdMap);
 		System.err.println(ciccarelliIntegerTree);
 		assert ciccarelliIntegerTree.getLeaves().size() > 100;
 		}
