@@ -472,6 +472,7 @@ public class NcbiTaxonomyServiceEngineImpl implements NcbiTaxonomyServiceEngine
 	                     final double minLabelProb) throws IOException
 		{
 		toNewick(1, out, prefix, tab, minClusterSize, minLabelProb);
+		out.write(";");
 		}
 
 	// @Transactional
