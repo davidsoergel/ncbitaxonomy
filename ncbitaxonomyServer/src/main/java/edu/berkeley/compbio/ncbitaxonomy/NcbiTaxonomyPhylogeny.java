@@ -66,6 +66,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -512,6 +513,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	public Integer getPayload()
 		{
 		return 1;// the root taxid of the ncbi taxonomy.
@@ -818,7 +820,7 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	/**
 	 * Not implemented
 	 */
-	public void setWeight(Double v)
+	public void setWeight(@NotNull Double v)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide weights.");
 		}
@@ -1016,5 +1018,20 @@ public class NcbiTaxonomyPhylogeny extends AbstractRootedPhylogeny<Integer>
 	                                                    final Collection<PhylogenyNode<Integer>> result)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+
+	@NotNull
+	public Collection<? extends PhylogenyNode<Integer>> getDescendantLeaves()
+		{
+		Set<PhylogenyNode<Integer>> result = new HashSet<PhylogenyNode<Integer>>();
+		for (PhylogenyNode<Integer> n : this)
+			{
+			if (n.isLeaf())
+				{
+				result.add(n);
+				}
+			}
+		return result;
 		}
 	}

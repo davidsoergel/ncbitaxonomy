@@ -68,6 +68,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -230,6 +231,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	public Integer getPayload()
 		{
 		return getId();
@@ -425,6 +427,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
+	@NotNull
 	public List<NcbiTaxonomyNode> getChildren()
 		{
 		return children;
@@ -655,7 +658,7 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setWeight(Double d)
+	public void setWeight(@NotNull Double d)
 		{
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch weights.");
 		}
@@ -780,5 +783,20 @@ public class NcbiTaxonomyNode extends SpringJpaObject implements PhylogenyNode<I
 		{
 
 		throw new NotImplementedException("The NCBI Taxonomy does not provide branch lengths.");
+		}
+
+	@NotNull
+
+	public Collection<? extends PhylogenyNode<Integer>> getDescendantLeaves()
+		{
+		Set<PhylogenyNode<Integer>> result = new HashSet<PhylogenyNode<Integer>>();
+		for (PhylogenyNode<Integer> n : this)
+			{
+			if (n.isLeaf())
+				{
+				result.add(n);
+				}
+			}
+		return result;
 		}
 	}
