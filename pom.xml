@@ -30,74 +30,63 @@
   ~ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>edu.berkeley.compbio</groupId>
-    <artifactId>ncbitaxonomy</artifactId>
-
-    <name>ncbitaxonomy</name>
-    <version>0.91-SNAPSHOT</version>
-    <url>http://dev.davidsoergel.com/ncbitaxonomy</url>
-    <description>Utility classes for dealing with the NCBI taxonomy.</description>
-
-    <parent>
-        <groupId>com.davidsoergel</groupId>
-        <artifactId>basepom</artifactId>
-        <version>0.98</version>
-    </parent>
-
-    <inceptionYear>2006</inceptionYear>
-
-    <packaging>pom</packaging>
-    <modules>
-        <module>ncbitaxonomyClient</module>
-        <module>ncbitaxonomyServer</module>
-    </modules>
-
-    <issueManagement>
-        <system>Trac</system>
-        <url>http://dev.davidsoergel.com/ncbitaxonomy/</url>
-    </issueManagement>
-
-    <scm>
-        <connection>scm:svn:http://svn.davidsoergel.com/repos/ncbitaxonomy</connection>
-        <developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-compbio/ncbitaxonomy
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.berkeley.compbio</groupId>
+	<artifactId>ncbitaxonomy</artifactId>
+	<name>ncbitaxonomy</name>
+	<version>0.91-SNAPSHOT</version>
+	<url>http://dev.davidsoergel.com/ncbitaxonomy</url>
+	<description>Utility classes for dealing with the NCBI taxonomy.</description>
+	<parent>
+		<groupId>com.davidsoergel</groupId>
+		<artifactId>basepom</artifactId>
+		<version>0.99-SNAPSHOT</version>
+	</parent>
+	<inceptionYear>2006</inceptionYear>
+	<packaging>pom</packaging>
+	<modules>
+		<module>ncbitaxonomyClient</module>
+		<module>ncbitaxonomyServer</module>
+	</modules>
+	<issueManagement>
+		<system>Trac</system>
+		<url>http://dev.davidsoergel.com/ncbitaxonomy/</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:svn:http://svn.davidsoergel.com/repos/ncbitaxonomy</connection>
+		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-compbio/ncbitaxonomy
         </developerConnection>
-    </scm>
-
-
-    <distributionManagement>
-        <site>
-            <id>website</id>
-            <url>scpexe://jenkins@dev.davidsoergel.com/home/build/mavensites/ncbitaxonomy</url>
-        </site>
-    </distributionManagement>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <repositories>
-        <repository>
-            <id>dev.davidsoergel.com</id>
-            <url>http://dev.davidsoergel.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-    <!--
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <aggregate>true</aggregate>
-              <linksource>true</linksource>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-    -->
-
+	</scm>
+	<distributionManagement>
+		<site>
+			<id>website</id>
+			<url>scpexe://jenkins@dev.davidsoergel.com/home/build/mavensites/ncbitaxonomy</url>
+		</site>
+	</distributionManagement>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<repositories>
+		<repository>
+			<id>dev.davidsoergel.com</id>
+			<url>http://dev.davidsoergel.com/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>dev.davidsoergel.com.snapshot</id>
+			<url>http://dev.davidsoergel.com/nexus/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 </project>
