@@ -89,7 +89,7 @@
             <groupId>edu.berkeley.compbio</groupId>
             <artifactId>phyloutils</artifactId>
             <version>0.92-SNAPSHOT</version>
-            <classifier>test</classifier>
+            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
 
