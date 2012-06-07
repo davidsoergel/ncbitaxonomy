@@ -33,140 +33,148 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>edu.berkeley.compbio</groupId>
-  <artifactId>ncbitaxonomyServer</artifactId>
-
-  <name>ncbitaxonomyServer</name>
-
-  <parent>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>edu.berkeley.compbio</groupId>
-    <artifactId>ncbitaxonomy</artifactId>
-    <version>0.91-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
+    <artifactId>ncbitaxonomyServer</artifactId>
 
-  <packaging>war</packaging>
+    <name>ncbitaxonomyServer</name>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>2.5.6</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
-      <scope>provided</scope>
-    </dependency>
-    <!--
-    <dependency>
-      <groupId>org.mortbay.jetty</groupId>
-      <artifactId>jetty</artifactId>
-      <version>6.1.5</version>
-    </dependency>
--->
-    <dependency>
-      <groupId>edu.berkeley.compbio</groupId>
-      <artifactId>ncbitaxonomyClient</artifactId>
-      <version>0.91-SNAPSHOT</version>
-    </dependency>
+    <parent>
+        <groupId>edu.berkeley.compbio</groupId>
+        <artifactId>ncbitaxonomy</artifactId>
+        <version>0.91-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-    <dependency>
-      <groupId>com.davidsoergel</groupId>
-      <artifactId>dsutils</artifactId>
-      <version>1.04-SNAPSHOT</version>
-    </dependency>
+    <packaging>war</packaging>
 
-    <dependency>
-      <groupId>edu.berkeley.compbio</groupId>
-      <artifactId>phyloutils</artifactId>
-      <version>0.92-SNAPSHOT</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>2.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--
+            <dependency>
+              <groupId>org.mortbay.jetty</groupId>
+              <artifactId>jetty</artifactId>
+              <version>6.1.5</version>
+            </dependency>
+        -->
+        <dependency>
+            <groupId>edu.berkeley.compbio</groupId>
+            <artifactId>ncbitaxonomyClient</artifactId>
+            <version>0.91-SNAPSHOT</version>
+        </dependency>
 
-    <dependency>
-      <groupId>com.davidsoergel</groupId>
-      <artifactId>springjpautils</artifactId>
-      <version>0.9-SNAPSHOT</version>
-    </dependency>
+        <dependency>
+            <groupId>com.davidsoergel</groupId>
+            <artifactId>dsutils</artifactId>
+            <version>1.04-SNAPSHOT</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-mock</artifactId>
-      <version>2.0.2</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>edu.berkeley.compbio</groupId>
+            <artifactId>phyloutils</artifactId>
+            <version>0.92-SNAPSHOT</version>
+        </dependency>
 
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>1.8.0.1</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>edu.berkeley.compbio</groupId>
+            <artifactId>phyloutils</artifactId>
+            <version>0.92-SNAPSHOT</version>
+            <classifier>test</classifier>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.0.4</version>
-    </dependency>
+        <dependency>
+            <groupId>com.davidsoergel</groupId>
+            <artifactId>springjpautils</artifactId>
+            <version>0.9-SNAPSHOT</version>
+        </dependency>
 
-    <!--    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.0</version>
-      <scope>test</scope>
-    </dependency>
--->
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>1.6.10</version>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-mock</artifactId>
+            <version>2.0.2</version>
+            <scope>test</scope>
+        </dependency>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>aspectj-maven-plugin</artifactId>
-        <version>1.3</version>
-        <configuration>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.1</version>
+            <scope>test</scope>
+        </dependency>
 
-          <excludes>
-            <exclude>**/NcbiTaxonomyWithUnitBranchLengthsPhylogeny.java</exclude>
-            <exclude>**/NcbiTaxonomyPhylogeny.java</exclude>
-          </excludes>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.0.4</version>
+        </dependency>
 
-          <!--  <complianceLevel>1.6</complianceLevel> -->
-          <source>1.6</source>
-          <target>1.6</target>
-          <!-- <XnoInline>true</XnoInline> -->
-          <aspectLibraries>
-            <aspectLibrary>
-              <groupId>org.springframework</groupId>
-              <artifactId>spring-aspects</artifactId>
-            </aspectLibrary>
-          </aspectLibraries>
-          <showWeaveInfo>true</showWeaveInfo>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>test-compile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.0</version>
-      </plugin>
-    </plugins>
-    <finalName>ncbitaxonomyServer</finalName>
-  </build>
+        <!--    <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+              <version>4.0</version>
+              <scope>test</scope>
+            </dependency>
+        -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.10</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.3</version>
+                <configuration>
+
+                    <excludes>
+                        <exclude>**/NcbiTaxonomyWithUnitBranchLengthsPhylogeny.java</exclude>
+                        <exclude>**/NcbiTaxonomyPhylogeny.java</exclude>
+                    </excludes>
+
+                    <!--  <complianceLevel>1.6</complianceLevel> -->
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <!-- <XnoInline>true</XnoInline> -->
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-aspects</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <showWeaveInfo>true</showWeaveInfo>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.0</version>
+            </plugin>
+        </plugins>
+        <finalName>ncbitaxonomyServer</finalName>
+    </build>
 
 
 </project>
