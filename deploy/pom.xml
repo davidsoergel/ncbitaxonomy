@@ -97,7 +97,7 @@
                     <archive>
                         <manifest>
                             <mainClass>edu.berkeley.compbio.ncbitaxonomy.server.NcbiTaxonomyServer</mainClass>
-                            <packageName>edu.berkeley.compbio.ncbitaxonmy</packageName>
+                            <packageName>edu.berkeley.compbio.ncbitaxonomy</packageName>
                             <addClasspath>true</addClasspath>
                             <addExtensions>false</addExtensions>
                             <!-- was true before -->
