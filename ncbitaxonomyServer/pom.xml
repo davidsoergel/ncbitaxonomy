@@ -101,6 +101,15 @@
             <scope>test</scope>
         </dependency>
 
+<!-- lame that we need to include this due to MNG-1378.  It should be transitive via phyloutils. -->
+        <dependency>
+            <groupId>com.davidsoergel</groupId>
+            <artifactId>trees</artifactId>
+            <version>1.023-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.davidsoergel</groupId>
             <artifactId>springjpautils</artifactId>
