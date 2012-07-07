@@ -23,8 +23,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="module" module-name="ncbitaxonomyClient" />
     <orderEntry type="library" name="Maven: com.caucho:hessian:3.1.3" level="project" />
-    <orderEntry type="module" module-name="dsutils" />
-    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.5" level="project" />
+    <orderEntry type="library" name="Maven: com.davidsoergel:dsutils:1.04-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.collections:collections-generic:4.01" level="project" />
     <orderEntry type="library" name="Maven: com.google.collections:google-collections:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.6.4" level="project" />
@@ -36,7 +36,7 @@
     <orderEntry type="module" module-name="trees" />
     <orderEntry type="module" module-name="stats" />
     <orderEntry type="library" name="Maven: org.springframework:spring:2.5.6" level="project" />
-    <orderEntry type="module" module-name="dsutils" scope="TEST" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.davidsoergel:dsutils:test-jar:tests:1.04-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="phyloutils" scope="TEST" />
     <orderEntry type="module" module-name="trees" scope="TEST" />
     <orderEntry type="module" module-name="springjpautils" />
