@@ -60,13 +60,13 @@
     <dependency>
       <groupId>com.davidsoergel</groupId>
       <artifactId>dsutils</artifactId>
-      <version>1.04-SNAPSHOT</version>
+      <version>1.05</version>
     </dependency>
 
     <dependency>
       <groupId>edu.berkeley.compbio</groupId>
       <artifactId>phyloutils</artifactId>
-      <version>0.92-SNAPSHOT</version>
+      <version>0.92</version>
     </dependency>
 
     <dependency>

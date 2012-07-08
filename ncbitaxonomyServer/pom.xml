@@ -76,13 +76,13 @@
         <dependency>
             <groupId>com.davidsoergel</groupId>
             <artifactId>dsutils</artifactId>
-            <version>1.04-SNAPSHOT</version>
+            <version>1.05</version>
         </dependency>
 
         <dependency>
             <groupId>com.davidsoergel</groupId>
             <artifactId>dsutils</artifactId>
-            <version>1.04-SNAPSHOT</version>
+            <version>1.05</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -90,13 +90,13 @@
         <dependency>
             <groupId>edu.berkeley.compbio</groupId>
             <artifactId>phyloutils</artifactId>
-            <version>0.92-SNAPSHOT</version>
+            <version>0.92</version>
         </dependency>
 
         <dependency>
             <groupId>edu.berkeley.compbio</groupId>
             <artifactId>phyloutils</artifactId>
-            <version>0.92-SNAPSHOT</version>
+            <version>0.92</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>com.davidsoergel</groupId>
             <artifactId>trees</artifactId>
-            <version>1.023-SNAPSHOT</version>
+            <version>1.03</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>com.davidsoergel</groupId>
             <artifactId>springjpautils</artifactId>
-            <version>0.9-SNAPSHOT</version>
+            <version>0.9</version>
         </dependency>
 
         <dependency>

@@ -41,7 +41,7 @@
 	<parent>
 		<groupId>com.davidsoergel</groupId>
 		<artifactId>basepom</artifactId>
-		<version>0.99-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	<inceptionYear>2006</inceptionYear>
 	<packaging>pom</packaging>
@@ -53,11 +53,11 @@
 		<system>Trac</system>
 		<url>http://dev.davidsoergel.com/ncbitaxonomy/</url>
 	</issueManagement>
-	<scm>
-		<connection>scm:svn:http://svn.davidsoergel.com/repos/ncbitaxonomy</connection>
-		<developerConnection>scm:svn:svn+ssh://svn.davidsoergel.com/home/svn/repos-compbio/ncbitaxonomy
-        </developerConnection>
-	</scm>
+    <scm>
+        <connection>scm:hg:https://hg.davidsoergel.com/ncbitaxonomy</connection>
+        <developerConnection>scm:hg:ssh://dev.davidsoergel.com//home/hg/ncbitaxonomy</developerConnection>
+        <url>http://hg.davidsoergel.com/ncbitaxonomy</url>
+    </scm>
 	<distributionManagement>
 		<site>
 			<id>website</id>
