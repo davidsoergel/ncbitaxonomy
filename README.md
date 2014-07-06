@@ -35,12 +35,12 @@ Download
 
 <dependencies>
 	<dependency>
-		<groupId>com.davidsoergel</groupId>
+		<groupId>edu.berkeley.compbio</groupId>
 		<artifactId>ncbitaxonomy</artifactId>
 		<version>0.9</version>
 	</dependency>
 </dependencies>
 ```
 
-If you really want just the jar, you can get the [latest release](http://dev.davidsoergel.com/nexus/content/repositories/releases/com/davidsoergel/ncbitaxonomy/) from the Maven repo; or get the [latest stable build](http://dev.davidsoergel.com/jenkins/job/ncbitaxonomy/lastStableBuild/com.davidsoergel$ncbitaxonomy/) from the build server.
+If you really want just the jar, you can get the [latest release](http://dev.davidsoergel.com/nexus/content/repositories/releases/edu.berkeley.compbio/ncbitaxonomy/) from the Maven repo; or get the [latest stable build](http://dev.davidsoergel.com/jenkins/job/ncbitaxonomy/lastStableBuild/edu.berkeley.compbio$ncbitaxonomy/) from the build server.
 
