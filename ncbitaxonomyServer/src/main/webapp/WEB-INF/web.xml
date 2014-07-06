@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2008-2013  David Soergel  <dev@davidsoergel.com>
+  ~ Licensed under the Apache License, Version 2.0
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  -->
+
 <web-app>
   <display-name>NCBI Taxonomy Server</display-name>
 
